@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="SharedProjectFile_SccProperties">
+    <SharedProjectFile_ProjectGuid>{0f2d8a6f-c710-4843-86d6-4acf03f66190}</SharedProjectFile_ProjectGuid>
+    <SharedProjectFile_SccProjectName>SAK</SharedProjectFile_SccProjectName>
+    <SharedProjectFile_SccAuxPath>SAK</SharedProjectFile_SccAuxPath>
+    <SharedProjectFile_SccLocalPath>SAK</SharedProjectFile_SccLocalPath>
+    <SharedProjectFile_SccProvider>SAK</SharedProjectFile_SccProvider>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>83f1e00b-1183-4499-abd8-35e4776596b6</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Framework.Test.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Activity\ActivityLoggerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Activity\ExceptionLoggerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Application\ITestApplication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Application\TestApplication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ConnectionStringNameAttributeTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DataAccessBehaviorAttributeTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DatabaseSchemaNameAttributeTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ReadOnlyDatabaseTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\SaveableDatabaseTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\TakeRowsAttributeTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Test.Data.Tables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Endpoints\Framework-for-WebApi-Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entity\CrudEntityTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entity\CustomerEntityTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\CustomerModelTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\CustomerSearchModelTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\TestViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\ViewModelTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\JsonSerializerGenericTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\JsonSerializerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializerGenericTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationRuleTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Worker\WorkerTests.cs" />
+  </ItemGroup>
+</Project>

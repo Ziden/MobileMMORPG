@@ -1,0 +1,9 @@
+C:\Users\gabri\Documents\MMO\GameServer\Storage\bin\Debug\netcoreapp2.1\Storage.deps.json
+C:\Users\gabri\Documents\MMO\GameServer\Storage\bin\Debug\netcoreapp2.1\Storage.dll
+C:\Users\gabri\Documents\MMO\GameServer\Storage\obj\Debug\netcoreapp2.1\Storage.csproj.CoreCompileInputs.cache
+C:\Users\gabri\Documents\MMO\GameServer\Storage\obj\Debug\netcoreapp2.1\Storage.AssemblyInfoInputs.cache
+C:\Users\gabri\Documents\MMO\GameServer\Storage\obj\Debug\netcoreapp2.1\Storage.AssemblyInfo.cs
+C:\Users\gabri\Documents\MMO\GameServer\Storage\bin\Debug\netcoreapp2.1\Storage.pdb
+C:\Users\gabri\Documents\MMO\GameServer\Storage\obj\Debug\netcoreapp2.1\Storage.csprojAssemblyReference.cache
+C:\Users\gabri\Documents\MMO\GameServer\Storage\obj\Debug\netcoreapp2.1\Storage.dll
+C:\Users\gabri\Documents\MMO\GameServer\Storage\obj\Debug\netcoreapp2.1\Storage.pdb

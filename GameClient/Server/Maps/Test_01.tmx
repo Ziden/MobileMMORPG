@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="terrain_atlas.tsx"/>
+ <layer id="1" name="Ground" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMA6A91fo3GzyHgr2kqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrqHx0Vi/k=
+  </data>
+ </layer>
+ <layer id="2" name="Objects" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt180NgzAMBtCILVmFMgllk/4sUugsmENvcEEEhfKe5Euk5GBb+pSUAGA/ryqld7X/u3WGN69gjL59N/buEfeeC3ebOLtFtWZyqE/0e1joeRdn96jePPhzcqAccqAscgA4k7U/xo+8P9baH2Mm7/PZsufyPg97XhZ7DgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUaAIfgxhP
+  </data>
+ </layer>
+ <layer id="3" name="Above" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1cEJgEAMBMBoF2olav9FqR9jC8JxUWZg/4EsbARQwTFEnJlr6H0Jj2mMmDPL2PsSHmv+Ycvs/sGP2YFa7EAtdgD4C3tfi71v423P7X0bel6LngMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwLfcGIYP5Q==
+  </data>
+ </layer>
+</map>

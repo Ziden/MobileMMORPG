@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="SharedProjectFile_SccProperties">
+    <SharedProjectFile_ProjectGuid>{bf43c93c-4e4e-40d3-a8df-c3998e04ffff}</SharedProjectFile_ProjectGuid>
+    <SharedProjectFile_SccProjectName>SAK</SharedProjectFile_SccProjectName>
+    <SharedProjectFile_SccAuxPath>SAK</SharedProjectFile_SccAuxPath>
+    <SharedProjectFile_SccLocalPath>SAK</SharedProjectFile_SccLocalPath>
+    <SharedProjectFile_SccProvider>SAK</SharedProjectFile_SccProvider>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4fa34334-ce8d-497b-9aae-632a271949c2</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Genesys.Framework.Interop.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Customer\GenderList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Customer\ICustomer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Customer\ICustomerEdit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Customer\ICustomerSearch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Customer\ICustomerType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Customer\IGenderList.cs" />
+  </ItemGroup>
+</Project>

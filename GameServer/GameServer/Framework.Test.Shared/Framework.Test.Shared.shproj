@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>83f1e00b-1183-4499-abd8-35e4776596b6</ProjectGuid>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Activity\ActivityLoggerTests.cs" />
+    <None Include="Activity\ExceptionLoggerTests.cs" />
+    <None Include="Application\ITestApplication.cs" />
+    <None Include="Application\TestApplication.cs" />
+    <None Include="Data\ConnectionStringNameAttributeTests.cs" />
+    <None Include="Data\DataAccessBehaviorAttributeTests.cs" />
+    <None Include="Data\DatabaseSchemaNameAttributeTests.cs" />
+    <None Include="Data\ReadOnlyDatabaseTests.cs" />
+    <None Include="Data\SaveableDatabaseTests.cs" />
+    <None Include="Data\TakeRowsAttributeTests.cs" />
+    <None Include="Data\Test.Data.Tables.cs" />
+    <None Include="Endpoints\Framework-for-WebApi-Tests.cs" />
+    <None Include="Entity\CrudEntityTests.cs" />
+    <None Include="Entity\CustomerEntityTests.cs" />
+    <None Include="Model\CustomerModelTests.cs" />
+    <None Include="Model\CustomerSearchModelTests.cs" />
+    <None Include="Model\TestViewModel.cs" />
+    <None Include="Model\ViewModelTests.cs" />
+    <None Include="Serialization\JsonSerializerGenericTests.cs" />
+    <None Include="Serialization\JsonSerializerTests.cs" />
+    <None Include="Serialization\SerializerGenericTests.cs" />
+    <None Include="Serialization\SerializerTests.cs" />
+    <None Include="Validation\ValidationRuleTests.cs" />
+    <None Include="Worker\WorkerTests.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.Default.props" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.props" />
+  <Import Project="Framework.Test.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
+</Project>
