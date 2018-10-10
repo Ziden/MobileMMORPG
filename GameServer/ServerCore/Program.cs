@@ -1,5 +1,6 @@
 ﻿using Networking;
 using Storage;
+using Storage.TestDataBuilder;
 using System;
 
 namespace ServerCore
@@ -13,6 +14,9 @@ namespace ServerCore
             // Starting Redis
             Redis redis = new Redis();
             redis.Start();
+
+            // Create test db to mock stuff
+            TestDb.Create();
 
             // Starting the Server
             TcpHandler.StartServer(SERVER_PORT);

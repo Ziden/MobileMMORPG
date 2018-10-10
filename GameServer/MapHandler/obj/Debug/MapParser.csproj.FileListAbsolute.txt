@@ -1,0 +1,6 @@
+C:\Users\gabri\Documents\MMO\GameServer\MapParser\obj\Debug\MapParser.csprojAssemblyReference.cache
+C:\Users\gabri\Documents\MMO\GameServer\MapParser\obj\Debug\MapParser.csproj.CoreCompileInputs.cache
+C:\Users\gabri\Documents\MMO\GameServer\MapParser\bin\Debug\TiledSharp.dll
+C:\Users\gabri\Documents\MMO\GameServer\MapParser\bin\Debug\TiledSharp.pdb
+C:\Users\gabri\Documents\MMO\GameServer\MapParser\obj\Debug\TiledSharp.dll
+C:\Users\gabri\Documents\MMO\GameServer\MapParser\obj\Debug\TiledSharp.pdb

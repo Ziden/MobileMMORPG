@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerCore", "ServerCore\ServerCore.csproj", "{0182F9B8-E997-4C77-96FD-0A8867DE7AD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerCore", "ServerCore\ServerCore.csproj", "{0182F9B8-E997-4C77-96FD-0A8867DE7AD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Storage\Storage.csproj", "{2CA52FD9-B6A1-4B23-B224-B4E676EF33D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storage", "Storage\Storage.csproj", "{2CA52FD9-B6A1-4B23-B224-B4E676EF33D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHandler", "MapHandler\MapHandler.csproj", "{E4130F8D-D301-4E0C-916D-489C4A23C9B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHandler.Tests", "MapHandler.Tests\MapHandler.Tests.csproj", "{E3434809-8A7B-4082-83E6-F42EE556D987}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{2CA52FD9-B6A1-4B23-B224-B4E676EF33D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CA52FD9-B6A1-4B23-B224-B4E676EF33D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CA52FD9-B6A1-4B23-B224-B4E676EF33D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4130F8D-D301-4E0C-916D-489C4A23C9B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4130F8D-D301-4E0C-916D-489C4A23C9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4130F8D-D301-4E0C-916D-489C4A23C9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4130F8D-D301-4E0C-916D-489C4A23C9B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3434809-8A7B-4082-83E6-F42EE556D987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3434809-8A7B-4082-83E6-F42EE556D987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3434809-8A7B-4082-83E6-F42EE556D987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3434809-8A7B-4082-83E6-F42EE556D987}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,4 +14,5 @@ namespace Storage
             db = ConnectionMultiplexer.Connect("localhost").GetDatabase();
         }
     }
+
 }

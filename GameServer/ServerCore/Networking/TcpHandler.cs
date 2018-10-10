@@ -34,7 +34,7 @@ namespace Networking
 
                     if (clientTask.Result != null)
                     {
-                        Console.WriteLine("Client connected. Waiting for data.");
+                        Console.WriteLine($"Client {clientTask.Id} connected. Waiting for data.");
                         var client = clientTask.Result;
                         string message = "";
 
