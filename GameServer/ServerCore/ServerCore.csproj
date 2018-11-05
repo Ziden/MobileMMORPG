@@ -6,10 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Networking\Packets\" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommonCode\Common.csproj" />
+    <ProjectReference Include="..\MapHandler\MapHandler.csproj" />
     <ProjectReference Include="..\Storage\Storage.csproj" />
   </ItemGroup>
 

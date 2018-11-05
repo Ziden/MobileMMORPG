@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MapHandler</RootNamespace>
     <AssemblyName>MapHandler</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,20 +37,35 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chunk.cs" />
+    <Compile Include="Directions.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="MapHelpers.cs" />
     <Compile Include="MapLoader.cs" />
-    <Compile Include="MapParser\Group.cs" />
-    <Compile Include="MapParser\TiledCore.cs" />
-    <Compile Include="MapParser\Map.cs" />
-    <Compile Include="MapParser\Layer.cs" />
-    <Compile Include="MapParser\Tileset.cs" />
-    <Compile Include="MapParser\ObjectGroup.cs" />
-    <Compile Include="MapParser\ImageLayer.cs" />
+    <Compile Include="MapParser.cs" />
+    <Compile Include="MapUtils.cs" />
+    <Compile Include="PathfinderHelper.cs" />
+    <Compile Include="TileProperties.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Maps\overworld.tsx" />
+    <EmbeddedResource Include="Maps\sprites\sprites.png" />
+    <EmbeddedResource Include="Maps\tilesets\Set1.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Maps\test.tmx" />
+    <EmbeddedResource Include="Maps\world.tmx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\test_map.tmx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonCode\Common.csproj">
+      <Project>{0f9fcb7e-441c-4dd3-b3da-3733d9957055}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,9 +1,6 @@
-﻿using MapParser;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -11,23 +8,51 @@ namespace MapHandler
 {
     public class MapLoader
     {
-
-        public static List<TmxMap> GetAll()
+        public static byte[] LoadImageData(string tilesetName)
         {
-            List<TmxMap> maps = new List<TmxMap>();
+            var mapAssembly = AppDomain.CurrentDomain.GetAssemblies().Last(a => a.FullName.Contains("MapHandler,"));
+            var tileset = mapAssembly.GetManifestResourceNames()
+                .Where(resourceName => resourceName.Contains(tilesetName))
+                .Where(resourceName => resourceName.EndsWith(".png")).FirstOrDefault();
 
+            using (var stream = mapAssembly.GetManifestResourceStream(tileset))
+            {
+                return ReadFully(stream);
+            }
+        }
+
+        public static byte[] ReadFully(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
+
+        public static Map LoadMapFromFile(string searchMapName = null)
+        {
+            Console.WriteLine("Loading Map");
             var mapAssembly = AppDomain.CurrentDomain.GetAssemblies().Last(a => a.FullName.Contains("MapHandler,"));
             var mapNames = mapAssembly.GetManifestResourceNames().Where(resourceName => resourceName.EndsWith(".tmx"));
-
+            if(searchMapName != null)
+            {
+                mapNames = mapNames.Where(mapName => mapName.Contains(searchMapName));
+            }
             foreach (var mapName in mapNames)
             {
                 using (var stream = mapAssembly.GetManifestResourceStream(mapName))
                 {
-                    var map = new TmxMap(stream);
-                    maps.Add(map);
+                    var map = MapParser.Parse(stream);
+                    return map;
                 }
             }
-            return maps;
+            return null;
         }
 
         public static XDocument GetXDocument(string name)

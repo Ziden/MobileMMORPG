@@ -1,0 +1,11 @@
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\bin\Debug\netcoreapp2.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\bin\Debug\netcoreapp2.1\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\bin\Debug\netcoreapp2.1\xunit.runner.utility.netcoreapp10.dll
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\bin\Debug\netcoreapp2.1\CommonTests.deps.json
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\bin\Debug\netcoreapp2.1\CommonTests.runtimeconfig.json
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\bin\Debug\netcoreapp2.1\CommonTests.runtimeconfig.dev.json
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\bin\Debug\netcoreapp2.1\CommonTests.dll
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\obj\Debug\netcoreapp2.1\CommonTests.csproj.CoreCompileInputs.cache
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\obj\Debug\netcoreapp2.1\CommonTests.AssemblyInfoInputs.cache
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\obj\Debug\netcoreapp2.1\CommonTests.AssemblyInfo.cs
+C:\Users\gabri\Documents\MMO\GameServer\CommonTests\obj\Debug\netcoreapp2.1\CommonTests.csprojAssemblyReference.cache

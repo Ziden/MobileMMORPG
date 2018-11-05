@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{CAEB3896-DDD4-15A7-D54A-C105D91C147F}</ProjectGuid>
+    <ProjectGuid>{70B263AF-5707-DA2D-B24B-B59941E3F798}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -61,18 +61,42 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Code\Net\Socket.cs" />
+    <Compile Include="Assets\Code\AssetHandling\ArraysPlus.cs" />
+    <Compile Include="Assets\Code\AssetHandling\AssetHandler.cs" />
+    <Compile Include="Assets\Code\AssetHandling\SpriteSheet.cs" />
+    <Compile Include="Assets\Code\Game\ClientEvents.cs" />
+    <Compile Include="Assets\Code\Game\ClientPathfinder.cs" />
+    <Compile Include="Assets\Code\Game\ConnectionErrorEvent.cs" />
+    <Compile Include="Assets\Code\Game\Factories\PlayerHandler.cs" />
+    <Compile Include="Assets\Code\Game\Factories\TileFactory.cs" />
+    <Compile Include="Assets\Code\Game\GameCamera.cs" />
+    <Compile Include="Assets\Code\Game\PacketListeners\AccountListener.cs" />
+    <Compile Include="Assets\Code\Game\PacketListeners\AssetListener.cs" />
+    <Compile Include="Assets\Code\Game\PacketListeners\MapListener.cs" />
+    <Compile Include="Assets\Code\Game\PacketListeners\PlayerListener.cs" />
+    <Compile Include="Assets\Code\Game\PlayerBehaviour.cs" />
+    <Compile Include="Assets\Code\Game\PlayerWrapper.cs" />
+    <Compile Include="Assets\Code\Game\Selectors.cs" />
+    <Compile Include="Assets\Code\Game\TouchHandler.cs" />
+    <Compile Include="Assets\Code\Net\Behaviours\ConnectionBehaviour.cs" />
+    <Compile Include="Assets\Code\Net\Behaviours\LoadingBehaviour.cs" />
+    <Compile Include="Assets\Code\Net\Behaviours\NetworkBehaviour.cs" />
+    <Compile Include="Assets\Code\Net\ClientPacketListener.cs" />
+    <Compile Include="Assets\Code\Net\ClientTcpHandler.cs" />
+    <Compile Include="Assets\Code\Net\UnityClient.cs" />
+    <Compile Include="Assets\Code\UI\GenericDialog.cs" />
+    <Compile Include="Assets\Code\UI\LoginScreen.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/gabri/Documents/MMO/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/gabri/Documents/MMO/GameClient/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/gabri/Documents/MMO/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/gabri/Documents/MMO/GameClient/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/gabri/Documents/MMO/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/gabri/Documents/MMO/GameClient/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/gabri/Documents/MMO/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/gabri/Documents/MMO/GameClient/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -271,6 +295,12 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonCode">
+      <HintPath>C:/Users/gabri/Documents/MMO/GameClient/Assets/Plugins/CommonCode.dll</HintPath>
+    </Reference>
+    <Reference Include="MapHandler">
+      <HintPath>C:/Users/gabri/Documents/MMO/GameClient/Assets/Plugins/MapHandler.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/gabri/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>

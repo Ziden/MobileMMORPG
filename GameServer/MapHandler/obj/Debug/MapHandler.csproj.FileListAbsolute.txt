@@ -1,6 +1,9 @@
-C:\Users\gabri\Documents\MMO\GameServer\MapHandler\obj\Debug\MapHandler.csprojAssemblyReference.cache
-C:\Users\gabri\Documents\MMO\GameServer\MapHandler\obj\Debug\MapHandler.csproj.CoreCompileInputs.cache
 C:\Users\gabri\Documents\MMO\GameServer\MapHandler\bin\Debug\MapHandler.dll
 C:\Users\gabri\Documents\MMO\GameServer\MapHandler\bin\Debug\MapHandler.pdb
+C:\Users\gabri\Documents\MMO\GameServer\MapHandler\obj\Debug\MapHandler.csprojAssemblyReference.cache
+C:\Users\gabri\Documents\MMO\GameServer\MapHandler\obj\Debug\MapHandler.csproj.CoreCompileInputs.cache
 C:\Users\gabri\Documents\MMO\GameServer\MapHandler\obj\Debug\MapHandler.dll
 C:\Users\gabri\Documents\MMO\GameServer\MapHandler\obj\Debug\MapHandler.pdb
+C:\Users\gabri\Documents\MMO\GameServer\MapHandler\bin\Debug\CommonCode.dll
+C:\Users\gabri\Documents\MMO\GameServer\MapHandler\bin\Debug\CommonCode.pdb
+C:\Users\gabri\Documents\MMO\GameServer\MapHandler\obj\Debug\MapHandler.csproj.CopyComplete
