@@ -39,6 +39,30 @@ namespace ServerCore.GameServer.Players
                 AssetType = AssetType.SPRITE
             });
 
+            ev.Client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "bodies.png",
+                AssetType = AssetType.SPRITE
+            });
+
+            ev.Client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "legs.png",
+                AssetType = AssetType.SPRITE
+            });
+
+            ev.Client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "heads.png",
+                AssetType = AssetType.SPRITE
+            });
+
+            ev.Client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "chests.png",
+                AssetType = AssetType.SPRITE
+            });
+
             // end of assets validation
             ev.Client.Send(new AssetsReadyPacket());
         }

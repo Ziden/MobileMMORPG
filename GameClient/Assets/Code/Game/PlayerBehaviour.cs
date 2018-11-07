@@ -3,8 +3,8 @@ using Assets.Code.Game;
 using Client.Net;
 using CommonCode.Player;
 using MapHandler;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -13,7 +13,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Direction _movingTo = Direction.NONE;
 
-    private SpriteSheet spriteSheet;
+    private SpriteSheet _bodySpriteSheet;
+    private SpriteSheet _chestSpriteSheet;
+    private SpriteSheet _headSpriteSheet;
+    private SpriteSheet _legsSpriteSheet;
+
+    private List<SpriteSheet> _spriteSheets = new List<SpriteSheet>();
 
     private float t;
     private Vector3 startPosition;
@@ -24,17 +29,27 @@ public class PlayerBehaviour : MonoBehaviour
     void Start()
     {
         startPosition = target = transform.position;
-        spriteSheet = GetComponent<SpriteSheet>();
+        _bodySpriteSheet = transform.Find("body").GetComponent<SpriteSheet>();
+        _chestSpriteSheet = transform.Find("chest").GetComponent<SpriteSheet>();
+        _headSpriteSheet = transform.Find("head").GetComponent<SpriteSheet>();
+        _legsSpriteSheet = transform.Find("legs").GetComponent<SpriteSheet>();
+
+        _spriteSheets = new SpriteSheet[] {
+            _bodySpriteSheet,
+            _chestSpriteSheet,
+            _headSpriteSheet,
+            _legsSpriteSheet
+        }.ToList();
     }
 
     void Update()
     {
-        _checkGoingTo();
-        _prepareMovement();
-        _move();
+        ReadPathfindingNextMovement();
+        SetRoute();
+        MoveTick();
     }
 
-    private void _move()
+    private void MoveTick()
     {
         t += Time.deltaTime / timeToReachTarget;
         transform.position = Vector3.Lerp(startPosition, target, t);
@@ -42,8 +57,10 @@ public class PlayerBehaviour : MonoBehaviour
         if(transform.position == target && _movingTo != Direction.NONE)
         {
             _movingTo = Direction.NONE;
-            spriteSheet.Moving = false;
-            if(_lastMovement)
+
+            _spriteSheets.ForEach(e => e.Moving = false);
+
+            if (_lastMovement)
             {
                 _lastMovement = false;
                 Selectors.HideSelector();
@@ -51,7 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    private void _prepareMovement()
+    private void SetRoute()
     {
         var player = UnityClient.Player;
         if (_goingTo != null && _movingTo == Direction.NONE)
@@ -60,8 +77,10 @@ public class PlayerBehaviour : MonoBehaviour
             var timeToMove = (float)Formulas.GetTimeToMoveBetweenTwoTiles(player.Speed);
             SetDestination(new Vector3(_goingTo.X * 16, _goingTo.Y * 16, 0), timeToMove / 1000);
             Debug.Log("Moving Player To " + _goingTo.X + " - "+_goingTo.Y);
-            spriteSheet.Direction = _movingTo;
-            spriteSheet.Moving = true;
+
+            _spriteSheets.ForEach(e => e.Direction = _movingTo);
+            _spriteSheets.ForEach(e => e.Moving = true);
+
             UnityClient.Player.Position.X = _goingTo.X;
             UnityClient.Player.Position.Y = _goingTo.Y;
             _goingTo = null;
@@ -76,7 +95,7 @@ public class PlayerBehaviour : MonoBehaviour
         target = destination;
     }
 
-    private void _checkGoingTo()
+    private void ReadPathfindingNextMovement()
     {
         if (_movingTo != Direction.NONE)
             return;

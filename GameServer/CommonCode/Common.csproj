@@ -55,7 +55,7 @@
     <Compile Include="Networking\PacketSerializer.cs" />
     <Compile Include="Networking\PacketSwitch.cs" />
     <Compile Include="Networking\Packets\AssetsReadyPacket.cs" />
-    <Compile Include="Networking\Packets\MovePathPacket.cs" />
+    <Compile Include="Networking\Packets\PlayerMovePacket.cs" />
     <Compile Include="Networking\Packets\PlayerPacket.cs" />
     <Compile Include="Networking\Packets\BasePacket.cs" />
     <Compile Include="Networking\Packets\AssetPacket.cs" />

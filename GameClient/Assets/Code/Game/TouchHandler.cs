@@ -17,12 +17,6 @@ namespace Assets.Code.Game
         private void ClickTile(Vector2 tile)
         {
             var player = UnityClient.Player;
-
-            var test = UnityClient.Map.Chunks["0_0"];
-            var data = test.GetData();
-
-            var otherTest = PathfinderHelper.GetPassableByteArray(player.Position, new Position((int)tile.x, (int)tile.y), UnityClient.Map.Chunks);
-
             var path = Map.FindPath(player.Position, new Position((int)tile.x, (int)tile.y), UnityClient.Map.Chunks);
             if(path != null)
             {

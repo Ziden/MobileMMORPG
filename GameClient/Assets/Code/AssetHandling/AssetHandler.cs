@@ -11,7 +11,13 @@ namespace Assets.Code.Net
         public static ConcurrentList<string> WaitingForAssets = new ConcurrentList<string>();
 
         // TODO: MAKE THIS BETTER...
-        public static readonly string SPRITE_FILE = "sprites.png";
+        //public static readonly string SPRITE_FILE = "sprites.png";
+
+        public static readonly string BODIES = "bodies.png";
+        public static readonly string CHESTS = "chests.png";
+        public static readonly string LEGS = "legs.png";
+        public static readonly string HEADS = "heads.png";
+
         public static readonly string TILESET_FILE = "Set1.png";
 
         public static Dictionary<string, Sprite[,]> LoadedAssets = new Dictionary<string, Sprite[,]>();

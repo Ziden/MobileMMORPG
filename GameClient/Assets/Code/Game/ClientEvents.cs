@@ -2,14 +2,12 @@
 using Client.Net.PacketListeners;
 using Common;
 using Common.Networking.Packets;
-using MapHandler;
 using UnityEngine;
 
 namespace Assets.Code.Game
 {
     public class ClientEvents
     {
-
         static ClientEvents()
         {
             new ClientEvents();

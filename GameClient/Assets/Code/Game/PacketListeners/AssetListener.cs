@@ -16,6 +16,7 @@ namespace Assets.Code.Net.PacketListeners
             RECIEVING = 2,
             UPDATED = 3
         }
+
         public static AssetLoadingState State = AssetLoadingState.UPDATED;
 
         public static int NumberOfAssetsToRecieve = 0;
