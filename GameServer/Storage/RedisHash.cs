@@ -1,4 +1,5 @@
-﻿using Storage.Players;
+﻿using StackExchange.Redis;
+using Storage.Players;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,13 +15,22 @@ namespace Storage
             Redis.Db.HashSet(key, hash);
         }
 
-        public static void Update(Type type, string fieldName, object value)
+        public static void Update(Type type, string [] fieldNames, object [] values)
         {
             var key = GetKeyNameFromInstance(type);
-            var property = type.GetType().GetProperty(fieldName);
-            property.SetValue(type, value);    
-            var hashEntry = DataSerializer.GetHashEntry<Type>(fieldName, value);
-            Redis.Db.HashSet(key, new StackExchange.Redis.HashEntry[] { hashEntry.Value });
+
+            var hashEntries = new List<HashEntry>();
+
+            for(var i = 0; i < fieldNames.Length; i++)
+            {
+                var fieldName = fieldNames[i];
+                var value = values[i];
+                var property = type.GetType().GetProperty(fieldName);
+                property.SetValue(type, value);
+                var hashEntry = DataSerializer.GetHashEntry<Type>(fieldName, value);
+                hashEntries.Add(hashEntry.Value);
+            }
+            Redis.Db.HashSet(key, hashEntries.ToArray());
         }
 
         public static Type Get(string keyValue)

@@ -9,11 +9,16 @@ namespace ServerCore.GameServer.Players
 {
     public class OnlinePlayer : Player
     {
-        public List<Position> MovingPath;
-
         public ConnectedClientTcpHandler Tcp;
 
         public bool AssetsReady = false;
+
+        public Position GetPosition()
+        {
+            return new Position(X, Y);
+        }
+
+        public long CanMoveAgainTime = 0;
 
     }
 }

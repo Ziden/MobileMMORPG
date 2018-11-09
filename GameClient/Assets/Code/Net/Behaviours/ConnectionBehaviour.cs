@@ -1,4 +1,5 @@
-﻿using Client.Net;
+﻿using Assets.Code.Game;
+using Client.Net;
 using System;
 using System.Net.Sockets;
 using System.Threading;
@@ -37,6 +38,7 @@ public class ConnectionBehaviour : MonoBehaviour
             ConnectorState = State.LISTENING;
             if(LoadingPanel != null)
                 LoadingPanel.SetActive(false);
+            TouchHandler.GameTouchOn = true;
         } else if(ConnectorState == State.ERROR && LoadingPanel.activeSelf)
         {
             LoadingPanel.SetActive(false);
@@ -60,6 +62,7 @@ public class ConnectionBehaviour : MonoBehaviour
     {
         if(LoadingPanel != null)
             LoadingPanel.SetActive(true);
+        TouchHandler.GameTouchOn = false;
         _connectingThread = new Thread(new ThreadStart(ClientConnectAndListen));
         _connectingThread.Start();
         ConnectorState = State.CONNECTING;

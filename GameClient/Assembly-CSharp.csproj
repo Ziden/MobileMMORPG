@@ -66,6 +66,7 @@
     <Compile Include="Assets\Code\AssetHandling\SpriteSheet.cs" />
     <Compile Include="Assets\Code\Game\ClientEvents.cs" />
     <Compile Include="Assets\Code\Game\ClientPathfinder.cs" />
+    <Compile Include="Assets\Code\Game\ClientPlayer\PlayerObjectExtensions.cs" />
     <Compile Include="Assets\Code\Game\ConnectionErrorEvent.cs" />
     <Compile Include="Assets\Code\Game\Factories\PlayerHandler.cs" />
     <Compile Include="Assets\Code\Game\Factories\TileFactory.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Code\Net\ClientPacketListener.cs" />
     <Compile Include="Assets\Code\Net\ClientTcpHandler.cs" />
     <Compile Include="Assets\Code\Net\UnityClient.cs" />
+    <Compile Include="Assets\Code\UI\GameUI.cs" />
     <Compile Include="Assets\Code\UI\GenericDialog.cs" />
     <Compile Include="Assets\Code\UI\LoginScreen.cs" />
     <Reference Include="UnityEditor.StandardEvents">

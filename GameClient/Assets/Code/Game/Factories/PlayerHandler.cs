@@ -1,4 +1,5 @@
 ﻿using Assets.Code.AssetHandling;
+using Assets.Code.Game.ClientPlayer;
 using Assets.Code.Net;
 using Client.Net;
 using MapHandler;
@@ -10,8 +11,6 @@ namespace Assets.Code.Game.Factories
 {
     public class PlayerHandler
     {
-        private static Dictionary<string, GameObject> PlayerTracker = new Dictionary<string, GameObject>();
-
         public static void BuildAndInstantiate(PlayerFactoryOptions opts)
         {
             var playerObj = GameObject.Find(opts.UserId);
@@ -22,8 +21,10 @@ namespace Assets.Code.Game.Factories
                 playerObj.transform.localScale = new Vector3(100, 100);
                 playerObj.tag = "Player";
                 var playerBehaviour = playerObj.AddComponent<PlayerBehaviour>();
-                PlayerTracker.Add(opts.UserId, playerObj);
-                playerObj.transform.position = new Vector2(opts.tileX * 16, opts.tileY * 16);
+
+                UnityClient.Player.Speed = opts.Speed;
+                UnityClient.Player.PlayerObject = playerObj;
+                UnityClient.Player.MoveToTile(opts.tileX, opts.tileY);
 
                 // Body
                 var bodyObj = new GameObject("body");
@@ -73,9 +74,7 @@ namespace Assets.Code.Game.Factories
                 headSpriteRenderer.sprite = headSpriteSheet.WalkSouth[1];
                 headObj.transform.parent = playerObj.transform;
 
-                UnityClient.Player.Position = new Position(opts.tileX, opts.tileY);
-                UnityClient.Player.Speed = opts.Speed;
-                UnityClient.Player.PlayerObject = playerObj;
+               
             }
         }
     }

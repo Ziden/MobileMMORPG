@@ -44,6 +44,7 @@ namespace ServerCore.Networking
             catch (Exception e)
             {
                 Log.Error("Error sending packet");
+                Log.Error(System.Environment.StackTrace);
                 Listening = false;
             }
         }

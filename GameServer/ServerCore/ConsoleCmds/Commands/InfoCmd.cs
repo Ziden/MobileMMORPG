@@ -20,7 +20,7 @@ namespace ServerCore.ConsoleCmds.Commands
                 return false;
             }
             var playerName = args[0];
-            var player = Server.Players.FirstOrDefault(p => p.Login.ToLower() == playerName.ToLower());
+            var player = Server.Players.ToArray().FirstOrDefault(p => p.Login.ToLower() == playerName.ToLower());
             if(player == null)
             {
                 Log.Error($"Player {playerName} not found");
