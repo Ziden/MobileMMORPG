@@ -11,8 +11,8 @@ A very nameless (yet) mobile mmorpg in .net core (Server) and Unity (Client)
 
 ### How to Run
 
-1-) Start Redis Database
-2-) Open the Server solution and click "Run Project"
-3-) Open Unity, open the GameClient project.
+- Start Redis Database
+- Open the Server solution and click "Run Project"
+- Open Unity, open the GameClient project.
   If the Game scene is not selected yet, click on the "Project" tab (could be in "Console" by default), go to Scenes and select "Game"
-  4-) Click the "Run" button to run the client.
+- Click the "Run" button to run the client.
