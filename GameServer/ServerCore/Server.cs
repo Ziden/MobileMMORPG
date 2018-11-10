@@ -3,6 +3,7 @@ using Common;
 using Common.Networking.Packets;
 using MapHandler;
 using ServerCore.ConsoleCmds;
+using ServerCore.Game.GameMap;
 using ServerCore.GameServer.Players;
 using ServerCore.Networking;
 using Storage.Players;
@@ -26,7 +27,7 @@ namespace ServerCore
         public static ServerTcpHandler TcpHandler { get; set; }
         public static GameThread GameThread { get; set; }
         public static CommandHandler CommandHandler { get; set; }
-        public static Map Map { get; set; }
+        public static WorldMap<ServerChunk> Map { get; set; }
 
         private bool _running = false;
         private readonly int PORT;
@@ -40,7 +41,7 @@ namespace ServerCore
             _instance = this;
             _serverEvents = new ServerEvents();
             CommandHandler = new CommandHandler();
-            Map = MapLoader.LoadMapFromFile();
+            Map = MapLoader.LoadMapFromFile<ServerChunk>();
 
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<Player, OnlinePlayer>();

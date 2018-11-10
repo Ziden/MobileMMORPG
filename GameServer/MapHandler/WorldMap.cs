@@ -1,26 +1,27 @@
 ﻿using CommonCode.Pathfinder;
 using Pathfinder;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MapHandler
 {
-    public class Map
+    public class WorldMap<ChunkType> where ChunkType : Chunk
     {
         public Dictionary<string, byte[]> Tilesets = new Dictionary<string, byte[]>();
 
-        public Dictionary<string, Chunk> Chunks = new Dictionary<string, Chunk>();
+        public Dictionary<string, ChunkType> Chunks = new Dictionary<string, ChunkType>();
 
-        public void AddChunk(Chunk c)
+        public void AddChunk(ChunkType c)
         {
             Chunks.Add($"{c.x}_{c.y}", c);
         }
 
-        public Chunk GetChunk(int x, int y)
+        public ChunkType GetChunk(int x, int y)
         {
-            return Chunks[$"{x}_{y}"];
+            var key = $"{x}_{y}";
+            if (!Chunks.ContainsKey(key))
+                return null;
+            return Chunks[key];
         }
 
         public static List<Position> FindPath(Position start, Position goal, Dictionary<string, Chunk> chunks)
@@ -33,7 +34,7 @@ namespace MapHandler
             var offsetedGoal = new Position(goal.X + (passableMapResult.OffsetX * 16), goal.Y + (passableMapResult.OffsetY * 16));
 
             var result = pathfinder.FindPath(offsetedStart, offsetedGoal);
-            if(result == null)
+            if (result == null)
             {
                 return null;
             }

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MapHandler;
+using System;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace MapHandler
+namespace ServerCore.Game.GameMap
 {
     public class MapLoader
     {
@@ -35,7 +36,7 @@ namespace MapHandler
             }
         }
 
-        public static Map LoadMapFromFile(string searchMapName = null)
+        public static WorldMap<ChunkType> LoadMapFromFile<ChunkType>(string searchMapName = null) where ChunkType : Chunk , new()
         {
             Console.WriteLine("Loading Map");
             var mapAssembly = AppDomain.CurrentDomain.GetAssemblies().Last(a => a.FullName.Contains("MapHandler,"));
@@ -48,7 +49,7 @@ namespace MapHandler
             {
                 using (var stream = mapAssembly.GetManifestResourceStream(mapName))
                 {
-                    var map = MapParser.Parse(stream);
+                    var map = MapParser.Parse<ChunkType>(stream);
                     return map;
                 }
             }

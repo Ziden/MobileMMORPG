@@ -26,7 +26,7 @@ namespace ServerCore.PacketListeners
                     yLocation = user.Y
                 });
 
-                ServerEvents.Call(new PlayerLoginEvent()
+                ServerEvents.Call(new PlayerLoggedInEvent()
                 {
                     Player = user,
                     Client = client

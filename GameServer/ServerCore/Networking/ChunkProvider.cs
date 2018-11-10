@@ -19,7 +19,7 @@ namespace ServerCore.Networking
                 var chunkX = client.OnlinePlayer.X >> 4;
                 var chunkY = client.OnlinePlayer.Y >> 4;
 
-                List<Position> shouldBeLoaded = MapUtils.GetRadius(new Position(chunkX, chunkY), VIEW_RADIUS);
+                List<Position> shouldBeLoaded = MapUtils.GetRadius(chunkX, chunkY, VIEW_RADIUS);
 
                 foreach(var position in shouldBeLoaded)
                 {

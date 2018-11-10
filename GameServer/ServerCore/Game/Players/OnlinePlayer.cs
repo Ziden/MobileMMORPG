@@ -11,6 +11,7 @@ namespace ServerCore.GameServer.Players
     {
         public ConnectedClientTcpHandler Tcp;
 
+        // Becomes true when all assets have been loaded so its a "valid" online player
         public bool AssetsReady = false;
 
         public Position GetPosition()
@@ -18,6 +19,7 @@ namespace ServerCore.GameServer.Players
             return new Position(X, Y);
         }
 
+        // When this player can perform a movement again (in MS)
         public long CanMoveAgainTime = 0;
 
     }

@@ -2,8 +2,8 @@
 
 namespace ServerCore.GameServer.Players.Evs
 {
-    public class PlayerJoinEvent
+    public class PlayerJoinEvent : IEvent
     {
-        public Player Player;
+        public OnlinePlayer Player;
     }
 }

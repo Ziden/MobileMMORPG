@@ -49,7 +49,6 @@
   </ProjectExtensions>
   <ItemGroup>
     <Compile Include="MapUtilsTests.cs" />
-    <Compile Include="MapLoaderTests.cs" />
     <Compile Include="TestPathfinder.cs" />
   </ItemGroup>
   <ItemGroup>

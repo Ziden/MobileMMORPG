@@ -13,6 +13,7 @@ namespace ServerCore
 
     public class ServerEvents
     {
+
         private static EventBus<IEvent> _eventListener = new EventBus<IEvent>();
 
         private static EventBus<BasePacket> _packetListener = new EventBus<BasePacket>();

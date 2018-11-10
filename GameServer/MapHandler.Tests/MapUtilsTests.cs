@@ -10,7 +10,7 @@ namespace MapTests
         [Test]
         public void TestMapRadius1()
         {
-            var radius = MapUtils.GetRadius(new Position(0, 0), 1);
+            var radius = MapUtils.GetRadius(0, 0, 1);
 
             Assert.That(radius.Count == 5);
         }
@@ -24,7 +24,7 @@ namespace MapTests
         [Test]
         public void TestMapRadius3()
         {
-            var radius = MapUtils.GetRadius(new Position(0, 0), 3);
+            var radius = MapUtils.GetRadius(0, 0, 3);
 
             Assert.That(radius.Count == 25);
         }

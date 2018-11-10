@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using MapHandler;
+using ServerCore.Game.GameMap;
 
 namespace MapTests
 {
@@ -9,7 +10,7 @@ namespace MapTests
         [Test]
         public void TestSimpleLoading()
         {
-            Map map = MapLoader.LoadMapFromFile();
+            WorldMap<Chunk> map = MapLoader.LoadMapFromFile<Chunk>();
 
             Assert.That(map.Tilesets.Count > 0);
 
@@ -19,7 +20,7 @@ namespace MapTests
         [Test]
         public void TestMapLoadTestMap()
         {
-            Map map = MapLoader.LoadMapFromFile("test_map");
+            WorldMap<Chunk> map = MapLoader.LoadMapFromFile<Chunk>("test_map");
 
             Assert.That(map.Chunks.Count == 2);
 

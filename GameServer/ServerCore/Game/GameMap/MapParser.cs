@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MapHandler;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace MapHandler
+namespace ServerCore.Game.GameMap
 {
     public class MapParser
     {
@@ -24,9 +25,9 @@ namespace MapHandler
         /// <summary>
         /// Parses a byte stream into a Map, reading from as a TILED .tmx in csv format
         /// </summary>
-        public static Map Parse(Stream mapStream)
+        public static WorldMap<ChunkType> Parse<ChunkType>(Stream mapStream) where ChunkType : Chunk , new()
         {
-            Map map = new Map();
+            WorldMap<ChunkType> map = new WorldMap<ChunkType>();
             using (XmlReader reader = XmlReader.Create(mapStream))
             {
                 var doc = XDocument.Load(reader);
@@ -52,7 +53,7 @@ namespace MapHandler
 
                         if (layerType == LayerType.TILES)
                         {
-                            Chunk chunk = new Chunk()
+                            var chunk = new ChunkType()
                             {
                                 x = chunkX,
                                 y = chunkY

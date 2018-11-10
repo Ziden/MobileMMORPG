@@ -7,5 +7,8 @@ namespace ServerCore.GameServer.Players.Evs
         public OnlinePlayer Player;
         public Position From;
         public Position To;
+
+        public bool IsCancelled = false;
+
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Common.Networking.Packets;
 using CommonCode.EventBus;
-using CommonCode.Networking.Packets;
 using CommonCode.Player;
 using MapHandler;
+using ServerCore.GameServer.Players.Evs;
 using Storage.Players;
 using System;
-using System.IO;
 
 namespace ServerCore.Networking.PacketListeners
 {
@@ -15,15 +14,31 @@ namespace ServerCore.Networking.PacketListeners
         public void OnPlayerMovePath(PlayerMovePacket packet)
         {
             var player = Server.GetPlayerByConnectionId(packet.ClientId);
-
             var distanceMoved = player.GetPosition().GetDistance(packet.To);
-
             var timeToMove = Formulas.GetTimeToMoveBetweenTwoTiles(player.speed);
             var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
             var lastMovementArrival = now + timeToMove;
 
             // Player tryng to hack ?
             if (distanceMoved > 1 || now < player.CanMoveAgainTime)
+            {
+                // send player back to the position client-side
+                player.Tcp.Send(new SyncPacket()
+                {
+                    Position = player.GetPosition()
+                });
+                return;
+            }
+
+            var playerMoveEvent = new PlayerMoveEvent()
+            {
+                From = packet.From,
+                To = packet.To,
+                Player = player
+            };
+            ServerEvents.Call(playerMoveEvent);
+
+            if (playerMoveEvent.IsCancelled)
             {
                 // send player back to the position client-side
                 player.Tcp.Send(new SyncPacket()
@@ -42,6 +57,8 @@ namespace ServerCore.Networking.PacketListeners
 
             // updating in database
             PlayerService.UpdatePlayerPosition(player, player.X, player.Y);
+
+
         }
     }
 }

@@ -2,6 +2,8 @@
 using CommonCode.EventBus;
 using CommonCode.Networking.Packets;
 using MapHandler;
+using ServerCore.Game.GameMap;
+using ServerCore.GameServer.Players.Evs;
 using System.IO;
 
 namespace ServerCore.Networking.PacketListeners
@@ -17,21 +19,26 @@ namespace ServerCore.Networking.PacketListeners
                 player.AssetsReady = true;
             }
 
-            var client = ServerTcpHandler.GetClient(packet.ClientId);
+            var client = ServerTcpHandler.GetClient(packet.ClientId); 
+
+            // update chunks for that player
+            ChunkProvider.CheckChunks(player);
 
             // make the player itself appear
             client.Send(new PlayerPacket()
             {
                 Name = player.Login,
-                SpriteIndex = 2,
+                SpriteIndex = player.SpriteIndex,
                 UserId = player.UserId,
                 X = player.X,
                 Y = player.Y,
                 Speed = player.speed
             });
 
-            // update chunks for that player
-            ChunkProvider.CheckChunks(player);
+            ServerEvents.Call(new PlayerJoinEvent()
+            {
+                Player = player
+            });
         }
 
         [EventMethod]

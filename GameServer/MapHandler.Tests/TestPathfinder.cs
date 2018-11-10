@@ -41,7 +41,7 @@ namespace Common.Tests
             var chunks = new Dictionary<string, Chunk>();
             chunks.Add("0_0", chunk1);
 
-            var path = Map.FindPath(new Position(0, 0), new Position(2, 0), chunks);
+            var path = WorldMap<Chunk>.FindPath(new Position(0, 0), new Position(2, 0), chunks);
             Assert.That(path.Count == 9);
 
             Assert.That(path[0].X == 0 && path[0].Y==0);
@@ -68,7 +68,7 @@ namespace Common.Tests
             chunks.Add("0_0", chunk1);
             chunks.Add("-1_0", chunk2);
 
-            var path = Map.FindPath(new Position(1, 0), new Position(-1, 0), chunks);
+            var path = WorldMap<Chunk>.FindPath(new Position(1, 0), new Position(-1, 0), chunks);
             Assert.That(path.Count == 5);   
         }
 
@@ -85,7 +85,7 @@ namespace Common.Tests
             chunks.Add("0_0", chunk1);
             chunks.Add("0_-1", chunk2);
 
-            var path = Map.FindPath(new Position(0, 1), new Position(0, -1), chunks);
+            var path = WorldMap<Chunk>.FindPath(new Position(0, 1), new Position(0, -1), chunks);
             Assert.That(path.Count == 5);
         }
 
@@ -100,7 +100,7 @@ namespace Common.Tests
             chunks.Add("0_0", chunk1);
             chunks.Add("1_0", chunk2);
 
-            var path = Map.FindPath(new Position(0, 0), new Position(19, 0), chunks);
+            var path = WorldMap<Chunk>.FindPath(new Position(0, 0), new Position(19, 0), chunks);
             Assert.That(path.Count == 20);
         }
 
@@ -108,7 +108,7 @@ namespace Common.Tests
         public void TestBiggerMap()
         {
 
-            var map = new Map();
+            var map = new WorldMap<Chunk>();
 
             var chunk1 = CreateChunk(0, 0);
             var chunk2 = CreateChunk(1, 0);
@@ -133,7 +133,7 @@ namespace Common.Tests
 
             var passableMapArray = PathfinderHelper.GetPassableByteArray(new Position(0, 0), new Position(-1, 0), map.Chunks);
 
-            var path = Map.FindPath(new Position(0, 0), new Position(-1, 0), map.Chunks);
+            var path = WorldMap<Chunk>.FindPath(new Position(0, 0), new Position(-1, 0), map.Chunks);
             Assert.That(path.Count == 2);
 
             Assert.That(path[0].X == 0 && path[0].Y == 0);

@@ -39,10 +39,8 @@
   <ItemGroup>
     <Compile Include="Chunk.cs" />
     <Compile Include="Directions.cs" />
-    <Compile Include="Map.cs" />
+    <Compile Include="WorldMap.cs" />
     <Compile Include="MapHelpers.cs" />
-    <Compile Include="MapLoader.cs" />
-    <Compile Include="MapParser.cs" />
     <Compile Include="MapUtils.cs" />
     <Compile Include="PathfinderHelper.cs" />
     <Compile Include="TileProperties.cs" />

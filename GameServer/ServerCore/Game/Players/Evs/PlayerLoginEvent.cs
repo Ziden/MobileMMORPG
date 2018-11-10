@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ServerCore.Networking.NetworkEvents
 {
-    public class PlayerLoginEvent : IEvent
+    public class PlayerLoggedInEvent : IEvent
     {
         public Player Player;
         public ConnectedClientTcpHandler Client;

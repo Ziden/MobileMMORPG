@@ -30,6 +30,8 @@ namespace Storage
                 var hashEntry = DataSerializer.GetHashEntry<Type>(fieldName, value);
                 hashEntries.Add(hashEntry.Value);
             }
+
+
             Redis.Db.HashSet(key, hashEntries.ToArray());
         }
 

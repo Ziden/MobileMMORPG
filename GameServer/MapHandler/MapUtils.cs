@@ -9,22 +9,22 @@ namespace MapHandler
     public class MapUtils
     {
         // Gets all positions in a squared radius
-        public static List<Position> GetRadius(Position start, int range)
+        public static List<Position> GetRadius(int x,int y, int range)
         {
             List<Position> list = new List<Position>();
 
-            var currY = start.Y + range;
+            var currY = y + range;
 
             var rangeX = 0;
 
-            while (currY >= start.Y - range)
+            while (currY >= y - range)
             {
 
-                for(var currX = start.X - rangeX; currX <= start.X + rangeX; currX ++)
+                for(var currX = x - rangeX; currX <= x + rangeX; currX ++)
                 {
                     list.Add(new Position(currX,  currY));
                 }
-                if (currY > start.Y)
+                if (currY > y)
                     rangeX++;
                 else
                     rangeX--;

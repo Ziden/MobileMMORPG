@@ -43,7 +43,7 @@ namespace ServerCore.Networking
             }
             catch (Exception e)
             {
-                Log.Error("Error sending packet");
+                Log.Error("Error sending packet "+e.Message);
                 Log.Error(System.Environment.StackTrace);
                 Listening = false;
             }

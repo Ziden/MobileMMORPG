@@ -14,11 +14,13 @@ namespace Storage.TestDataBuilder
             {
                 var testPlayerTemplate = new Player()
                 {
-                    speed = 10
+                    speed = 10,
+                    SpriteIndex = 2
                 };
 
                 Redis.Server.FlushAllDatabases();
-                AccountService.RegisterAccount("admin", "wololo", "admin@gmail.com", testPlayerTemplate);
+                AccountService.RegisterAccount("a", "a", "a@gmail.com", testPlayerTemplate);
+                AccountService.RegisterAccount("b", "b", "b@gmail.com", testPlayerTemplate);
             } catch(AccountError err)
             {
                 Console.WriteLine("Admin account was already created");

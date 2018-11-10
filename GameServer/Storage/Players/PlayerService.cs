@@ -6,7 +6,7 @@
         {
             var fields = new string[2]
             {
-                nameof(player.Y),
+                nameof(player.X),
                 nameof(player.Y)
             };
             var values = new object[2]
