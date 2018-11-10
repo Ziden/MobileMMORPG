@@ -17,7 +17,7 @@ namespace Assets.Code.Game
         private void ClickTile(Vector2 tile)
         {
             var player = UnityClient.Player;
-            var path = Map.FindPath(player.Position, new Position((int)tile.x, (int)tile.y), UnityClient.Map.Chunks);
+            var path = WorldMap<Chunk>.FindPath(player.Position, new Position((int)tile.x, (int)tile.y), UnityClient.Map.Chunks);
             if(path != null)
             {
                 player.FollowingPath = path;

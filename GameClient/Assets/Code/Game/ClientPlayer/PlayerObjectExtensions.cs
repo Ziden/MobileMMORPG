@@ -10,7 +10,7 @@ namespace Assets.Code.Game.ClientPlayer
 {
     public static class PlayerObjectExtensions
     {
-        public static void MoveToTile(this PlayerWrapper player, int x,  int y)
+        public static void TeleportToTile(this PlayerWrapper player, int x,  int y)
         {
             player.PlayerObject.transform.position = new Vector2(x * 16, y * 16);
             UnityClient.Player.Position.X = x;

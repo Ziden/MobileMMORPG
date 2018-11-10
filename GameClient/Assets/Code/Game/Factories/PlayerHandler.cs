@@ -1,9 +1,7 @@
 ﻿using Assets.Code.AssetHandling;
-using Assets.Code.Game.ClientPlayer;
 using Assets.Code.Net;
 using Client.Net;
 using MapHandler;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -20,11 +18,13 @@ namespace Assets.Code.Game.Factories
                 playerObj = new GameObject(opts.UserId);
                 playerObj.transform.localScale = new Vector3(100, 100);
                 playerObj.tag = "Player";
-                var playerBehaviour = playerObj.AddComponent<PlayerBehaviour>();
 
-                UnityClient.Player.Speed = opts.Speed;
-                UnityClient.Player.PlayerObject = playerObj;
-                UnityClient.Player.MoveToTile(opts.tileX, opts.tileY);
+                if (opts.IsMainPlayer)
+                {
+                    playerObj.AddComponent<PlayerBehaviour>();
+                    UnityClient.Player.Speed = opts.Speed;
+                    UnityClient.Player.PlayerObject = playerObj;
+                }
 
                 // Body
                 var bodyObj = new GameObject("body");
@@ -74,13 +74,26 @@ namespace Assets.Code.Game.Factories
                 headSpriteRenderer.sprite = headSpriteSheet.WalkSouth[1];
                 headObj.transform.parent = playerObj.transform;
 
-               
+                // This gotta be in the end
+                playerObj.transform.position = new Vector2(opts.tileX * 16, opts.tileY * 16);
+
+                if (!opts.IsMainPlayer)
+                { 
+                    var movingEntity = playerObj.AddComponent<MovingEntityBehaviour>();
+                    movingEntity.Speed = opts.Speed;
+                    movingEntity.MapPosition = new Position(opts.tileX, opts.tileY);
+                    movingEntity.SpriteSheets.Add(spriteSheet);
+                    movingEntity.SpriteSheets.Add(headSpriteSheet);
+                    movingEntity.SpriteSheets.Add(legsSpriteSheet);
+                    movingEntity.SpriteSheets.Add(chestSpriteSheet);
+                }
             }
         }
     }
 
     public class PlayerFactoryOptions
     {
+        public bool IsMainPlayer;
         public string UserId;
         public int SpriteIndex;
         public int tileX;

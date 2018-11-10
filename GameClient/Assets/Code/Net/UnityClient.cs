@@ -3,12 +3,6 @@ using Client.Net;
 using Common;
 using Common.Networking.Packets;
 using MapHandler;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using UnityEngine;
 
 namespace Client.Net
 {
@@ -22,8 +16,6 @@ namespace Client.Net
 
         public static ConcurrentList<BasePacket> PacketsToProccess = new ConcurrentList<BasePacket>();
 
-        public static Map Map = new Map();
-
-
+        public static WorldMap<Chunk> Map = new WorldMap<Chunk>();
     }
 }

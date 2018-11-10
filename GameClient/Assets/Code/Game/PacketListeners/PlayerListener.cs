@@ -19,39 +19,52 @@ namespace Assets.Code.Net.PacketListeners
         {
 
             Position destination = null;
-            if(UnityClient.Player.FollowingPath != null)
+            if (UnityClient.Player.FollowingPath != null && UnityClient.Player.FollowingPath.Count > 0)
             {
                 destination = UnityClient.Player.FollowingPath.Last();
             }
             UnityClient.Player.PlayerObject.GetComponent<PlayerBehaviour>().StopMovement();
             UnityClient.Player.FollowingPath = null;
-            UnityClient.Player.MoveToTile(packet.Position.X, packet.Position.Y);
+            UnityClient.Player.TeleportToTile(packet.Position.X, packet.Position.Y);
             Debug.Log("SYNC TO " + packet.Position.X + " - " + packet.Position.Y);
 
             // recalculating route to destination
-            var path = Map.FindPath(UnityClient.Player.Position, destination, UnityClient.Map.Chunks);
-            if (path != null)
+            if (destination != null)
             {
-                UnityClient.Player.FollowingPath = path;
+                var path = WorldMap<Chunk>.FindPath(UnityClient.Player.Position, destination, UnityClient.Map.Chunks);
+                if (path != null)
+                {
+                    UnityClient.Player.FollowingPath = path;
+                }
             }
         }
 
         [EventMethod]
-        public void OnPlayerUpdate(PlayerPacket packet)
+        public void OnPlayerMove(PlayerMovePacket packet)
         {
-            // Its me ! Might have to update my own state
-            if(packet.UserId == UnityClient.Player.UserId)
+            var playerObj = GameObject.Find(packet.UserId);
+            if(playerObj != null)
             {
-                // instantiate the player
-                PlayerHandler.BuildAndInstantiate(new PlayerFactoryOptions()
-                {
-                    SpriteIndex = packet.SpriteIndex,
-                    UserId = packet.UserId,
-                    Speed = packet.Speed
-                });
-
-                TouchHandler.GameTouchOn = true;
+               var movingEntity = playerObj.GetComponent<MovingEntityBehaviour>();
+                movingEntity.Route.Add(packet.To);
             }
+        }
+
+        [EventMethod]
+        public void OnPlayerAppears(PlayerPacket packet)
+        {
+            // instantiate the player if needed
+            PlayerHandler.BuildAndInstantiate(new PlayerFactoryOptions()
+            {
+                SpriteIndex = packet.SpriteIndex,
+                UserId = packet.UserId,
+                Speed = packet.Speed,
+                tileX = packet.X,
+                tileY = packet.Y,
+                IsMainPlayer = packet.UserId == UnityClient.Player.UserId
+            });
+
+            TouchHandler.GameTouchOn = true;
         }
     }
 }

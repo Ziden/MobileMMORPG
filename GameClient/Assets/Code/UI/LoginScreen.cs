@@ -24,8 +24,8 @@ public class LoginScreen : MonoBehaviour {
 
     public void OnLoginClick()
     {
-        Login("admin", "wololo");
-        //Login(Username.text, Password.text);
+       // Login("admin", "wololo");
+        Login(Username.text, Password.text);
     }
 
     private void Login(string username, string password)
