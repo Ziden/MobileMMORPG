@@ -11,7 +11,7 @@ namespace MapTests
         [Test]
         public void Test()
         {
-            WorldMap<Chunk> map = MapLoader.LoadMapFromFile<Chunk>("world");
+            WorldMap<Chunk> map = MapLoader.LoadMapFromFile<Chunk>("test");
 
             var iniChunk = map.GetChunk(0, 0);
 

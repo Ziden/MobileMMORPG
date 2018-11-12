@@ -50,12 +50,12 @@ namespace Pathfinder
         private bool mStopped = true;
         private int mHoriz = 0;
         private HeuristicFormula mFormula = HeuristicFormula.Manhattan;
-        private bool mDiagonals = true;
+        private bool mDiagonals = false;
         private int mHEstimate = 2;
         private bool mPunishChangeDirection = false;
         private bool mTieBreaker = false;
         private bool mHeavyDiagonals = false;
-        private int mSearchLimit = 2000;
+        private int mSearchLimit = 300;
         private double mCompletedTime = 0;
         private bool mDebugProgress = false;
         private bool mDebugFoundPath = false;

@@ -24,6 +24,7 @@ namespace Assets.Code.Game.Factories
                     playerObj.AddComponent<PlayerBehaviour>();
                     UnityClient.Player.Speed = opts.Speed;
                     UnityClient.Player.PlayerObject = playerObj;
+                    UnityClient.Player.Position = new Position(opts.tileX, opts.tileY);
                 }
 
                 // Body
@@ -75,7 +76,7 @@ namespace Assets.Code.Game.Factories
                 headObj.transform.parent = playerObj.transform;
 
                 // This gotta be in the end
-                playerObj.transform.position = new Vector2(opts.tileX * 16, opts.tileY * 16);
+                playerObj.transform.position = new Vector2(opts.tileX * 16, -opts.tileY * 16);
 
                 if (!opts.IsMainPlayer)
                 { 

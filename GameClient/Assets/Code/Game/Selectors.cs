@@ -29,11 +29,11 @@ namespace Assets.Code.Game
                 _renderer.color = Color.green;
                 _renderer.sortingOrder = 1;
                 _moveSelector.transform.localScale = new Vector2(100, 100);
-                _moveSelector.transform.position = new Vector2(vec.x * 16, vec.y * 16);
+                _moveSelector.transform.position = new Vector2(vec.x * 16, -vec.y * 16);
             } else
             {
                 _renderer.sortingOrder = 1;
-                _moveSelector.transform.position = new Vector2(vec.x * 16, vec.y * 16);
+                _moveSelector.transform.position = new Vector2(vec.x * 16, -vec.y * 16);
             }
         }
 

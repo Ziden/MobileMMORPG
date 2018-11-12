@@ -27,7 +27,7 @@ namespace MapHandler
         {
 
             var passableMapResult = PathfinderHelper.GetPassableByteArray(start, goal, chunks);
-            var pathfinder = new PathFinderFast(passableMapResult.PassableMap);
+            var pathfinder = new PathFinder(passableMapResult.PassableMap);
 
             var offsetedStart = new Position(start.X + (passableMapResult.OffsetX * 16), start.Y + (passableMapResult.OffsetY * 16));
             var offsetedGoal = new Position(goal.X + (passableMapResult.OffsetX * 16), goal.Y + (passableMapResult.OffsetY * 16));
@@ -37,7 +37,6 @@ namespace MapHandler
             {
                 return null;
             }
-            result.Reverse();
 
             List<Position> returned = new List<Position>();
 

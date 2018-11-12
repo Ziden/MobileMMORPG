@@ -14,19 +14,46 @@ namespace CommonCode.Pathfinder
 
     public class PathfinderHelper
     {
+
+        private static Position [] GetMinMaxChunks(Dictionary<string, Chunk> chunks)
+        {
+            int minX = int.MaxValue;
+            int minY = int.MaxValue;
+
+            int maxX = int.MinValue;
+            int maxY = int.MinValue;
+
+            foreach(var chunk in chunks.Values)
+            {
+                if (chunk.x < minX)
+                    minX = chunk.x;
+                if (chunk.x > maxX)
+                    maxX = chunk.x;
+                if (chunk.y < minY)
+                    minY = chunk.y;
+                if (chunk.y > maxY)
+                    maxY = chunk.y;
+            }
+            return new Position[] { new Position(minX, minY), new Position(maxX, maxY) };
+        }
+
         public static PassableMapResult GetPassableByteArray(Position start, Position goal, Dictionary<string, Chunk> chunks)
         {
-            var startChunkX = start.X >> 4;
-            var startChunkY = start.Y >> 4;
+           // var startChunkX = start.X >> 4;
+           // var startChunkY = start.Y >> 4;
 
-            var endChunkX = goal.X >> 4;
-            var endChunkY = goal.Y >> 4;
+           // var endChunkX = goal.X >> 4;
+           // var endChunkY = goal.Y >> 4;
 
-            var chunkDistanceX = Math.Abs(startChunkX - endChunkX) + 1;
-            var chunkDistanceY = Math.Abs(startChunkY - endChunkY) + 1;
+            var minMaxChunks = GetMinMaxChunks(chunks);
+            var minChunk = minMaxChunks[0];
+            var maxChunk = minMaxChunks[1];
 
-            var maxChunk = new Position(Math.Max(startChunkX, endChunkX), Math.Max(startChunkY, endChunkY));
-            var minChunk = new Position(Math.Min(startChunkX, endChunkX), Math.Min(startChunkY, endChunkY));
+            var chunkDistanceX = 3; //Math.Abs(startChunkX - endChunkX) + 1;
+            var chunkDistanceY = 3; //Math.Abs(startChunkY - endChunkY) + 1;
+
+            //var maxChunk = new Position(Math.Max(startChunkX, endChunkX), Math.Max(startChunkY, endChunkY));
+            //var minChunk = new Position(Math.Min(startChunkX, endChunkX), Math.Min(startChunkY, endChunkY));
 
             int gridSize = Math.Max(chunkDistanceX, chunkDistanceY);
 
@@ -48,6 +75,11 @@ namespace CommonCode.Pathfinder
             {
                 for (int chunkY = minChunk.Y; chunkY <= maxChunk.Y; chunkY++)
                 {
+                    if(!chunks.ContainsKey(chunkX + "_" + chunkY))
+                    {
+                        continue;
+                    }
+
                     Chunk c = chunks[chunkX + "_" + chunkY];
 
                     for (var tileX = 0; tileX <= 15; tileX++)

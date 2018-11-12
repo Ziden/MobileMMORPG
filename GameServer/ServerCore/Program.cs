@@ -11,7 +11,6 @@ namespace ServerCore
 
         static void Main(string[] args)
         {
-
             Log.Info("Connecting to Redis");
             Redis redis = new Redis();
             redis.Start();

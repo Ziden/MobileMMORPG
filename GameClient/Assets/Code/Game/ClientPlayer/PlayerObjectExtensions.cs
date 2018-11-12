@@ -12,7 +12,7 @@ namespace Assets.Code.Game.ClientPlayer
     {
         public static void TeleportToTile(this PlayerWrapper player, int x,  int y)
         {
-            player.PlayerObject.transform.position = new Vector2(x * 16, y * 16);
+            player.PlayerObject.transform.position = new Vector2(x * 16, -y * 16);
             UnityClient.Player.Position.X = x;
             UnityClient.Player.Position.Y = y;
         }

@@ -8,6 +8,10 @@ namespace Common.Tests
     [TestFixture]
     public class TestPathfinder
     {
+
+        public static short BLOCK = 2;
+        public static short PASSABLE = 1;
+
         private Chunk CreateChunk(int x, int y)
         {
             var chunk1 = new Chunk()
@@ -19,7 +23,7 @@ namespace Common.Tests
             {
                 for (int yy = 0; yy < 16; yy++)
                 {
-                    chunk1.SetTile(xx, yy, 1);
+                    chunk1.SetTile(xx, yy, PASSABLE);
                 }
             }
             return chunk1;
@@ -31,9 +35,9 @@ namespace Common.Tests
         {
 
             var chunk1 = CreateChunk(0, 0);
-            chunk1.SetTile(1, 0, 2);
-            chunk1.SetTile(1, 1, 2);
-            chunk1.SetTile(1, 2, 2);
+            chunk1.SetTile(1, 0, BLOCK);
+            chunk1.SetTile(1, 1, BLOCK);
+            chunk1.SetTile(1, 2, BLOCK);
 
             var chunks = new Dictionary<string, Chunk>();
             chunks.Add("0_0", chunk1);
@@ -57,7 +61,7 @@ namespace Common.Tests
         {
 
             var chunk1 = CreateChunk(0, 0);
-            chunk1.SetTile(0, 0, 2);
+            chunk1.SetTile(0, 0, BLOCK);
 
             var chunk2 = CreateChunk(-1, 0);
 
@@ -74,7 +78,7 @@ namespace Common.Tests
         {
 
             var chunk1 = CreateChunk(0, 0);
-            chunk1.SetTile(0, 0, 2);
+            chunk1.SetTile(0, 0, BLOCK);
 
             var chunk2 = CreateChunk(0, -1);
 
@@ -84,6 +88,27 @@ namespace Common.Tests
 
             var path = WorldMap<Chunk>.FindPath(new Position(0, 1), new Position(0, -1), chunks);
             Assert.That(path.Count == 5);
+        }
+
+        [Test]
+        public void TestCrossingUnecessaryChunkStillGeneratesPassableArrayForHim()
+        {
+
+            var chunk1 = CreateChunk(0, 0);
+            chunk1.SetTile(0, 1, BLOCK);
+            chunk1.SetTile(1, 0, BLOCK);
+
+            var chunk2 = CreateChunk(0, -1);
+
+            var chunks = new Dictionary<string, Chunk>();
+            chunks.Add("0_0", chunk1);
+            chunks.Add("0_-1", chunk2);
+
+            var grid = PathfinderHelper.GetPassableByteArray(new Position(0, 0), new Position(0, 2), chunks);
+
+            Assert.AreEqual(48, grid.PassableMap.GetLength(0));
+            Assert.AreEqual(48, grid.PassableMap.GetLength(1));
+
         }
 
         [Test]

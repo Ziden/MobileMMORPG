@@ -41,7 +41,7 @@ namespace ServerCore
             _instance = this;
             _serverEvents = new ServerEvents();
             CommandHandler = new CommandHandler();
-            Map = MapLoader.LoadMapFromFile<ServerChunk>("world");
+            Map = MapLoader.LoadMapFromFile<ServerChunk>("test");
 
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<Player, OnlinePlayer>();
