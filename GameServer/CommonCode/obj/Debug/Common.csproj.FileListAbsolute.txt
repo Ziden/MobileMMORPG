@@ -1,5 +1,0 @@
-C:\Users\gabri\Documents\MMO\GameServer\CommonCode\bin\Debug\CommonCode.dll
-C:\Users\gabri\Documents\MMO\GameServer\CommonCode\bin\Debug\CommonCode.pdb
-C:\Users\gabri\Documents\MMO\GameServer\CommonCode\obj\Debug\Common.csproj.CoreCompileInputs.cache
-C:\Users\gabri\Documents\MMO\GameServer\CommonCode\obj\Debug\CommonCode.dll
-C:\Users\gabri\Documents\MMO\GameServer\CommonCode\obj\Debug\CommonCode.pdb
