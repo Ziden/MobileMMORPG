@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonCode\Common.csproj" />
-    <ProjectReference Include="..\MapHandler\MapHandler.csproj" />
   </ItemGroup>
 
 </Project>

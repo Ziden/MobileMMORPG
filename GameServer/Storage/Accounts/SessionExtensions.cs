@@ -6,10 +6,16 @@ namespace Storage.Login
 {
     public static class SessionExtensions
     {
-        public static bool ValidSession(this Session session)
+        public static bool ValidSession(string sessionId)
         {
-            var key = RedisHash<Session>.GetKeyNameFromInstance(session);
-            return Redis.Db.KeyExists(key);
+           // var key = RedisHash<Session>.GetKeyNameFromType(sessionId);
+           // var haveSession = Redis.Db.KeyExists(key);
+           // if (!haveSession)
+           //     return false;
+            var session = RedisHash<Session>.Get(sessionId);
+            if (session == null)
+                return false;
+            return true;
         }
     }
 }

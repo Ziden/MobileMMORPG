@@ -10,7 +10,8 @@ namespace ServerCore.Networking
 {
     public class ConnectedClientTcpHandler
     {
-        public List<String> ChunksLoaded = new List<string>();
+        // keep track of what chunks ive already sent to this client
+        public List<String> ChunksLoaded = new List<String>();
 
         public readonly TcpClient TcpClient;
         public string ConnectionId;
@@ -19,6 +20,8 @@ namespace ServerCore.Networking
         public bool Listening = false;
 
         public static int PING_CHECK_SECONDS = 10;
+
+        public bool Authenticated = false;
 
         public ConnectedClientTcpHandler(TcpClient client)
         {
@@ -38,12 +41,12 @@ namespace ServerCore.Networking
                 stream.Write(packetSizeBytes, 0, packetSizeBytes.Length);
                 stream.Write(packetDeserialized, 0, packetDeserialized.Length);
 
-                if(packet.GetType() != typeof(PingPacket))
+                if (packet.GetType() != typeof(PingPacket))
                     Log.Debug("Sent Packet " + packet.GetType().Name);
             }
             catch (Exception e)
             {
-                Log.Error("Error sending packet "+e.Message);
+                Log.Error("Error sending packet " + e.Message);
                 Log.Error(System.Environment.StackTrace);
                 Listening = false;
             }
@@ -82,18 +85,23 @@ namespace ServerCore.Networking
                     if (packetRead != null && packetRead is BasePacket)
                     {
                         var packet = (BasePacket)packetRead;
-                        packet.ClientId = ConnectionId;      
+                        packet.ClientId = ConnectionId;
 
                         if (typeof(PingPacket) == packet.GetType())
                         {
                             RecievePing((PingPacket)packet);
                         }
-                        else
+                        if (typeof(LoginPacket) != packet.GetType())
                         {
-                            Log.Debug($"Packet {packet.GetType().Name} recieved");
-                            // Put the packet to be processed by the main thread
-                            Server.PacketsToProccess.Enqueue(packet);
+                            if (!Authenticated)
+                            {
+                                Log.Error($"Blocked packet {packet.GetType().Name}");
+                                continue;
+                            }
                         }
+                        Log.Debug($"Packet {packet.GetType().Name} recieved");
+                        // Put the packet to be processed by the main thread
+                        Server.PacketsToProccess.Enqueue(packet);
                     }
                 }
                 catch (Exception e)

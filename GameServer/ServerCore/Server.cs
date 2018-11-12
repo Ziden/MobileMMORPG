@@ -41,7 +41,7 @@ namespace ServerCore
             _instance = this;
             _serverEvents = new ServerEvents();
             CommandHandler = new CommandHandler();
-            Map = MapLoader.LoadMapFromFile<ServerChunk>();
+            Map = MapLoader.LoadMapFromFile<ServerChunk>("world");
 
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<Player, OnlinePlayer>();
@@ -76,12 +76,12 @@ namespace ServerCore
 
         public static OnlinePlayer GetPlayer(string UserId)
         {
-            return Players.ToArray().First(p => p.UserId == UserId);
+            return Players.ToArray().FirstOrDefault(p => p.UserId == UserId);
         }
 
         public static OnlinePlayer GetPlayerByConnectionId(string connectionId)
         {
-            return Players.ToArray().First(p => p.Tcp.ConnectionId == connectionId);
+            return Players.ToArray().FirstOrDefault(p => p.Tcp.ConnectionId == connectionId);
         }
 
     }

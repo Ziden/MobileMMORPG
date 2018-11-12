@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>CommonCode</RootNamespace>
     <AssemblyName>CommonCode</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -48,10 +48,18 @@
   <ItemGroup>
     <Compile Include="BaseThread.cs" />
     <Compile Include="ConcurrentList.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="EventBus\IEventListener.cs" />
     <Compile Include="EventBus\EventBus.cs" />
     <Compile Include="EventBus\EventMethod.cs" />
     <Compile Include="EventBus\RegisteredListener.cs" />
+    <Compile Include="MapShared\Chunk.cs" />
+    <Compile Include="MapShared\Directions.cs" />
+    <Compile Include="MapShared\MapHelpers.cs" />
+    <Compile Include="MapShared\MapUtils.cs" />
+    <Compile Include="MapShared\PathfinderHelper.cs" />
+    <Compile Include="MapShared\TileProperties.cs" />
+    <Compile Include="MapShared\WorldMap.cs" />
     <Compile Include="Networking\PacketSerializer.cs" />
     <Compile Include="Networking\PacketSwitch.cs" />
     <Compile Include="Networking\Packets\AssetsReadyPacket.cs" />

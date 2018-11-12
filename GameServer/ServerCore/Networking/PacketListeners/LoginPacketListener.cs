@@ -1,6 +1,5 @@
 ﻿using Common.Networking.Packets;
 using CommonCode.EventBus;
-using ServerCore.GameServer.Players.Evs;
 using ServerCore.Networking;
 using ServerCore.Networking.NetworkEvents;
 using Storage.Login;
@@ -15,6 +14,19 @@ namespace ServerCore.PacketListeners
             var client = ServerTcpHandler.GetClient(packet.ClientId);
             try
             {
+                // Check if already is online
+                string userId = LoginDao.GetUserId(packet.Login);
+                var player = Server.GetPlayer(userId);
+                if (player != null)
+                {
+                    client.Send(new DialogPacket()
+                    {
+                        Title = "Error",
+                        Message = "Account Already Online"
+                    });
+                    return;
+                }
+
                 var user = AccountService.Login(packet.Login, packet.Password);
                 Log.Info("Sending Login Response");
 
@@ -25,6 +37,8 @@ namespace ServerCore.PacketListeners
                     xLocation = user.X,
                     yLocation = user.Y
                 });
+
+                client.Authenticated = true;
 
                 ServerEvents.Call(new PlayerLoggedInEvent()
                 {
@@ -37,6 +51,7 @@ namespace ServerCore.PacketListeners
                 Log.Info("Sending Login Error");
                 client.Send(new DialogPacket()
                 {
+                    Title = "Acount Error",
                     Message = e.ErrorMessage
                 });
 

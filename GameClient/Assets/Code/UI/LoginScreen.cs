@@ -20,6 +20,7 @@ public class LoginScreen : MonoBehaviour {
     void Start() {
         LoginButton.onClick.AddListener(OnLoginClick);
         Canvas = LoginCanvas;
+        Canvas.transform.Find("Panel").gameObject.SetActive(true);
     }
 
     public void OnLoginClick()

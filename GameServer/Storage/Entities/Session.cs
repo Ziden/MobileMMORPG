@@ -13,7 +13,7 @@ namespace Storage.Login
         [RedisField("uid")]
         public string PlayerUid { get; set; }
 
-        [RedisField("d")]
-        public string DateStarted { get; set; }
+        [RedisField("e")]
+        public long Expires { get; set; }
     }
 }

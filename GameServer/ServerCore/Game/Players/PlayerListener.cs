@@ -15,6 +15,7 @@ namespace ServerCore.GameServer.Players
         public void OnPlayerLogin(PlayerLoggedInEvent ev)
         {
             Log.Info($"Player {ev.Player.Login} Logged In with session {ev.Player.SessionId}", ConsoleColor.Yellow);
+
             var player = Mapper.Map<OnlinePlayer>(ev.Player);
             player.Tcp = ev.Client;
             Server.Players.Add(player);

@@ -1,7 +1,6 @@
 ﻿using CommonCode.EventBus;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Common
@@ -49,7 +48,7 @@ namespace Common
                 var parameters = method.GetParameters();
                 if(parameters.Length == 1)
                 {
-                    var parameter = parameters.First();
+                    var parameter = parameters[0];
                     if (typeof(EventType).IsAssignableFrom(parameter.ParameterType)) {
                         RegisterCallback(listener, method, parameter.ParameterType);
                     }

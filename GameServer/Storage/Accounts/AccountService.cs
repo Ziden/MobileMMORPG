@@ -35,11 +35,12 @@ namespace Storage.Login
             {
                 throw new AccountError(AccountErrorCode.USER_OR_PASSWORD_INVALID, "Invalid username or password");
             }
+
             Session session = new Session()
             {
                 PlayerUid = u.UserId,
                 SessionUid = Guid.NewGuid().ToString(),
-                DateStarted = DateTime.Now.ToString()
+                Expires = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond
             };
             u.SessionId = session.SessionUid;
             RedisHash<Session>.Set(session);

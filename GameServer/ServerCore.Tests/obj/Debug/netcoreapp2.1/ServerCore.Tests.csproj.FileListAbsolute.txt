@@ -23,5 +23,3 @@ C:\Users\gabri\Documents\MMO\GameServer\ServerCore.Tests\obj\Debug\netcoreapp2.1
 C:\Users\gabri\Documents\MMO\GameServer\ServerCore.Tests\obj\Debug\netcoreapp2.1\ServerCore.Tests.pdb
 C:\Users\gabri\Documents\MMO\GameServer\ServerCore.Tests\bin\Debug\netcoreapp2.1\CommonCode.dll
 C:\Users\gabri\Documents\MMO\GameServer\ServerCore.Tests\bin\Debug\netcoreapp2.1\CommonCode.pdb
-C:\Users\gabri\Documents\MMO\GameServer\ServerCore.Tests\bin\Debug\netcoreapp2.1\MapHandler.dll
-C:\Users\gabri\Documents\MMO\GameServer\ServerCore.Tests\bin\Debug\netcoreapp2.1\MapHandler.pdb

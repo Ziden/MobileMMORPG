@@ -14,12 +14,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Direction _movingToDirection = Direction.NONE;
 
-    private SpriteSheet _bodySpriteSheet;
-    private SpriteSheet _chestSpriteSheet;
-    private SpriteSheet _headSpriteSheet;
-    private SpriteSheet _legsSpriteSheet;
-
-    private List<SpriteSheet> _spriteSheets = new List<SpriteSheet>();
+    public List<SpriteSheet> SpriteSheets = new List<SpriteSheet>();
 
     private float t;
     private Vector3 startPosition;
@@ -30,7 +25,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Start()
     {
         _target = startPosition = transform.position;
-        _spriteSheets = new SpriteSheet[] {
+        SpriteSheets = new SpriteSheet[] {
              transform.Find("body").GetComponent<SpriteSheet>(),
              transform.Find("chest").GetComponent<SpriteSheet>(),
              transform.Find("head").GetComponent<SpriteSheet>(),
@@ -48,7 +43,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void StopMovement()
     {
         _movingToDirection = Direction.NONE;
-        _spriteSheets.ForEach(e => e.Moving = false);
+        SpriteSheets.ForEach(e => e.Moving = false);
         _goingToPosition = null;
         _target = null;
     }
@@ -64,7 +59,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             _movingToDirection = Direction.NONE;
 
-            _spriteSheets.ForEach(e => e.Moving = false);
+            SpriteSheets.ForEach(e => e.Moving = false);
 
             if (_lastMovement)
             {
@@ -81,7 +76,7 @@ public class PlayerBehaviour : MonoBehaviour
         var player = UnityClient.Player;
         if (_goingToPosition != null && _movingToDirection == Direction.NONE)
         {
-            _movingToDirection = player.Position.GetDirection(_goingToPosition);
+            _movingToDirection = MapHelpers.GetDirection(player.Position, _goingToPosition);
             var timeToMove = (float)Formulas.GetTimeToMoveBetweenTwoTiles(player.Speed);
 
             UnityClient.TcpClient.Send(new PlayerMovePacket()
@@ -93,8 +88,8 @@ public class PlayerBehaviour : MonoBehaviour
             SetDestination(new Vector3(_goingToPosition.X * 16, _goingToPosition.Y * 16, 0), timeToMove / 1000);
             Debug.Log("Moving Player To " + _goingToPosition.X + " - " + _goingToPosition.Y);
 
-            _spriteSheets.ForEach(e => e.Direction = _movingToDirection);
-            _spriteSheets.ForEach(e => e.Moving = true);
+            SpriteSheets.ForEach(e => e.Direction = _movingToDirection);
+            SpriteSheets.ForEach(e => e.Moving = true);
 
             UnityClient.Player.Position.X = _goingToPosition.X;
             UnityClient.Player.Position.Y = _goingToPosition.Y;

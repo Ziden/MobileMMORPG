@@ -14,7 +14,7 @@ namespace ServerCore.Networking.PacketListeners
         public void OnPlayerMovePath(PlayerMovePacket packet)
         {
             var player = Server.GetPlayerByConnectionId(packet.ClientId);
-            var distanceMoved = player.GetPosition().GetDistance(packet.To);
+            var distanceMoved = MapHelpers.GetDistance(player.GetPosition(), packet.To);
             var timeToMove = Formulas.GetTimeToMoveBetweenTwoTiles(player.speed);
             var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
             var lastMovementArrival = now + timeToMove;

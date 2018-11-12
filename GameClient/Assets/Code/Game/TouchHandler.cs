@@ -1,9 +1,8 @@
 ﻿using Client.Net;
-using Common.Networking.Packets;
-using CommonCode.Pathfinder;
 using MapHandler;
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Code.Game
 {
@@ -32,7 +31,8 @@ namespace Assets.Code.Game
             var realX = (int)Math.Floor(realPosition.x / 16);
             var realY = (int)Math.Floor(realPosition.y / 16);
 
-            ClickTile(new Vector2(realX, realY));
+            //if (EventSystem.current.())
+                ClickTile(new Vector2(realX, realY));
         }
 
         public void Update()

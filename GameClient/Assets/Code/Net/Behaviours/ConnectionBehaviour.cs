@@ -12,7 +12,7 @@ public class ConnectionBehaviour : MonoBehaviour
 
     public static bool CloseOnQuit = true;
 
-    public RawImage LoadingRotatingImage;
+    public Image LoadingRotatingImage;
     public GameObject LoadingPanel;
 
     private string _message;
@@ -38,7 +38,6 @@ public class ConnectionBehaviour : MonoBehaviour
             ConnectorState = State.LISTENING;
             if(LoadingPanel != null)
                 LoadingPanel.SetActive(false);
-            TouchHandler.GameTouchOn = true;
         } else if(ConnectorState == State.ERROR && LoadingPanel.activeSelf)
         {
             LoadingPanel.SetActive(false);
@@ -62,7 +61,7 @@ public class ConnectionBehaviour : MonoBehaviour
     {
         if(LoadingPanel != null)
             LoadingPanel.SetActive(true);
-        TouchHandler.GameTouchOn = false;
+
         _connectingThread = new Thread(new ThreadStart(ClientConnectAndListen));
         _connectingThread.Start();
         ConnectorState = State.CONNECTING;

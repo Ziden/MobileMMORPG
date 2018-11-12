@@ -85,9 +85,15 @@
     <Compile Include="Assets\Code\Net\ClientPacketListener.cs" />
     <Compile Include="Assets\Code\Net\ClientTcpHandler.cs" />
     <Compile Include="Assets\Code\Net\UnityClient.cs" />
-    <Compile Include="Assets\Code\UI\GameUI.cs" />
+    <Compile Include="Assets\Code\UI\ClientDialogsBehaviour.cs" />
     <Compile Include="Assets\Code\UI\GenericDialog.cs" />
+    <Compile Include="Assets\Code\UI\Gumps\GridGump.cs" />
+    <Compile Include="Assets\Code\UI\Gumps\Gump.cs" />
+    <Compile Include="Assets\Code\UI\Gumps\GumpBehaviour.cs" />
     <Compile Include="Assets\Code\UI\LoginScreen.cs" />
+    <Compile Include="Assets\Code\UI\MainUI.cs" />
+    <Compile Include="Assets\Code\UI\StyleDialog.cs" />
+    <None Include="Assets\Pixel Font - Tripfive\_README.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/gabri/Documents/MMO/GameClient/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
@@ -300,9 +306,6 @@
     </Reference>
     <Reference Include="CommonCode">
       <HintPath>C:/Users/gabri/Documents/MMO/GameClient/Assets/Plugins/CommonCode.dll</HintPath>
-    </Reference>
-    <Reference Include="MapHandler">
-      <HintPath>C:/Users/gabri/Documents/MMO/GameClient/Assets/Plugins/MapHandler.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/gabri/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>

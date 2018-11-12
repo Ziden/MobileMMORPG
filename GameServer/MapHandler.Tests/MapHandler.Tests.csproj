@@ -59,10 +59,6 @@
       <Project>{0f9fcb7e-441c-4dd3-b3da-3733d9957055}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MapHandler\MapHandler.csproj">
-      <Project>{e4130f8d-d301-4e0c-916d-489c4a23c9b1}</Project>
-      <Name>MapHandler</Name>
-    </ProjectReference>
   </ItemGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

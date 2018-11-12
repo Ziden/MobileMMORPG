@@ -6,12 +6,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\sprites\bodies.png" />
+    <None Remove="Assets\sprites\chests.png" />
+    <None Remove="Assets\sprites\heads.png" />
+    <None Remove="Assets\sprites\legs.png" />
+    <None Remove="Assets\sprites\sprites.png" />
+    <None Remove="Assets\test_map.tmx" />
+    <None Remove="Assets\tilesets\Set1.png" />
+    <None Remove="Assets\world.tmx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\sprites\bodies.png" />
+    <EmbeddedResource Include="Assets\sprites\chests.png" />
+    <EmbeddedResource Include="Assets\sprites\heads.png" />
+    <EmbeddedResource Include="Assets\sprites\legs.png" />
+    <EmbeddedResource Include="Assets\sprites\sprites.png" />
+    <EmbeddedResource Include="Assets\maps\test_map.tmx" />
+    <EmbeddedResource Include="Assets\tilesets\Set1.png" />
+    <EmbeddedResource Include="Assets\maps\world.tmx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CommonCode\Common.csproj" />
-    <ProjectReference Include="..\MapHandler\MapHandler.csproj" />
     <ProjectReference Include="..\Storage\Storage.csproj" />
   </ItemGroup>
 

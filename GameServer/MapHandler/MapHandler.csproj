@@ -37,15 +37,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chunk.cs" />
-    <Compile Include="Directions.cs" />
-    <Compile Include="WorldMap.cs" />
-    <Compile Include="MapHelpers.cs" />
-    <Compile Include="MapUtils.cs" />
-    <Compile Include="PathfinderHelper.cs" />
-    <Compile Include="TileProperties.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Maps\sprites\sprites.png" />
     <EmbeddedResource Include="Maps\tilesets\Set1.png" />
   </ItemGroup>
