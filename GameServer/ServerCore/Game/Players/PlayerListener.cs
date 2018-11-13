@@ -20,53 +20,6 @@ namespace ServerCore.GameServer.Players
             player.Tcp = ev.Client;
             Server.Players.Add(player);
             ev.Client.OnlinePlayer = player;
-
-            // Going to start sending asset validations
-            ev.Client.Send(new AssetsReadyPacket());
-
-            // check if the player already have the tilesets
-            foreach (var tileset in Server.Map.Tilesets)
-            {
-                ev.Client.Send(new AssetPacket()
-                {
-                    ResquestedImageName = tileset.Key,
-                    AssetType = AssetType.TILESET
-                });
-            }
-
-            // check if the player have the main sprites
-            ev.Client.Send(new AssetPacket()
-            {
-                ResquestedImageName = "sprites.png",
-                AssetType = AssetType.SPRITE
-            });
-
-            ev.Client.Send(new AssetPacket()
-            {
-                ResquestedImageName = "bodies.png",
-                AssetType = AssetType.SPRITE
-            });
-
-            ev.Client.Send(new AssetPacket()
-            {
-                ResquestedImageName = "legs.png",
-                AssetType = AssetType.SPRITE
-            });
-
-            ev.Client.Send(new AssetPacket()
-            {
-                ResquestedImageName = "heads.png",
-                AssetType = AssetType.SPRITE
-            });
-
-            ev.Client.Send(new AssetPacket()
-            {
-                ResquestedImageName = "chests.png",
-                AssetType = AssetType.SPRITE
-            });
-
-            // end of assets validation
-            ev.Client.Send(new AssetsReadyPacket());
         }
 
         [EventMethod]

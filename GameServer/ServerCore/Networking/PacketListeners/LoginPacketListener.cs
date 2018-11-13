@@ -2,6 +2,7 @@
 using CommonCode.EventBus;
 using ServerCore.Networking;
 using ServerCore.Networking.NetworkEvents;
+using ServerCore.Networking.PacketListeners;
 using Storage.Login;
 
 namespace ServerCore.PacketListeners
@@ -45,6 +46,8 @@ namespace ServerCore.PacketListeners
                     Player = user,
                     Client = client
                 });
+
+                AssetListener.DownloadAssets(client);
             }
             catch (AccountError e)
             {

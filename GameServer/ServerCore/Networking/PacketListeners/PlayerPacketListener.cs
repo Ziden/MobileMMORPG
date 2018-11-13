@@ -57,8 +57,6 @@ namespace ServerCore.Networking.PacketListeners
 
             // updating in database
             PlayerService.UpdatePlayerPosition(player, player.X, player.Y);
-
-
         }
     }
 }

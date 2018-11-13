@@ -1,5 +1,4 @@
-﻿using Common.Networking.Packets;
-using MapHandler;
+﻿using MapHandler;
 using ServerCore.Game.GameMap;
 using System.Collections.Generic;
 

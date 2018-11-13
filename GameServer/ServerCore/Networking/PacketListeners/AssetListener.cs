@@ -10,6 +10,56 @@ namespace ServerCore.Networking.PacketListeners
 {
     public class AssetListener : IEventListener
     {
+        public static void DownloadAssets(ConnectedClientTcpHandler client)
+        {
+            // Going to start sending asset validations
+            client.Send(new AssetsReadyPacket());
+
+            // check if the player already have the tilesets
+            foreach (var tileset in Server.Map.Tilesets)
+            {
+                client.Send(new AssetPacket()
+                {
+                    ResquestedImageName = tileset.Key,
+                    AssetType = AssetType.TILESET
+                });
+            }
+
+            // check if the player have the main sprites
+            client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "sprites.png",
+                AssetType = AssetType.SPRITE
+            });
+
+            client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "bodies.png",
+                AssetType = AssetType.SPRITE
+            });
+
+            client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "legs.png",
+                AssetType = AssetType.SPRITE
+            });
+
+            client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "heads.png",
+                AssetType = AssetType.SPRITE
+            });
+
+            client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "chests.png",
+                AssetType = AssetType.SPRITE
+            });
+
+            // end of assets validation
+            client.Send(new AssetsReadyPacket());
+        }
+
         [EventMethod] // When client finishes updating assets
         public void OnAssetReady(AssetsReadyPacket packet)
         {
