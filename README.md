@@ -1,6 +1,6 @@
 
-# MobileMMORPG
-A nameless (yet) mobile mmorpg in .net core (Server) and Unity (Client)
+# Mobile MMORPG
+A nameless (yet) customizable mobile mmorpg in .net core (Server) and Unity (Client)
 
 ## About
 
