@@ -1,6 +1,23 @@
 
 # MobileMMORPG
-A very nameless (yet) mobile mmorpg in .net core (Server) and Unity (Client)
+A nameless (yet) mobile mmorpg in .net core (Server) and Unity (Client)
+
+## About
+
+The infinite chunk based map loaded from tiled will be serve for this party oriented mmorpg, where players will kill creatures to gain power and items. The idea is to start as a simple casual mmorpg grinder with a simple historyline.
+
+### Features in initial roadmap:
+
+- Good Character Customization.
+- Few monsters, but different in behaviour and strategy.
+- Monsters drop materials, and thats it.
+- Automatic Party, everyone gets EXP.
+- Harvesting skills to collect materials.
+- Crafting skills to craft items.
+- PvP Zones.
+- "Quest" System ( simplistic )
+- Server Easily Moddable / Plugins System
+- React WebPanel
 
 ## Requirements
 
@@ -16,3 +33,4 @@ A very nameless (yet) mobile mmorpg in .net core (Server) and Unity (Client)
 - Open Unity, open the GameClient project.
   If the Game scene is not selected yet, click on the "Project" tab (could be in "Console" by default), go to Scenes and select "Game"
 - Click the "Run" button to run the client.
+- The initial accounts can be checked at `Storage/TestDataGenerator`.
