@@ -4,7 +4,7 @@ A nameless (yet) mobile mmorpg in .net core (Server) and Unity (Client)
 
 ## About
 
-The infinite chunk based map loaded from tiled will be serve for this party oriented mmorpg, where players will kill creatures to gain power and items. The idea is to start as a simple casual mmorpg grinder with a simple historyline.
+The infinite chunk based map loaded from tiled will be serve for this dungeon party oriented mmorpg, where players will kill creatures to gain power and items. The idea is to start as a simple casual mmorpg grinder with a simple historyline.
 
 ### Features in initial roadmap:
 
@@ -12,6 +12,7 @@ The infinite chunk based map loaded from tiled will be serve for this party orie
 - Few monsters, but different in behaviour and strategy.
 - Monsters drop materials, and thats it.
 - Automatic Party, everyone gets EXP.
+- Generated Dungeons, Static Overworld.
 - Harvesting skills to collect materials.
 - Crafting skills to craft items.
 - PvP Zones.
