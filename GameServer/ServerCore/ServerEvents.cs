@@ -2,6 +2,7 @@
 using Common;
 using Common.Networking.Packets;
 using ServerCore.Game.GameMap;
+using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Players;
 using ServerCore.Networking;
 using ServerCore.Networking.PacketListeners;
@@ -33,6 +34,7 @@ namespace ServerCore
             // EVENT LISTENERS
             _eventListener.RegisterListener(new PlayerListener());
             _eventListener.RegisterListener(new MapListener());
+            _eventListener.RegisterListener(new MonsterListener());
 
             // PACKET LISTENERS
             _packetListener.RegisterListener(new LoginPacketListener());

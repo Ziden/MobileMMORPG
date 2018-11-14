@@ -6,8 +6,6 @@ namespace MapHandler
 {
     public class WorldMap<ChunkType> where ChunkType : Chunk
     {
-        public Dictionary<string, byte[]> Tilesets = new Dictionary<string, byte[]>();
-
         public Dictionary<string, ChunkType> Chunks = new Dictionary<string, ChunkType>();
 
         public void AddChunk(ChunkType c)
@@ -21,6 +19,21 @@ namespace MapHandler
             if (!Chunks.ContainsKey(key))
                 return null;
             return Chunks[key];
+        }
+
+        public bool IsPassable(int x, int y)
+        {
+            var chunkX = x >> 4;
+            var chunkY = y >> 4;
+            var chunk = GetChunk(chunkX, chunkY);
+            if (chunk == null)
+                return false;
+            else
+            {
+                var chunkTileX = x - (chunkX  << 4);
+                var chunkTileY = y - (chunkY << 4);
+                return TileProperties.IsPassable(chunk.GetTile(chunkTileX, chunkTileY));
+            }
         }
 
         public static List<Position> FindPath(Position start, Position goal, Dictionary<string, Chunk> chunks)

@@ -8,17 +8,7 @@ namespace MapTests
     [TestFixture]
     public class MapTests
     {
-        [Test]
-        public void Test()
-        {
-            WorldMap<Chunk> map = MapLoader.LoadMapFromFile<Chunk>("test");
-
-            var iniChunk = map.GetChunk(0, 0);
-
-            var passableArray = PathfinderHelper.GetPassableByteArray(new Position(0, 0), new Position(15, 15), map.Chunks);
-
-           
-        }
+       
     }
 }
 
