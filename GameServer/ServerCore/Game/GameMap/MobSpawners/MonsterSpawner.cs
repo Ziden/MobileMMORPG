@@ -16,8 +16,8 @@ namespace ServerCore.Game.GameMap
         {
             var rnd = new Random();
             var found = false;
-            var tries = 10; 
-            while(tries > 0 && !found)
+            var tries = 10;
+            while (tries > 0 && !found)
             {
                 tries--;
                 var randomX = rnd.Next(minX, maxX);
@@ -32,32 +32,43 @@ namespace ServerCore.Game.GameMap
 
         public void SpawnTick()
         {
-            foreach(var mob in SpawnerMobs)
+            foreach (var mob in SpawnerMobs)
             {
-                if(mob.TrackedMonster == null)
+                if (mob.TrackedMonster == null)
                 {
                     var monsterInstance = (Monster)Activator.CreateInstance(mob.MonsterClassType);
                     var spawnPosition = FindSpawnPosition();
-                    if(spawnPosition != null)
-                    {
-                        monsterInstance.X = spawnPosition.X;
-                        monsterInstance.Y = spawnPosition.Y;
-                    }
-                  
+                    if (spawnPosition == null)
+                        return;
+
+                    monsterInstance.X = spawnPosition.X;
+                    monsterInstance.Y = spawnPosition.Y;
+
                     ServerEvents.Call(new MonsterSpawnEvent()
                     {
                         Monster = monsterInstance,
                         Position = spawnPosition
                     });
 
+                    var chunkX = spawnPosition.X >> 4;
+                    var chunkY = spawnPosition.Y >> 4;
+
+                    var chunk = Server.Map.GetChunk(chunkX, chunkY);
+
+                    chunk.MonstersInChunk.Add(monsterInstance);
+
                     // Let players know this monster spawned
                     foreach (var player in monsterInstance.GetNearbyPlayers(3))
                     {
                         player.Tcp.Send(new MonsterSpawnPacket()
                         {
+                            TileX = monsterInstance.X,
+                            TileY = monsterInstance.Y,
+                            MonsterUid = monsterInstance.uuid,
                             MonsterName = monsterInstance.Name,
                             Position = new Position(monsterInstance.X, monsterInstance.Y),
-                            SpriteIndex = monsterInstance.SpriteIndex
+                            SpriteIndex = monsterInstance.SpriteIndex,
+                            SpawnAnimation = true
                         });
                     }
                 }

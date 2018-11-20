@@ -36,6 +36,20 @@ namespace ServerCore.Networking
                                 Y = position.Y,
                                 ChunkData = chunk.GetData()
                             });
+
+                            foreach(var monsterInstance in chunk.MonstersInChunk)
+                            {
+                                client.Send(new MonsterSpawnPacket()
+                                {
+                                    TileX = monsterInstance.X,
+                                    TileY = monsterInstance.Y,
+                                    MonsterUid = monsterInstance.uuid,
+                                    MonsterName = monsterInstance.Name,
+                                    Position = new Position(monsterInstance.X, monsterInstance.Y),
+                                    SpriteIndex = monsterInstance.SpriteIndex,
+                                    SpawnAnimation = false
+                                });
+                            }
                         }
                     }
                 }

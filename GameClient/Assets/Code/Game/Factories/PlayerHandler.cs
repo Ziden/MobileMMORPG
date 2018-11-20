@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Code.Game.Factories
 {
-    public class PlayerHandler
+    public class PlayerFactory
     {
         public static void BuildAndInstantiate(PlayerFactoryOptions opts)
         {

@@ -1,15 +1,22 @@
 ﻿using MapHandler;
 using ServerCore.GameServer.Players;
+using System;
 using System.Collections.Generic;
 
 namespace ServerCore.Game.Monsters
 {
     public class Monster
     {
+        public string uuid;
         public string Name;
         public int X;
         public int Y;
         public int SpriteIndex = 2;
+
+        public Monster()
+        {
+            uuid = $"mon_{Guid.NewGuid().ToString()}";
+        }
 
         public void MovementTick()
         {

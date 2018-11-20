@@ -33,13 +33,25 @@ namespace Assets.Code.AssetHandling
             Renderer = transform.GetComponent<SpriteRenderer>();
         }
 
-        public void SetSheet(Sprite[] spriteRow)
+        public void SetSheet(Sprite[] spriteRow, int rowSize = 3)
         {
-            WalkNorth = new Sprite[] { spriteRow[0], spriteRow[1], spriteRow[2] };
-            WalkRight = new Sprite[] { spriteRow[9], spriteRow[10], spriteRow[11] };
-            WalkSouth = new Sprite[] { spriteRow[6], spriteRow[7], spriteRow[8] };
-            WalkLeft = new Sprite[] { spriteRow[3], spriteRow[4], spriteRow[5] };
-            Dead = spriteRow[12];
+            if (rowSize == 3)
+            {
+                WalkNorth = new Sprite[] { spriteRow[0], spriteRow[1], spriteRow[2] };
+                WalkRight = new Sprite[] { spriteRow[9], spriteRow[10], spriteRow[11] };
+                WalkSouth = new Sprite[] { spriteRow[6], spriteRow[7], spriteRow[8] };
+                WalkLeft = new Sprite[] { spriteRow[3], spriteRow[4], spriteRow[5] };
+                Dead = spriteRow[12];
+            }
+            else if (rowSize == 2)
+            {
+                WalkNorth = new Sprite[] { spriteRow[0], spriteRow[1] };
+                WalkRight = new Sprite[] { spriteRow[6], spriteRow[7] };
+                WalkSouth = new Sprite[] { spriteRow[4], spriteRow[5] };
+                WalkLeft = new Sprite[] { spriteRow[2], spriteRow[3] };
+                Dead = spriteRow[1];
+            }
+
         }
 
         private Sprite[] GetSheet(Direction dir)
@@ -64,14 +76,17 @@ namespace Assets.Code.AssetHandling
 
             var sprites = GetSheet(Direction);
 
-            if(!Moving)
+            if (sprites == null)
+                return;
+
+            if (!Moving)
             {
                 Renderer.sprite = sprites[1];
                 return;
             }
 
             _deltaTime += Time.deltaTime;
-            
+
             while (_deltaTime >= _frameSeconds)
             {
                 _deltaTime -= _frameSeconds;

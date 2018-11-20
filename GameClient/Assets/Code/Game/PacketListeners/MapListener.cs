@@ -11,6 +11,20 @@ namespace Assets.Code.Net.PacketListeners
     public class MapListener : IEventListener
     {
         [EventMethod]
+        public void OnMonsterSpawn(MonsterSpawnPacket packet)
+        {
+            MonsterFactory.BuildAndInstantiate(new MonsterFactoryOpts()
+            {
+                tileX = packet.TileX,
+                tileY = packet.TileY,
+                MonsterName = packet.MonsterName,
+                MonsterUid = packet.MonsterUid,
+                Position = packet.Position,
+                SpriteIndex = packet.SpriteIndex
+            });
+        }
+
+        [EventMethod]
         public void OnChunkRecieve(ChunkPacket packet)
         {
             var chunkX = packet.X;

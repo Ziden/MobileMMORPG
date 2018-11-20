@@ -56,6 +56,12 @@ namespace ServerCore.Networking.PacketListeners
                 AssetType = AssetType.SPRITE
             });
 
+            client.Send(new AssetPacket()
+            {
+                ResquestedImageName = "monsters_1.png",
+                AssetType = AssetType.SPRITE
+            });
+
             // end of assets validation
             client.Send(new AssetsReadyPacket());
         }

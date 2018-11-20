@@ -54,7 +54,7 @@ namespace Assets.Code.Net.PacketListeners
         public void OnPlayerAppears(PlayerPacket packet)
         {
             // instantiate the player if needed
-            PlayerHandler.BuildAndInstantiate(new PlayerFactoryOptions()
+            PlayerFactory.BuildAndInstantiate(new PlayerFactoryOptions()
             {
                 SpriteIndex = packet.SpriteIndex,
                 UserId = packet.UserId,
