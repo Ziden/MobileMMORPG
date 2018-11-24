@@ -41,8 +41,7 @@ namespace ServerCore.Game.GameMap
                     if (spawnPosition == null)
                         return;
 
-                    monsterInstance.X = spawnPosition.X;
-                    monsterInstance.Y = spawnPosition.Y;
+                    monsterInstance.Position = spawnPosition;
 
                     ServerEvents.Call(new MonsterSpawnEvent()
                     {
@@ -58,19 +57,20 @@ namespace ServerCore.Game.GameMap
                     chunk.MonstersInChunk.Add(monsterInstance);
 
                     // Let players know this monster spawned
-                    foreach (var player in monsterInstance.GetNearbyPlayers(3))
+                    foreach (var player in monsterInstance.GetNearbyPlayers())
                     {
                         player.Tcp.Send(new MonsterSpawnPacket()
-                        {
-                            TileX = monsterInstance.X,
-                            TileY = monsterInstance.Y,
-                            MonsterUid = monsterInstance.uuid,
+                        { 
+                            MonsterUid = monsterInstance.UID,
                             MonsterName = monsterInstance.Name,
-                            Position = new Position(monsterInstance.X, monsterInstance.Y),
+                            Position = monsterInstance.Position,
                             SpriteIndex = monsterInstance.SpriteIndex,
+                            MoveSpeed = monsterInstance.Speed,
                             SpawnAnimation = true
                         });
                     }
+
+                    monsterInstance.MovementTick();
                 }
             }
         }

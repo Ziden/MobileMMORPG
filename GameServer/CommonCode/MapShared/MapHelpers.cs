@@ -9,7 +9,12 @@ namespace MapHandler
             return Math.Abs(other.X - position.X) + Math.Abs(other.Y - position.Y);
         }
 
-        public static Position[] GetSquared1Radius(Position p)
+        public static bool IsSameChunk(Position a, Position b)
+        {
+            return a.X >> 4 == b.X >> 4 && a.Y >> 4 == b.Y >> 4;
+        }
+
+        public static Position[] GetSquared3x3(Position p)
         {
             return new Position[]
             {

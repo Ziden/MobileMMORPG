@@ -13,7 +13,7 @@ namespace ServerCore.Game.Monsters
         [EventMethod]
         public void OnMonsterSpawn(MonsterSpawnEvent ev)
         {
-            Log.Info("MONSTER SPAWNED");
+            Log.Info($"MONSTER SPAWNED {ev.Position.X} - {ev.Position.Y}");
         }
     }
 }

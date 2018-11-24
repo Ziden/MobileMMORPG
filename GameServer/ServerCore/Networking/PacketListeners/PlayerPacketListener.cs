@@ -1,6 +1,6 @@
 ﻿using Common.Networking.Packets;
 using CommonCode.EventBus;
-using CommonCode.Player;
+using CommonCode.EntityShared;
 using MapHandler;
 using ServerCore.GameServer.Players.Evs;
 using Storage.Players;
@@ -10,8 +10,8 @@ namespace ServerCore.Networking.PacketListeners
 {
     public class PlayerPacketListener : IEventListener
     {
-        [EventMethod] // When client finishes updating assets
-        public void OnPlayerMovePath(PlayerMovePacket packet)
+        [EventMethod] 
+        public void OnPlayerMovePath(EntityMovePacket packet)
         {
             var player = Server.GetPlayerByConnectionId(packet.ClientId);
             var distanceMoved = MapHelpers.GetDistance(player.GetPosition(), packet.To);

@@ -15,12 +15,11 @@ namespace Assets.Code.Net.PacketListeners
         {
             MonsterFactory.BuildAndInstantiate(new MonsterFactoryOpts()
             {
-                tileX = packet.TileX,
-                tileY = packet.TileY,
                 MonsterName = packet.MonsterName,
                 MonsterUid = packet.MonsterUid,
                 Position = packet.Position,
-                SpriteIndex = packet.SpriteIndex
+                SpriteIndex = packet.SpriteIndex,
+                MoveSpeed = packet.MoveSpeed
             });
         }
 

@@ -13,5 +13,4 @@ namespace CommonCode.Networking.Packets
         public int SpriteIndex;
         public int Speed;
     }
-
 }

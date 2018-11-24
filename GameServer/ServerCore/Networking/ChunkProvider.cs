@@ -41,12 +41,11 @@ namespace ServerCore.Networking
                             {
                                 client.Send(new MonsterSpawnPacket()
                                 {
-                                    TileX = monsterInstance.X,
-                                    TileY = monsterInstance.Y,
-                                    MonsterUid = monsterInstance.uuid,
+                                    MonsterUid = monsterInstance.UID,
                                     MonsterName = monsterInstance.Name,
-                                    Position = new Position(monsterInstance.X, monsterInstance.Y),
+                                    Position = monsterInstance.Position,
                                     SpriteIndex = monsterInstance.SpriteIndex,
+                                    MoveSpeed = monsterInstance.Speed,
                                     SpawnAnimation = false
                                 });
                             }

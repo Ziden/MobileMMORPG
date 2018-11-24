@@ -1,5 +1,6 @@
 ﻿using CommonCode.Pathfinder;
 using Pathfinder;
+using System;
 using System.Collections.Generic;
 
 namespace MapHandler
@@ -13,6 +14,21 @@ namespace MapHandler
             Chunks.Add($"{c.x}_{c.y}", c);
         }
 
+        public Int16 GetTile(int x, int y)
+        {
+            var chunkX = x >> 4;
+            var chunkY = y >> 4;
+            var chunk = GetChunk(chunkX, chunkY);
+            if (chunk == null)
+                return -1;
+            else
+            {
+                var chunkTileX = x - (chunkX << 4);
+                var chunkTileY = y - (chunkY << 4);
+                return chunk.GetTile(chunkTileX, chunkTileY);
+            }
+        }
+
         public ChunkType GetChunk(int x, int y)
         {
             var key = $"{x}_{y}";
@@ -23,17 +39,8 @@ namespace MapHandler
 
         public bool IsPassable(int x, int y)
         {
-            var chunkX = x >> 4;
-            var chunkY = y >> 4;
-            var chunk = GetChunk(chunkX, chunkY);
-            if (chunk == null)
-                return false;
-            else
-            {
-                var chunkTileX = x - (chunkX  << 4);
-                var chunkTileY = y - (chunkY << 4);
-                return TileProperties.IsPassable(chunk.GetTile(chunkTileX, chunkTileY));
-            }
+            return TileProperties.IsPassable(GetTile(x, y));
+
         }
 
         public static List<Position> FindPath(Position start, Position goal, Dictionary<string, Chunk> chunks)
@@ -53,7 +60,7 @@ namespace MapHandler
 
             List<Position> returned = new List<Position>();
 
-            foreach(var node in result)
+            foreach (var node in result)
             {
                 returned.Add(new Position(node.X - (passableMapResult.OffsetX * 16), node.Y - (passableMapResult.OffsetY * 16)));
             }

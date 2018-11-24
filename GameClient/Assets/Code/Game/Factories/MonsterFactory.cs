@@ -24,7 +24,11 @@ namespace Assets.Code.Game.Factories
                 var spriteRow = bodySprite.SliceRow(opts.SpriteIndex).ToArray();
                 spriteSheet.SetSheet(spriteRow, rowSize:2);
                 spriteRenderer.sprite = spriteSheet.WalkSouth[1];
-                monsterObj.transform.position = new Vector2(opts.tileX * 16, -opts.tileY * 16);
+                var movingBehaviour = monsterObj.AddComponent<MovingEntityBehaviour>();
+                movingBehaviour.SpriteSheets.Add(spriteSheet);
+                movingBehaviour.Speed = opts.MoveSpeed;
+                movingBehaviour.MapPosition = opts.Position;
+                monsterObj.transform.position = new Vector2(opts.Position.X * 16, -opts.Position.Y * 16);
             }
         }
     }
@@ -36,6 +40,5 @@ public class MonsterFactoryOpts
     public Position Position;
     public string MonsterName;
     public int SpriteIndex;
-    public int tileX;
-    public int tileY;
+    public int MoveSpeed;
 }

@@ -65,7 +65,7 @@
     <Compile Include="Networking\Packets\AssetsReadyPacket.cs" />
     <Compile Include="Networking\Packets\MonsterSpawnPacket.cs" />
     <Compile Include="Networking\Packets\SyncPacket.cs" />
-    <Compile Include="Networking\Packets\PlayerMovePacket.cs" />
+    <Compile Include="Networking\Packets\EntityMovePacket.cs" />
     <Compile Include="Networking\Packets\PlayerPacket.cs" />
     <Compile Include="Networking\Packets\BasePacket.cs" />
     <Compile Include="Networking\Packets\AssetPacket.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Pathfinder\PathFinder.cs" />
     <Compile Include="Pathfinder\PathFinderFast.cs" />
     <Compile Include="Pathfinder\PriorityQueueB.cs" />
-    <Compile Include="Player\Formulas.cs" />
+    <Compile Include="EntityShared\Formulas.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

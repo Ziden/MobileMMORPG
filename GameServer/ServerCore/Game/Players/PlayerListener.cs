@@ -95,11 +95,11 @@ namespace ServerCore.GameServer.Players
             var toChunk = Server.Map.GetChunk(toChunkX, toChunkY);
 
             var nearPlayers = ev.Player.GetPlayersNear();
-            var movePacket = new PlayerMovePacket()
+            var movePacket = new EntityMovePacket()
             {
                 From = ev.From,
                 To = ev.To,
-                UserId = ev.Player.UserId
+                UID = ev.Player.UserId
             };
 
             foreach (var nearPlayer in nearPlayers)

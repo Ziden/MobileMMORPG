@@ -1,4 +1,8 @@
-﻿namespace ServerCore.Game.Monsters
+﻿using ServerCore.Game.Monsters.Behaviours;
+using ServerCore.Game.Monsters.Behaviours.MoveBehaviours;
+using System;
+
+namespace ServerCore.Game.Monsters
 {
     public class Skeleton : Monster
     {
@@ -6,6 +10,7 @@
         {
             this.SpriteIndex = 1;
             this.Name = "Skeleton";
+            this.MovementBehaviour = BehaviourPool.Get<RandomWalk>();
         }
     }
 }

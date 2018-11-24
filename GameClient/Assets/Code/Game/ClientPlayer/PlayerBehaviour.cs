@@ -2,7 +2,7 @@
 using Assets.Code.Game;
 using Client.Net;
 using Common.Networking.Packets;
-using CommonCode.Player;
+using CommonCode.EntityShared;
 using MapHandler;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,8 +79,9 @@ public class PlayerBehaviour : MonoBehaviour
             _movingToDirection = MapHelpers.GetDirection(player.Position, _nextStep);
             var timeToMove = (float)Formulas.GetTimeToMoveBetweenTwoTiles(player.Speed);
 
-            UnityClient.TcpClient.Send(new PlayerMovePacket()
+            UnityClient.TcpClient.Send(new EntityMovePacket()
             {
+                UID = UnityClient.Player.UserId,
                 From = UnityClient.Player.Position,
                 To = _nextStep
             });
