@@ -16,12 +16,6 @@ namespace MapTests
         }
 
         [Test]
-        public void ASD()
-        {
-
-        }
-
-        [Test]
         public void TestMapRadius3()
         {
             var radius = MapUtils.GetRadius(0, 0, 3);
