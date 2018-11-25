@@ -12,7 +12,6 @@ The infinite chunk based map loaded from tiled will be serve for this dungeon pa
 - Few monsters, but different in behaviour and strategy.
 - Monsters drop materials, and thats it.
 - Automatic Party, everyone gets EXP.
-- Generated Dungeons, Static Overworld.
 - Harvesting skills to collect materials.
 - Crafting skills to craft items.
 - PvP Zones.
