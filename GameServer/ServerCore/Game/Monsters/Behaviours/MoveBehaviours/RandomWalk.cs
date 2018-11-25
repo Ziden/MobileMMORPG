@@ -47,7 +47,7 @@ namespace ServerCore.Game.Monsters.Behaviours.MoveBehaviours
                     monsterMoveEvent.ChangedChunk = true;
                 }
 
-                ServerEvents.Call(monsterMoveEvent);
+                Server.Events.Call(monsterMoveEvent);
 
                 if (monsterMoveEvent.ChangedChunk)
                 {
@@ -77,8 +77,6 @@ namespace ServerCore.Game.Monsters.Behaviours.MoveBehaviours
                         UID = monster.UID
                     });
                 }
-
-                Log.Info($"MOVED TO {newPosition.X} - {newPosition.Y}");
             }
 
         }

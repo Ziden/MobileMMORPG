@@ -41,7 +41,7 @@ namespace ServerCore.PacketListeners
 
                 client.Authenticated = true;
 
-                ServerEvents.Call(new PlayerLoggedInEvent()
+                Server.Events.Call(new PlayerLoggedInEvent()
                 {
                     Player = user,
                     Client = client

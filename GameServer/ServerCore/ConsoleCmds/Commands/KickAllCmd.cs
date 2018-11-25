@@ -18,7 +18,7 @@ namespace ServerCore.ConsoleCmds.Commands
             int ct = 0;
             foreach(var player in players)
             {
-                ServerEvents.Call(new PlayerQuitEvent()
+                Server.Events.Call(new PlayerQuitEvent()
                 {
                     Client = player.Tcp,
                     Player = player,

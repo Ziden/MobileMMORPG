@@ -6,6 +6,7 @@ using ServerCore.ConsoleCmds;
 using ServerCore.Game.GameMap;
 using ServerCore.GameServer.Players;
 using ServerCore.Networking;
+using ServerCore.Utils.Scheduler;
 using Storage.Players;
 using System;
 using System.Collections.Concurrent;
@@ -28,21 +29,24 @@ namespace ServerCore
         public static GameThread GameThread { get; set; }
         public static CommandHandler CommandHandler { get; set; }
         public static ServerMap Map { get; set; }
+        public static ServerEvents Events;
 
-        private bool _running = false;
+        public static bool Running = false;
         private readonly int PORT;
 
         private Server _instance;
-        private ServerEvents _serverEvents;
+        
 
         public Server(int port)
         {
             PORT = port;
             _instance = this;
-            _serverEvents = new ServerEvents();
+            Events?.Clear();
+            Events = new ServerEvents();
             CommandHandler = new CommandHandler();
             Map = MapLoader.LoadMapFromFile("test");
             Map.LoadAllSpawners();
+            Mapper.Reset();
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<Player, OnlinePlayer>();
             });
@@ -50,28 +54,30 @@ namespace ServerCore
 
         public bool IsRunning()
         {
-            return _running;
+            return Running;
         }
 
         public void StartListeningForPackets()
         {
             TcpHandler = new ServerTcpHandler();
             TcpHandler.StartListening(PORT);
-            _running = true;
+            Running = true;
         }
 
         public void StartGameThread()
         {
             GameThread = new GameThread();
             GameThread.Start();
-            _running = true;
+            Running = true;
         }
 
         public void Stop()
         {
-            GameThread.Abort();
-            TcpHandler.Stop();
-            _running = false;
+            GameScheduler.Tasks.Clear();
+            Events.Clear();
+            GameThread.Stop();
+            TcpHandler?.Stop();
+            Running = false;
         }
 
         public static OnlinePlayer GetPlayer(string UserId)

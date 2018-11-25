@@ -25,7 +25,7 @@ public class TestSerializer
         var player = new Player();
         player.Email = "wololo";
         player.Login = "walala";
-        player.speed = 15;
+        player.MoveSpeed = 15;
         var serializedPlayer = DataSerializer.ToRedisHash(player);
 
         var emailEntry = FindEntry("e", serializedPlayer);
@@ -38,7 +38,7 @@ public class TestSerializer
 
         Assert.That(emailEntry.Value.Value == player.Email);
         Assert.That(loginEntry.Value.Value == player.Login);
-        Assert.That(speedEntry.Value.Value == player.speed);
+        Assert.That(speedEntry.Value.Value == player.MoveSpeed);
     }
 
     [Test]
@@ -47,14 +47,14 @@ public class TestSerializer
         var player = new Player();
         player.Email = "wololo";
         player.Login = "walala";
-        player.speed = 15;
+        player.MoveSpeed = 15;
         var serializedPlayer = DataSerializer.ToRedisHash(player);
 
         var player2 = DataSerializer.FromRedisHash<Player>(serializedPlayer);
 
         Assert.AreEqual(player.Login, player2.Login);
         Assert.AreEqual(player.Email, player2.Email);
-        Assert.AreEqual(player.speed, player2.speed);
+        Assert.AreEqual(player.MoveSpeed, player2.MoveSpeed);
 
     }
 }

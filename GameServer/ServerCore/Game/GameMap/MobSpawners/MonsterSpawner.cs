@@ -43,7 +43,7 @@ namespace ServerCore.Game.GameMap
 
                     monsterInstance.Position = spawnPosition;
 
-                    ServerEvents.Call(new MonsterSpawnEvent()
+                    Server.Events.Call(new MonsterSpawnEvent()
                     {
                         Monster = monsterInstance,
                         Position = spawnPosition

@@ -14,7 +14,7 @@ namespace Storage.TestDataBuilder
             {
                 var testPlayerTemplate = new Player()
                 {
-                    speed = 10,
+                    MoveSpeed = 10,
                     SpriteIndex = 2
                 };
 

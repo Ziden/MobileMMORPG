@@ -5,6 +5,7 @@ using ServerCore.GameServer.Players.Evs;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace ServerCore.Networking
 {
@@ -13,7 +14,7 @@ namespace ServerCore.Networking
         // keep track of what chunks ive already sent to this client
         public List<String> ChunksLoaded = new List<String>();
 
-        public readonly TcpClient TcpClient;
+        public TcpClient TcpClient;
         public string ConnectionId;
         public OnlinePlayer OnlinePlayer;
         public int Latency = 100; // Default Latency
@@ -23,13 +24,12 @@ namespace ServerCore.Networking
 
         public bool Authenticated = false;
 
-        public ConnectedClientTcpHandler(TcpClient client)
+        public ConnectedClientTcpHandler()
         {
-            TcpClient = client;
-            ConnectionId = Guid.NewGuid().ToString();
+
         }
 
-        public void Send(BasePacket packet)
+        public virtual bool Send(BasePacket packet)
         {
             try
             {
@@ -49,7 +49,9 @@ namespace ServerCore.Networking
                 Log.Error("Error sending packet " + e.Message);
                 Log.Error(System.Environment.StackTrace);
                 Listening = false;
+               
             }
+            return Listening;
         }
 
         public static void RecievePacketWorker(object client)
@@ -59,6 +61,8 @@ namespace ServerCore.Networking
 
         public void Recieve()
         {
+            var id = Thread.CurrentThread.ManagedThreadId;
+
             DateTime lastPingCheck = DateTime.MinValue;
 
             Log.Debug("Starting Listener for client " + ConnectionId);
@@ -109,7 +113,7 @@ namespace ServerCore.Networking
                     Listening = false;
                 }
             }
-            ServerEvents.Call(new PlayerQuitEvent()
+            Server.Events.Call(new PlayerQuitEvent()
             {
                 Client = this,
                 Player = OnlinePlayer,

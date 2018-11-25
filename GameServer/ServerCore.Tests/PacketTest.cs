@@ -28,7 +28,11 @@ public class PacketTests
 
         TestDb.Create();
 
-        _client = new ConnectedClientTcpHandler(new TcpClient("localhost", 8886));
+        _client = new ConnectedClientTcpHandler()
+        {
+            TcpClient = new TcpClient("localhost", 8886),
+            ConnectionId = Guid.NewGuid().ToString()
+        };
     }
 
     [TearDown]
@@ -52,6 +56,9 @@ public class PacketTests
             Login = "admin2",
             Password = "wololo2"
         });
+
+        var asd = Server.TcpHandler.IsRunning;
+        var asg = Server.Running;
 
         Waiter.WaitUntil(() => Server.PacketsToProccess.Count == 2);
 

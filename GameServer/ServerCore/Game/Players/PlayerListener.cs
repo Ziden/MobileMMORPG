@@ -61,7 +61,7 @@ namespace ServerCore.GameServer.Players
                 X = player.X,
                 Y = player.Y,
                 UserId = player.UserId,
-                Speed = player.speed,
+                Speed = player.MoveSpeed,
                 SpriteIndex = player.SpriteIndex
             };
            
@@ -76,7 +76,7 @@ namespace ServerCore.GameServer.Players
                     X = nearPlayer.X,
                     Y = nearPlayer.Y,
                     UserId = nearPlayer.UserId,
-                    Speed = nearPlayer.speed,
+                    Speed = nearPlayer.MoveSpeed,
                     SpriteIndex = nearPlayer.SpriteIndex
                 };
                 player.Tcp.Send(otherPlayerPacket);
@@ -89,8 +89,8 @@ namespace ServerCore.GameServer.Players
             var fromChunkX = ev.From.X >> 4;
             var fromChunkY = ev.From.Y >> 4;
 
-            var toChunkX = ev.From.X >> 4;
-            var toChunkY = ev.From.Y >> 4;
+            var toChunkX = ev.To.X >> 4;
+            var toChunkY = ev.To.Y >> 4;
 
             var toChunk = Server.Map.GetChunk(toChunkX, toChunkY);
 

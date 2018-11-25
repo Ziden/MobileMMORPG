@@ -13,7 +13,7 @@
         public int Y { get; set; }
 
         [RedisField("s")]
-        public int speed { get; set; }
+        public int MoveSpeed { get; set; }
 
         [RedisField("si")]
         public int SpriteIndex { get; set; }

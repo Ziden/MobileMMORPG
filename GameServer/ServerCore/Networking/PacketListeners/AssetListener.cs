@@ -88,10 +88,10 @@ namespace ServerCore.Networking.PacketListeners
                 UserId = player.UserId,
                 X = player.X,
                 Y = player.Y,
-                Speed = player.speed
+                Speed = player.MoveSpeed
             });
 
-            ServerEvents.Call(new PlayerJoinEvent()
+            Server.Events.Call(new PlayerJoinEvent()
             {
                 Player = player
             });

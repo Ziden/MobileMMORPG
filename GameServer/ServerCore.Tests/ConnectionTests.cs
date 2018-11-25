@@ -20,7 +20,11 @@ public class ConnectionTests
         // Connecting a client to the server
         for(var x = 0; x < numberOfClients; x++)
         {
-            var client = new ConnectedClientTcpHandler(new TcpClient("localhost", 8888));
+            var client = new ConnectedClientTcpHandler()
+            {
+                TcpClient = new TcpClient("localhost", 8888),
+                ConnectionId = Guid.NewGuid().ToString()
+            };
         }
         
         // Wait for all the connections

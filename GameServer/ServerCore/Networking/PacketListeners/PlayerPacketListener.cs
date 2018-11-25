@@ -15,7 +15,7 @@ namespace ServerCore.Networking.PacketListeners
         {
             var player = Server.GetPlayerByConnectionId(packet.ClientId);
             var distanceMoved = MapHelpers.GetDistance(player.GetPosition(), packet.To);
-            var timeToMove = Formulas.GetTimeToMoveBetweenTwoTiles(player.speed);
+            var timeToMove = Formulas.GetTimeToMoveBetweenTwoTiles(player.MoveSpeed);
             var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
             var lastMovementArrival = now + timeToMove;
 
@@ -36,7 +36,7 @@ namespace ServerCore.Networking.PacketListeners
                 To = packet.To,
                 Player = player
             };
-            ServerEvents.Call(playerMoveEvent);
+            Server.Events.Call(playerMoveEvent);
 
             if (playerMoveEvent.IsCancelled)
             {

@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "CommonCode\Common
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageTests", "StorageTests\StorageTests.csproj", "{20E9EE17-90C5-4EC7-9EED-CE5E056823EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPanel", "WebPanel\WebPanel.csproj", "{C526738D-9821-4483-9AEF-AC8E95A2FFD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebPanel", "WebPanel\WebPanel.csproj", "{C526738D-9821-4483-9AEF-AC8E95A2FFD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

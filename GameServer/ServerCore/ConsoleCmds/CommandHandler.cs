@@ -16,6 +16,7 @@ namespace ServerCore.ConsoleCmds
             RegisterCommand(new OnlineCmd());
             RegisterCommand(new KickAllCmd());
             RegisterCommand(new InfoCmd());
+            RegisterCommand(new DebugCmd());
         }
 
         public List<string> RegisteredCommands()

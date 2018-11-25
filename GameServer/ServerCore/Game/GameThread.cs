@@ -10,13 +10,18 @@ namespace ServerCore
 {
     public class GameThread : BaseThread
     {
-        private bool Running { get; set; }
+        public bool Running { get; set; }
 
         private long LastTick;
 
         public GameThread()
         {
             Running = true;
+        }
+
+        public void Stop()
+        {
+            Running = false;
         }
 
         public override void RunThread()
@@ -45,7 +50,7 @@ namespace ServerCore
                 Server.PacketsToProccess.TryDequeue(out recievedPacket);
                 if (recievedPacket != null)
                 {
-                    ServerEvents.Call(recievedPacket);
+                    Server.Events.Call(recievedPacket);
                 }
             }
         }

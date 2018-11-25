@@ -2,12 +2,14 @@
 using System.Net.Sockets;
 using System.Collections.Generic;
 using System.Threading;
+using System;
 
 namespace ServerCore.Networking
 {
     public class ServerTcpHandler
     {
-        private static Dictionary<string, ConnectedClientTcpHandler> _clientsByConnectionId = new Dictionary<string, ConnectedClientTcpHandler>();
+        // TODO: DONT NEED THIS...
+        public static Dictionary<string, ConnectedClientTcpHandler> ClientsByConnectionId = new Dictionary<string, ConnectedClientTcpHandler>();
 
         private TcpListener Listener { get; set; }
         public bool IsRunning { get; set; } = false;
@@ -36,10 +38,14 @@ namespace ServerCore.Networking
                 var clientTask = Listener.AcceptTcpClientAsync();
                 if (clientTask.Result != null)
                 {
-                 
-                    var socketClient = new ConnectedClientTcpHandler(clientTask.Result);
+                    var socketClient = new ConnectedClientTcpHandler()
+                    {
+                        ConnectionId = Guid.NewGuid().ToString(),
+                        TcpClient = clientTask.Result
+
+                    };
                     Log.Info($"Client {socketClient.ConnectionId} connected.");
-                    _clientsByConnectionId.Add(socketClient.ConnectionId, socketClient);
+                    ClientsByConnectionId.Add(socketClient.ConnectionId, socketClient);
                     ThreadPool.QueueUserWorkItem(ConnectedClientTcpHandler.RecievePacketWorker, socketClient);
                 }
             }
@@ -47,17 +53,17 @@ namespace ServerCore.Networking
 
         public static ConnectedClientTcpHandler GetClient(string id)
         {
-            return _clientsByConnectionId[id];
+            return ClientsByConnectionId[id];
         }
 
         public static int ConnectedSockets()
         {
-            return _clientsByConnectionId.Count;
+            return ClientsByConnectionId.Count;
         }
 
         public void Stop()
         {
-            foreach (var client in _clientsByConnectionId.Values)
+            foreach (var client in ClientsByConnectionId.Values)
             {
                 client.Stop();
             }

@@ -9,7 +9,7 @@ namespace ServerCore
     {
         public static Player PLAYER_TEMPLATE = new Player()
         {
-            speed = 10
+            MoveSpeed = 10
         };
     }
 }
