@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Client.Net;
+using System;
 
 public class GameCamera : MonoBehaviour
 {

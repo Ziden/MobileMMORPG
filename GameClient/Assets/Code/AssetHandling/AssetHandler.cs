@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Code.Net
@@ -28,11 +29,11 @@ namespace Assets.Code.Net
         {
             Texture2D SpriteTexture = LoadTexture(FilePath);
             SpriteTexture.filterMode = FilterMode.Point;
+            SpriteTexture.wrapMode = TextureWrapMode.Repeat;
+            SpriteTexture.anisoLevel = 0;
             var spritesX = SpriteTexture.width / 16;
             var spritesY = SpriteTexture.height / 16;
-
             var spriteMap = new Sprite[spritesX, spritesY];
-
             for (var x = 0; x < spritesX; x++)
             {
                 for(var y = 0; y < spritesY; y++)
@@ -52,8 +53,6 @@ namespace Assets.Code.Net
             {
                 FileData = File.ReadAllBytes(FilePath);
                 Tex2D = new Texture2D(1, 1);
-                Tex2D.filterMode = FilterMode.Point;
-                Tex2D.wrapMode = TextureWrapMode.Repeat;
                 if (Tex2D.LoadImage(FileData))           
                     return Tex2D;              
             }

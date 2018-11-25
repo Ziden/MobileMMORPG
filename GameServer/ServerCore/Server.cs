@@ -37,14 +37,14 @@ namespace ServerCore
         private Server _instance;
         
 
-        public Server(int port)
+        public Server(int port, string mapName = "test")
         {
             PORT = port;
             _instance = this;
             Events?.Clear();
             Events = new ServerEvents();
             CommandHandler = new CommandHandler();
-            Map = MapLoader.LoadMapFromFile("test");
+            Map = MapLoader.LoadMapFromFile(mapName);
             Map.LoadAllSpawners();
             Mapper.Reset();
             Mapper.Initialize(cfg => {
