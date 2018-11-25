@@ -47,7 +47,9 @@ namespace MapTests
 
             client.FullLoginSequence(_player);
 
-            Assert.That(client.RecievedPackets.Where(p => p.GetType() == typeof(ChunkPacket)).ToList().Count == 9,
+            var chunksRecieved = client.RecievedPackets.Where(p => p.GetType() == typeof(ChunkPacket)).ToList();
+
+            Assert.That(chunksRecieved.Count == 9,
                 "Player should have recieved 9 chunk packets (3x3)");
         }
 

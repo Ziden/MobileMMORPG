@@ -1,13 +1,10 @@
 using NUnit.Framework;
 using MapHandler;
-using ServerCore.Game.GameMap;
-using CommonCode.Pathfinder;
 using Storage;
 using Storage.TestDataBuilder;
 using ServerCore;
 using ServerCore.Tests.TestUtilities;
 using Common.Networking.Packets;
-using Storage.Login;
 using Storage.Players;
 using ServerCore.GameServer.Players;
 using ServerCore.Game.Monsters;

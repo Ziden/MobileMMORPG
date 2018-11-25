@@ -19,14 +19,22 @@ namespace MapHandler
             return new Position[]
             {
                 new Position(p.X + 1, p.Y),
+
                 new Position(p.X, p.Y + 1),
+
                 new Position(p.X + 1, p.Y + 1),
+
                 new Position(p.X - 1, p.Y - 1),
+
                 new Position(p.X, p.Y - 1),
+
                 new Position(p.X - 1, p.Y),
-                new Position(p.X - 1, p.Y - 1),
+
+                new Position(p.X, p.Y),
+
                 new Position(p.X + 1, p.Y - 1),
-                new Position(p.X + 1, p.Y - 1),
+
+                new Position(p.X - 1, p.Y + 1),
             };
         }
 

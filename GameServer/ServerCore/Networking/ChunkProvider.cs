@@ -19,9 +19,9 @@ namespace ServerCore.Networking
                 var chunkX = client.OnlinePlayer.X >> 4;
                 var chunkY = client.OnlinePlayer.Y >> 4;
 
-                List<Position> shouldBeLoaded = MapUtils.GetRadius(chunkX, chunkY, VIEW_RADIUS);
+                var shouldBeLoaded = MapHelpers.GetSquared3x3(new Position(chunkX, chunkY));
 
-                foreach(var position in shouldBeLoaded)
+                foreach (var position in shouldBeLoaded)
                 {
                     var chunkKey = $"{position.X}_{position.Y}";
                     if (!client.ChunksLoaded.Contains(chunkKey))
