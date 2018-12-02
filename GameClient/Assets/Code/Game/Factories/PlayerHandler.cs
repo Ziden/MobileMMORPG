@@ -18,7 +18,7 @@ namespace Assets.Code.Game.Factories
                 playerObj = new GameObject(opts.UserId);
                 playerObj.transform.localScale = new Vector3(100, 100);
                 playerObj.tag = "Player";
-
+                FactoryMethods.AddCollider(playerObj);
                 if (opts.IsMainPlayer)
                 {
                     playerObj.AddComponent<PlayerBehaviour>();

@@ -1,0 +1,9 @@
+C:\Users\gabri\Documents\MMO\GameServer\CommonStd\bin\Debug\netstandard2.0\CommonStd.deps.json
+C:\Users\gabri\Documents\MMO\GameServer\CommonStd\bin\Debug\netstandard2.0\CommonStd.dll
+C:\Users\gabri\Documents\MMO\GameServer\CommonStd\bin\Debug\netstandard2.0\CommonStd.pdb
+C:\Users\gabri\Documents\MMO\GameServer\CommonStd\obj\Debug\netstandard2.0\CommonStd.csprojAssemblyReference.cache
+C:\Users\gabri\Documents\MMO\GameServer\CommonStd\obj\Debug\netstandard2.0\CommonStd.csproj.CoreCompileInputs.cache
+C:\Users\gabri\Documents\MMO\GameServer\CommonStd\obj\Debug\netstandard2.0\CommonStd.AssemblyInfoInputs.cache
+C:\Users\gabri\Documents\MMO\GameServer\CommonStd\obj\Debug\netstandard2.0\CommonStd.AssemblyInfo.cs
+C:\Users\gabri\Documents\MMO\GameServer\CommonStd\obj\Debug\netstandard2.0\CommonStd.dll
+C:\Users\gabri\Documents\MMO\GameServer\CommonStd\obj\Debug\netstandard2.0\CommonStd.pdb

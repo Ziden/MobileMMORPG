@@ -68,11 +68,8 @@ namespace ServerCore.Game.Monsters.Behaviours.MoveBehaviours
                     );
                 }
 
-                Log.Info("RANDOM WALK");
-
                 foreach (var player in monster.GetNearbyPlayers())
                 {
-                    Log.Info("SENDING TO PLAYER");
                     player.Tcp.Send(new EntityMovePacket()
                     {
                         From = oldPosition,

@@ -17,6 +17,7 @@ namespace Assets.Code.Game.Factories
                 monsterObj = new GameObject(opts.MonsterUid);
                 monsterObj.transform.localScale = new Vector3(100, 100);
 
+                FactoryMethods.AddCollider(monsterObj);
                 var spriteRenderer = monsterObj.AddComponent<SpriteRenderer>();
                 var spriteSheet = monsterObj.AddComponent<SpriteSheet>();
                 spriteRenderer.sortingOrder = 2;

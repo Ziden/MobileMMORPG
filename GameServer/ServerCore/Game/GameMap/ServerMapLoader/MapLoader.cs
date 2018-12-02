@@ -38,7 +38,7 @@ namespace ServerCore.Game.GameMap
 
         public static ServerMap LoadMapFromFile(string searchMapName = null)
         {
-            Console.WriteLine("Loading Map");
+            Log.Info("Loading Map");
             var mapAssembly = AppDomain.CurrentDomain.GetAssemblies().Last(a => a.FullName.Contains("ServerCore,"));
             var mapNames = mapAssembly.GetManifestResourceNames().Where(resourceName => resourceName.EndsWith(".tmx"));
             if(searchMapName != null)

@@ -9,7 +9,7 @@ using Storage.Login;
 using System.Linq;
 using CommonCode.Networking.Packets;
 
-namespace MapTests
+namespace GameTests
 {
     [TestFixture]
     public class TestLogin

@@ -10,7 +10,7 @@ using ServerCore.GameServer.Players;
 using ServerCore.Game.Monsters;
 using System.Linq;
 
-namespace MapTests
+namespace GameTests
 {
     [TestFixture]
     public class TestMonsters

@@ -69,6 +69,7 @@
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerObjectExtensions.cs" />
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerWrapper.cs" />
     <Compile Include="Assets\Code\Game\ConnectionErrorEvent.cs" />
+    <Compile Include="Assets\Code\Game\Factories\FactoryMethods.cs" />
     <Compile Include="Assets\Code\Game\Factories\MonsterFactory.cs" />
     <Compile Include="Assets\Code\Game\Factories\PlayerHandler.cs" />
     <Compile Include="Assets\Code\Game\Factories\TileFactory.cs" />

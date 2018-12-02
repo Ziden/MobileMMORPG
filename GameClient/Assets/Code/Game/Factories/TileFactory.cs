@@ -14,6 +14,7 @@ namespace Assets.Code.Game.Factories
             if (tileId == 0)
                 return;
             var gameObj = new GameObject(x + "_" + y); ;
+
             gameObj.transform.localScale = new Vector3(100, 100);
             gameObj.tag = "Tile";
             var spriteRenderer = gameObj.AddComponent<SpriteRenderer>();

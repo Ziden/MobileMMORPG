@@ -1,19 +1,14 @@
 ﻿using AutoMapper;
 using Common;
 using Common.Networking.Packets;
-using MapHandler;
 using ServerCore.ConsoleCmds;
 using ServerCore.Game.GameMap;
 using ServerCore.GameServer.Players;
 using ServerCore.Networking;
 using ServerCore.Utils.Scheduler;
 using Storage.Players;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 
 namespace ServerCore
 {
@@ -35,7 +30,6 @@ namespace ServerCore
         private readonly int PORT;
 
         private Server _instance;
-        
 
         public Server(int port, string mapName = "test")
         {

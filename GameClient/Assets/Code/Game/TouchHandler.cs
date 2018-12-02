@@ -1,4 +1,5 @@
-﻿using Client.Net;
+﻿using Assets.Code.Game.Factories;
+using Client.Net;
 using MapHandler;
 using System;
 using UnityEngine;
@@ -32,8 +33,35 @@ namespace Assets.Code.Game
             var realX = (int)Math.Floor(realPosition.x / 16);
             var realY = (int)Math.Floor(realPosition.y / 16);
 
+            var clickedObject = SelectedByMouse();
+
+            if(clickedObject != null)
+            {
+                var objType = FactoryMethods.GetType(clickedObject);
+                if(objType == FactoryObjectTypes.MONSTER)
+                {
+                    Selectors.AddSelector(clickedObject, "targeted", Color.red);
+                }
+                return;
+            }
+
             //if (EventSystem.current.()) // check if didnt clickd UI elements
+            Selectors.RemoveSelector("targeted");
                 ClickTile(new Vector2(realX, -realY));
+        }
+
+        public GameObject SelectedByMouse()
+        {
+            //Converting Mouse Pos to 2D (vector2) World Pos
+            var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var hitCollider = Physics2D.OverlapPoint(mousePosition);
+
+            if(hitCollider != null && hitCollider.transform != null)
+            {
+                Debug.Log("Hit " + hitCollider.name);
+                return hitCollider.gameObject;
+            }
+            return null;
         }
 
         public void Update()
@@ -41,7 +69,7 @@ namespace Assets.Code.Game
             if (!GameTouchOn)
                 return;
 
-            if(Input.touchCount > 0)
+            if (Input.touchCount > 0)
             {
                 var touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began)
