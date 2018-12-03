@@ -12,17 +12,13 @@ namespace Assets.Code.Net
         public static ConcurrentList<string> WaitingForAssets = new ConcurrentList<string>();
 
         // TODO: MAKE THIS BETTER...
-        //public static readonly string SPRITE_FILE = "sprites.png";
-
         public static readonly string BODIES = "bodies.png";
         public static readonly string CHESTS = "chests.png";
         public static readonly string LEGS = "legs.png";
         public static readonly string HEADS = "heads.png";
-
         public static readonly string TILESET_FILE = "Set1.png";
-
         public static readonly string MONSTERS_1 = "monsters_1.png"; 
-
+  
         public static Dictionary<string, Sprite[,]> LoadedAssets = new Dictionary<string, Sprite[,]>();
 
         public static Sprite[,] LoadNewSprite(string FilePath, float PixelsPerUnit = 1f)
@@ -52,8 +48,8 @@ namespace Assets.Code.Net
             if (File.Exists(FilePath))
             {
                 FileData = File.ReadAllBytes(FilePath);
-                Tex2D = new Texture2D(1, 1);
-                if (Tex2D.LoadImage(FileData))           
+                Tex2D = new Texture2D(16, 16);
+                if (Tex2D.LoadImage(FileData))  
                     return Tex2D;              
             }
             return null;      

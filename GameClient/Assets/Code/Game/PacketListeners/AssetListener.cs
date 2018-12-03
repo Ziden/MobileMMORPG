@@ -17,6 +17,8 @@ namespace Assets.Code.Net.PacketListeners
             UPDATED = 3
         }
 
+        private static List<AssetPacket> _assetsRequested = new List<AssetPacket>();
+
         public static AssetLoadingState State = AssetLoadingState.UPDATED;
 
         public static int NumberOfAssetsToRecieve = 0;
@@ -39,10 +41,10 @@ namespace Assets.Code.Net.PacketListeners
             else
             {
                 State = AssetLoadingState.RECIEVING;
-                NumberOfAssetsToRecieve = _assetRequests.Count;
+                NumberOfAssetsToRecieve = _assetsRequested.Count;
                 if (NumberOfAssetsToRecieve > 0)
                 {
-                    foreach (var packet in _assetRequests)
+                    foreach (var packet in _assetsRequested)
                     {
                         packet.HaveIt = false; // asking for the asset
                         UnityClient.TcpClient.Send(packet);
@@ -52,8 +54,6 @@ namespace Assets.Code.Net.PacketListeners
                 }
             }
         }
-
-        private static List<AssetPacket> _assetRequests = new List<AssetPacket>();
 
         [EventMethod]
         public void OnAsset(AssetPacket packet)
@@ -66,7 +66,7 @@ namespace Assets.Code.Net.PacketListeners
                 // if i dont have it
                // if (!File.Exists(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName)))
                // {
-                    _assetRequests.Add(packet);
+                    _assetsRequested.Add(packet);
               //  }
              //   else
             //    {
@@ -88,7 +88,7 @@ namespace Assets.Code.Net.PacketListeners
                 if (AssetsRecieved == NumberOfAssetsToRecieve && AssetsRecieved > 0)
                 {
                     LoadingBehaviour.Loading.StopLoading();
-                    _assetRequests.Clear();
+                    _assetsRequested.Clear();
                     NumberOfAssetsToRecieve = 0;
                     AssetsRecieved = 0;
                     State = AssetLoadingState.UPDATED;

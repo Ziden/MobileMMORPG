@@ -2,7 +2,6 @@
 
 namespace Assets.Code.Game.Factories
 {
-
     public enum FactoryObjectTypes {
         TILE = 1,
         PLAYER = 2,
@@ -11,7 +10,6 @@ namespace Assets.Code.Game.Factories
 
     public class FactoryMethods
     {
-
         public static FactoryObjectTypes GetType(GameObject obj)
         {
             if (obj.name.StartsWith("mon"))
