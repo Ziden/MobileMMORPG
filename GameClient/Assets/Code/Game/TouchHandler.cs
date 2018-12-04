@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Game.Factories;
+using Assets.Code.Net.PacketListeners;
 using Client.Net;
 using MapHandler;
 using System;
@@ -37,17 +38,19 @@ namespace Assets.Code.Game
 
             if(clickedObject != null)
             {
+                Selectors.RemoveSelector("targeted");
                 var objType = FactoryMethods.GetType(clickedObject);
                 if(objType == FactoryObjectTypes.MONSTER)
                 {
                     Selectors.AddSelector(clickedObject, "targeted", Color.red);
+                    PlayerListener.PlayerSetTarget(clickedObject);
                 }
                 return;
             }
 
             //if (EventSystem.current.()) // check if didnt clickd UI elements
-            Selectors.RemoveSelector("targeted");
-                ClickTile(new Vector2(realX, -realY));
+            
+            ClickTile(new Vector2(realX, -realY));
         }
 
         public GameObject SelectedByMouse()

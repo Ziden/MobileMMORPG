@@ -1,4 +1,5 @@
-﻿using Assets.Code.Game.Factories;
+﻿using Assets.Code.Game.ClientMap;
+using Assets.Code.Game.Factories;
 using Client.Net;
 using Common.Networking.Packets;
 using CommonCode.EventBus;
@@ -13,6 +14,7 @@ namespace Assets.Code.Net.PacketListeners
         [EventMethod]
         public void OnMonsterSpawn(MonsterSpawnPacket packet)
         {
+            Debug.Log("PACKET MONSTER SPOOOOWN");
             MonsterFactory.BuildAndInstantiate(new MonsterFactoryOpts()
             {
                 MonsterName = packet.MonsterName,
@@ -21,6 +23,15 @@ namespace Assets.Code.Net.PacketListeners
                 SpriteIndex = packet.SpriteIndex,
                 MoveSpeed = packet.MoveSpeed
             });
+
+            if(packet.SpawnAnimation)
+            {
+                AnimationFactory.BuildAndInstantiate(new AnimationOpts()
+                {
+                    AnimationImageName = Animations.SMOKE,
+                    MapPosition = packet.Position
+                });
+            }
         }
 
         [EventMethod]

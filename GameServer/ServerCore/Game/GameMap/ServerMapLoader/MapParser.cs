@@ -44,7 +44,7 @@ namespace ServerCore.Game.GameMap
                 {
                     var imgSource = tileset.Element("image").Attribute("source").Value;
                     var tilesetName = imgSource.Split('/').Last();
-                    byte[] image = MapLoader.LoadImageData(tilesetName);
+                    byte[] image = AssetLoader.LoadImageData(tilesetName);
                     map.Tilesets.Add(tilesetName, image);
                 }
 

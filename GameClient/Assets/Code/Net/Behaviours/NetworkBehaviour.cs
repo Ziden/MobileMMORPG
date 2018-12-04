@@ -24,8 +24,6 @@ public class NetworkBehaviour : MonoBehaviour
     {
         if (UnityClient.PacketsToProccess.Count > 0)
         {
-            // Are we recieving an asset ? (We wait to recieve it all to process other stuff)
-            var missingAssets = AssetHandler.WaitingForAssets.ToArray();
             var packetsToProcess = UnityClient.PacketsToProccess.ToArray();
 
             // Not an asset, just process the packet

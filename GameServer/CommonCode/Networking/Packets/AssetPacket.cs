@@ -17,6 +17,7 @@ namespace CommonCode.Networking.Packets
     public enum AssetType
     {
         TILESET = 1,
-        SPRITE = 2
+        SPRITE = 2,
+        ANIMATION = 3
     }
 }

@@ -10,6 +10,9 @@ namespace ServerCore.Networking.PacketListeners
 {
     public class AssetListener : IEventListener
     {
+        // This looks horrible, seriously
+        // i gotta refactor this piece of shizza
+        // maybe bundle stuff up ?
         public static void DownloadAssets(ConnectedClientTcpHandler client)
         {
             // Going to start sending asset validations
@@ -62,6 +65,15 @@ namespace ServerCore.Networking.PacketListeners
                 AssetType = AssetType.SPRITE
             });
 
+            foreach(var animationName in AssetLoader.GetAnimations())
+            {
+                client.Send(new AssetPacket()
+                {
+                    ResquestedImageName = animationName,
+                    AssetType = AssetType.ANIMATION
+                });
+            }
+
             // end of assets validation
             client.Send(new AssetsReadyPacket());
         }
@@ -109,7 +121,11 @@ namespace ServerCore.Networking.PacketListeners
                     bytes = Server.Map.Tilesets[packet.ResquestedImageName];
                 } else if(packet.AssetType == AssetType.SPRITE)
                 {
-                    bytes = MapLoader.LoadImageData(packet.ResquestedImageName);
+                    bytes = AssetLoader.LoadImageData(packet.ResquestedImageName);
+                }
+                else if (packet.AssetType == AssetType.ANIMATION)
+                {
+                    bytes = AssetLoader.GetAnimation(packet.ResquestedImageName);
                 }
                 packet.Asset = bytes;
                 ServerTcpHandler.GetClient(packet.ClientId).Send(packet);

@@ -58,8 +58,7 @@ namespace Assets.Code.Net.PacketListeners
         [EventMethod]
         public void OnAsset(AssetPacket packet)
         {
-
-            Debug.Log("ASSET PACKET");
+            Debug.Log("ASSET PACKET WITH ASSET DATA ? "+packet.Asset == null);
             // If im recieving from the server that i need an asset
             if (packet.Asset == null)
             {

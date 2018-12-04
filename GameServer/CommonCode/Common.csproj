@@ -64,6 +64,7 @@
     <Compile Include="Networking\PacketSwitch.cs" />
     <Compile Include="Networking\Packets\AssetsReadyPacket.cs" />
     <Compile Include="Networking\Packets\MonsterSpawnPacket.cs" />
+    <Compile Include="Networking\Packets\TargetPacket.cs" />
     <Compile Include="Networking\Packets\SyncPacket.cs" />
     <Compile Include="Networking\Packets\EntityMovePacket.cs" />
     <Compile Include="Networking\Packets\PlayerPacket.cs" />

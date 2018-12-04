@@ -38,12 +38,13 @@ namespace ServerCore
             Events?.Clear();
             Events = new ServerEvents();
             CommandHandler = new CommandHandler();
-            Map = MapLoader.LoadMapFromFile(mapName);
-            Map.LoadAllSpawners();
+            Map = AssetLoader.LoadMapFromFile(mapName);
+            AssetLoader.LoadAnimations();
             Mapper.Reset();
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<Player, OnlinePlayer>();
             });
+           // Map.LoadAllSpawners();
         }
 
         public bool IsRunning()

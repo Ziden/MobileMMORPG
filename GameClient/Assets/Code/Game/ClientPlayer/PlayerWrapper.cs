@@ -1,8 +1,6 @@
 ﻿using MapHandler;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Code.Game
@@ -15,5 +13,6 @@ namespace Assets.Code.Game
         public string SessionId;
         public List<Position> FollowingPath;
         public GameObject PlayerObject;
+        public GameObject Target;
     }
 }

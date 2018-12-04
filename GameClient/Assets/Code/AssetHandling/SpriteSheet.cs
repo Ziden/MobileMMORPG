@@ -1,10 +1,4 @@
-﻿using Assets.Code.Net;
-using MapHandler;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEditor;
+﻿using MapHandler;
 using UnityEngine;
 
 namespace Assets.Code.AssetHandling

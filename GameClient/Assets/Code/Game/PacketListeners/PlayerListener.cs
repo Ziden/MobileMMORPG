@@ -13,11 +13,9 @@ namespace Assets.Code.Net.PacketListeners
 {
     public class PlayerListener : IEventListener
     {
-
         [EventMethod]
         public void OnPlayerSync(SyncPacket packet)
         {
-
             Position destination = null;
             if (UnityClient.Player.FollowingPath != null && UnityClient.Player.FollowingPath.Count > 0)
             {
@@ -50,7 +48,6 @@ namespace Assets.Code.Net.PacketListeners
                 {
                     movingEntity.Route.Add(packet.To);
                 }
-              
             }
         }
 
@@ -67,8 +64,17 @@ namespace Assets.Code.Net.PacketListeners
                 tileY = packet.Y,
                 IsMainPlayer = packet.UserId == UnityClient.Player.UserId
             });
-
             TouchHandler.GameTouchOn = true;
+        }
+
+        public static void PlayerSetTarget(GameObject target)
+        {
+            UnityClient.TcpClient.Send(new TargetPacket()
+            {
+                TargetUuid = target.name,
+                WhoUuid = UnityClient.Player.UserId
+            });
+            UnityClient.Player.Target = target;
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ServerCore.ConsoleCmds.Commands
+﻿namespace ServerCore.ConsoleCmds.Commands
 {
     public class DebugCmd : ConsoleCommand
     {
@@ -15,6 +11,7 @@ namespace ServerCore.ConsoleCmds.Commands
         {
             if(args.Length == 1)
             {
+                // CHUNK
                 if(args[0]=="chunk")
                 {
                     foreach(var chunk in Server.Map.Chunks.Values)
@@ -24,6 +21,12 @@ namespace ServerCore.ConsoleCmds.Commands
                             Log.Info($"Chunk {chunk.x} - {chunk.x} have players {chunk.PlayersInChunk.Count}");
                         }
                     }
+                }
+
+                // SPAWNERS
+                if(args[0]=="spawners")
+                {
+                    Server.Map.LoadAllSpawners();
                 }
             }
 
