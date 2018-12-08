@@ -39,7 +39,7 @@ namespace ServerCore
             CommandHandler = new CommandHandler();
             AssetLoader.LoadServerAssets();
             Map = AssetLoader.LoadMapFromFile(mapName);
-           // Map.LoadAllSpawners();
+            Map.LoadAllSpawners();
         }
 
         public bool IsRunning()

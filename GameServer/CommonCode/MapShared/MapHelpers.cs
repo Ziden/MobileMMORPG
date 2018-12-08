@@ -3,7 +3,6 @@ namespace MapHandler
 {
     public static class MapHelpers
     {
-
         public static int GetDistance(Position position, Position other)
         {
             return Math.Abs(other.X - position.X) + Math.Abs(other.Y - position.Y);

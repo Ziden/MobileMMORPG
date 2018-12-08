@@ -14,6 +14,7 @@ namespace Assets.Code.Net.PacketListeners
     public class PlayerListener : IEventListener
     {
         [EventMethod]
+        // When something goes wrong, we sync (force) the player to a state
         public void OnPlayerSync(SyncPacket packet)
         {
             Position destination = null;

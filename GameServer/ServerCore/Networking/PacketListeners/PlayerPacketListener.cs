@@ -13,8 +13,12 @@ namespace ServerCore.Networking.PacketListeners
         [EventMethod]
         public void OnPlayerTarget(TargetPacket packet)
         {
+            // I think i might not have to track this server side O_O
+            /*
             var targetingPlayer = Server.GetPlayer(packet.WhoUuid);
-            var targetingMonster = Server.GetMonster(packet.TargetUuid);
+            var target = Server.GetMonster(packet.TargetUuid);
+            targetingPlayer.Target = target;
+            */
         }
 
         [EventMethod] 

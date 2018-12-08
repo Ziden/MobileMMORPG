@@ -20,8 +20,8 @@ namespace ServerCore.Game.GameMap
             while (tries > 0 && !found)
             {
                 tries--;
-                var randomX = rnd.Next(minX, maxX);
-                var randomY = rnd.Next(minY, maxY);
+                var randomX = rnd.Next(Min.X, Max.X);
+                var randomY = rnd.Next(Min.Y, Max.Y);
                 if (!Server.Map.IsPassable(randomX, randomY))
                     continue;
 

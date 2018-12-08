@@ -80,10 +80,8 @@ namespace ServerCore.Game.GameMap
 
                 var spawner = new MonsterSpawner()
                 {
-                    minX = x,
-                    maxX = maxX,
-                    minY = y,
-                    maxY = maxY
+                    Min = new Position(x, y),
+                    Max = new Position(maxX, maxY)
                 };
 
                 var xProperties = xObject.Element("properties");

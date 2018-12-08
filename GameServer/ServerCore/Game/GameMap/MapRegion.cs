@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MapHandler;
 
 namespace ServerCore.Game.GameMap
 {
     public class MapRegion
     {
-        public int minX;
-        public int minY;
-
-        public int maxX;
-        public int maxY;
+        public Position Min;
+        public Position Max;
     }
 }
