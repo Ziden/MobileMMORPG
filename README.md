@@ -34,3 +34,7 @@ The infinite chunk based map loaded from tiled will be serve for this dungeon pa
   If the Game scene is not selected yet, click on the "Project" tab (could be in "Console" by default), go to Scenes and select "Game"
 - Click the "Run" button to run the client.
 - The initial accounts can be checked at `Storage/TestDataGenerator`.
+
+### Issue
+
+When logging in, sometimes you will be downloading assets forever. Its something i gotta address :P
