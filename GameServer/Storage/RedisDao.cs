@@ -7,6 +7,7 @@ namespace Storage
 {
     public class RedisDao<Entity>
     {
+        // will get the class attribute [RedisKey] and get its value
         public static string GetKeyNameFromInstance(object obj)
         {
             foreach (var prop in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -23,6 +24,7 @@ namespace Storage
             throw new Exception($"Could not get key for class {obj.GetType().Name}");
         }
 
+        // Will return the key based on the entitytypekey:provided key
         public static string GetKeyNameFromType(string keyValue)
         {
             var type = typeof(Entity);

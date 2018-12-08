@@ -13,7 +13,7 @@ namespace MapTests
     [TestFixture]
     public class PlayerInMapTests
     {
-        private Player _player;
+        private StoredPlayer _player;
         private Server _server = new Server(123);
 
         [SetUp]
@@ -23,7 +23,7 @@ namespace MapTests
             redis.Start();
             TestDb.Create();
             _server.StartGameThread();
-            _player = new Player()
+            _player = new StoredPlayer()
             {
                 UserId = "wololo",
                 Login = "login",
@@ -47,14 +47,14 @@ namespace MapTests
                 UID = _player.UserId
             });
 
-            var player = RedisHash<Player>.Get(_player.UserId);
+            var player = RedisHash<StoredPlayer>.Get(_player.UserId);
 
             Assert.That(player.X == _player.X - 1, 
                 "Server did not store that the player moved");
 
             var onlinePlayer = Server.GetPlayer(_player.UserId);
 
-            Assert.That(onlinePlayer.X == _player.X - 1, 
+            Assert.That(onlinePlayer.Position.X == _player.X - 1, 
                 "Server did not update online player position");
 
             var chunk = onlinePlayer.GetChunk();

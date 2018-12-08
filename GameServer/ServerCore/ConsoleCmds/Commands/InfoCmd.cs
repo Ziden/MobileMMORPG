@@ -20,16 +20,16 @@ namespace ServerCore.ConsoleCmds.Commands
                 return false;
             }
             var playerName = args[0];
-            var player = Server.Players.ToArray().FirstOrDefault(p => p.Login.ToLower() == playerName.ToLower());
+            var player = Server.Players.ToArray().FirstOrDefault(p => p.Name.ToLower() == playerName.ToLower());
             if(player == null)
             {
                 Log.Error($"Player {playerName} not found");
                 return false;
             }
             Log.Info("| Login: " + playerName);
-            Log.Info("| X: " + player.X);
-            Log.Info("| Y: " + player.Y);
-            Log.Info("| UserId: " + player.UserId);
+            Log.Info("| X: " + player.Position.X);
+            Log.Info("| Y: " + player.Position.Y);
+            Log.Info("| UserId: " + player.UID);
             Log.Info("| ConnectionId: " + player.Tcp.ConnectionId);
             Log.Info("| Ping: " + player.Tcp.Latency+"ms");
             return true;

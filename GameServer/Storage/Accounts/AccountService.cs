@@ -5,7 +5,7 @@ namespace Storage.Login
 {
     public class AccountService
     {
-        public static Player RegisterAccount(string login, string password, string email, Player playerTemplate)
+        public static StoredPlayer RegisterAccount(string login, string password, string email, StoredPlayer playerTemplate)
         {
             var account = LoginDao.GetUserId(login);
             if (account != null)
@@ -19,18 +19,18 @@ namespace Storage.Login
             playerTemplate.UserId = Guid.NewGuid().ToString();
 
             LoginDao.SetUserId(login, playerTemplate.UserId);
-            RedisHash<Player>.Set(playerTemplate);
+            RedisHash<StoredPlayer>.Set(playerTemplate);
             return playerTemplate;
         }
 
-        public static Player Login(string login, string password)
+        public static StoredPlayer Login(string login, string password)
         {
             if (!LoginDao.LoginExists(login))
             {
                 throw new AccountError(AccountErrorCode.USER_OR_PASSWORD_INVALID, "Invalid username or password");
             }
             string userId = LoginDao.GetUserId(login);
-            var u = RedisHash<Player>.Get(userId);
+            var u = RedisHash<StoredPlayer>.Get(userId);
             if ((string)u.Password != password)
             {
                 throw new AccountError(AccountErrorCode.USER_OR_PASSWORD_INVALID, "Invalid username or password");
@@ -44,7 +44,7 @@ namespace Storage.Login
             };
             u.SessionId = session.SessionUid;
             RedisHash<Session>.Set(session);
-            RedisHash<Player>.Set(u);
+            RedisHash<StoredPlayer>.Set(u);
             return u;
         }
     }

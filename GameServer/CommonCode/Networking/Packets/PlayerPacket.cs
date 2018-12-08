@@ -10,7 +10,10 @@ namespace CommonCode.Networking.Packets
         public string Name;
         public int X;
         public int Y;
-        public int SpriteIndex;
         public int Speed;
+        public int BodySpriteIndex;
+        public int HeadSpriteIndex;
+        public int LegSpriteIndex;
+        public int ChestSpriteIndex;
     }
 }

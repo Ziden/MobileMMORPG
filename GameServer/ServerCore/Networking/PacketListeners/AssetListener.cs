@@ -8,6 +8,17 @@ using System.IO;
 
 namespace ServerCore.Networking.PacketListeners
 {
+    // Assets pre-baked into the server
+    public static class DefaultAssets
+    {
+        public static string SPR_BODIES = "bodies.png";
+        public static string SPR_LEGS = "legs.png";
+        public static string SPR_HEADS = "heads.png";
+        public static string SPR_CHESTS = "chests.png";
+        public static string SPR_MONTERS_1 = "monsters_1.png";
+    }
+
+
     public class AssetListener : IEventListener
     {
         // This looks horrible, seriously
@@ -28,44 +39,37 @@ namespace ServerCore.Networking.PacketListeners
                 });
             }
 
-            // check if the player have the main sprites
             client.Send(new AssetPacket()
             {
-                ResquestedImageName = "sprites.png",
+                ResquestedImageName = DefaultAssets.SPR_BODIES,
                 AssetType = AssetType.SPRITE
             });
 
             client.Send(new AssetPacket()
             {
-                ResquestedImageName = "bodies.png",
+                ResquestedImageName = DefaultAssets.SPR_LEGS,
                 AssetType = AssetType.SPRITE
             });
 
             client.Send(new AssetPacket()
             {
-                ResquestedImageName = "legs.png",
+                ResquestedImageName = DefaultAssets.SPR_HEADS,
                 AssetType = AssetType.SPRITE
             });
 
             client.Send(new AssetPacket()
             {
-                ResquestedImageName = "heads.png",
+                ResquestedImageName = DefaultAssets.SPR_CHESTS,
                 AssetType = AssetType.SPRITE
             });
 
             client.Send(new AssetPacket()
             {
-                ResquestedImageName = "chests.png",
+                ResquestedImageName = DefaultAssets.SPR_MONTERS_1,
                 AssetType = AssetType.SPRITE
             });
 
-            client.Send(new AssetPacket()
-            {
-                ResquestedImageName = "monsters_1.png",
-                AssetType = AssetType.SPRITE
-            });
-
-            foreach(var animationName in AssetLoader.GetAnimations())
+            foreach (var animationName in AssetLoader.GetAnimations())
             {
                 client.Send(new AssetPacket()
                 {
@@ -81,27 +85,22 @@ namespace ServerCore.Networking.PacketListeners
         [EventMethod] // When client finishes updating assets
         public void OnAssetReady(AssetsReadyPacket packet)
         {
+            var players = Server.Players;
             var player = Server.GetPlayer(packet.UserId);
-            if(player != null)
+            if (player != null)
             {
                 player.AssetsReady = true;
             }
 
-            var client = ServerTcpHandler.GetClient(packet.ClientId); 
+            var client = ServerTcpHandler.GetClient(packet.ClientId);
 
             // update chunks for that player
             ChunkProvider.CheckChunks(player);
 
+            var playerPacket = player.ToPacket();
+
             // make the player itself appear
-            client.Send(new PlayerPacket()
-            {
-                Name = player.Login,
-                SpriteIndex = player.SpriteIndex,
-                UserId = player.UserId,
-                X = player.X,
-                Y = player.Y,
-                Speed = player.MoveSpeed
-            });
+            client.Send(playerPacket);
 
             Server.Events.Call(new PlayerJoinEvent()
             {
@@ -113,13 +112,14 @@ namespace ServerCore.Networking.PacketListeners
         public void OnAsset(AssetPacket packet)
         {
             // if client doesnt have the asset we gotta send it
-            if(packet.HaveIt == false)
+            if (packet.HaveIt == false)
             {
                 byte[] bytes = null;
-                if(packet.AssetType == AssetType.TILESET)
+                if (packet.AssetType == AssetType.TILESET)
                 {
                     bytes = Server.Map.Tilesets[packet.ResquestedImageName];
-                } else if(packet.AssetType == AssetType.SPRITE)
+                }
+                else if (packet.AssetType == AssetType.SPRITE)
                 {
                     bytes = AssetLoader.LoadImageData(packet.ResquestedImageName);
                 }

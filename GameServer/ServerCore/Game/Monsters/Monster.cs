@@ -1,27 +1,32 @@
-﻿using MapHandler;
+﻿
+using ServerCore.Assets;
+using ServerCore.Game.Entities;
+using ServerCore.Game.GameMap;
 using ServerCore.Game.Monsters.Behaviours;
-using ServerCore.GameServer.Players;
+using ServerCore.Networking.PacketListeners;
 using ServerCore.Utils.Scheduler;
 using System;
-using System.Collections.Generic;
 
 namespace ServerCore.Game.Monsters
 {
-    public abstract class Monster
+    public abstract class Monster : LivingEntity, IClientRenderable
     {
-        public string UID;
-        public string Name;
-        public Position Position;
-        public int SpriteIndex = 2;
-        public int Speed = 5;
-        public long MovementDelay = 2000; // in millis
         public long LastMovement = 0;
 
         public IMonsterMovement MovementBehaviour;
 
+        public MonsterSpawner OriginSpawner;
+
         public Monster()
         {
             UID = $"mon_{Guid.NewGuid().ToString()}";
+        }
+
+        public abstract SpriteAsset GetSprite();
+
+        public SpriteAsset GetSpriteAsset()
+        {
+            return GetSprite();
         }
 
         public void MovementTick()
@@ -38,24 +43,6 @@ namespace ServerCore.Game.Monsters
                     }
                 });
             }
-        }
-
-        public List<OnlinePlayer> GetNearbyPlayers()
-        {
-            List<OnlinePlayer> near = new List<OnlinePlayer>();
-            var radius = MapHelpers.GetSquared3x3(new Position(Position.X >> 4, Position.Y >> 4));
-            foreach (var position in radius)
-            {
-                var chunkThere = Server.Map.GetChunk(position.X, position.Y);
-                if (chunkThere != null)
-                {
-                    foreach (var playerInChunk in chunkThere.PlayersInChunk)
-                    {
-                        near.Add(playerInChunk);
-                    }
-                }
-            }
-            return near;
         }
     }
 }

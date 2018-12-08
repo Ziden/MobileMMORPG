@@ -8,8 +8,8 @@ namespace ServerCore.GameServer.Players
     {
         public static ServerChunk GetChunk(this OnlinePlayer player)
         {
-            var chunkX = player.X >> 4;
-            var chunkY = player.Y >> 4;
+            var chunkX = player.Position.X >> 4;
+            var chunkY = player.Position.Y >> 4;
             return Server.Map.GetChunk(chunkX, chunkY);
         }
 
@@ -25,7 +25,7 @@ namespace ServerCore.GameServer.Players
                 {
                     foreach (var playerInChunk in chunkThere.PlayersInChunk)
                     {
-                        if(playerInChunk.UserId != player.UserId)
+                        if(playerInChunk.UID != player.UID)
                             near.Add(playerInChunk);
                     }
                 }

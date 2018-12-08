@@ -8,7 +8,7 @@ namespace ServerCore.Networking.NetworkEvents
 {
     public class PlayerLoggedInEvent : IEvent
     {
-        public Player Player;
+        public StoredPlayer Player;
         public ConnectedClientTcpHandler Client;
     }
 }

@@ -14,7 +14,7 @@ namespace GameTests
     [TestFixture]
     public class TestLogin
     {
-        private Player _player;
+        private StoredPlayer _player;
         private Server _server;
 
         [SetUp]
@@ -26,7 +26,7 @@ namespace GameTests
             _server = new Server(1234);
             _server.StartGameThread();
 
-            _player = new Player()
+            _player = new StoredPlayer()
             {
                 UserId = "wololo",
                 Login = "login",
@@ -64,8 +64,6 @@ namespace GameTests
             Assert.That(client.RecievedPackets.Any(p => p.GetType() == typeof(PlayerPacket)),
                 "Player didnt got his own player packet with his info");
         }
-        
-
 
         [Test]
         public void TestDownloadAssetsSequence()

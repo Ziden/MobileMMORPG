@@ -7,7 +7,7 @@ namespace ServerCore
 {
     public static class Config
     {
-        public static Player PLAYER_TEMPLATE = new Player()
+        public static StoredPlayer PLAYER_TEMPLATE = new StoredPlayer()
         {
             MoveSpeed = 10
         };

@@ -33,7 +33,6 @@ namespace ServerCore.Game.Monsters.Behaviours.MoveBehaviours
             if (Server.Map.IsPassable(newPosition.X, newPosition.Y))
             {
                 var oldNearPlayers = monster.GetNearbyPlayers();
-                monster.Position = newPosition;
 
                 var monsterMoveEvent = new MonsterMoveEvent()
                 {
@@ -49,6 +48,8 @@ namespace ServerCore.Game.Monsters.Behaviours.MoveBehaviours
 
                 Server.Events.Call(monsterMoveEvent);
 
+                // after calling the event, update the monster position
+                monster.Position = newPosition;
                 if (monsterMoveEvent.ChangedChunk)
                 {
                     var chunk = Server.Map.GetChunk(newPosition.X >> 4, newPosition.Y >> 4);

@@ -1,4 +1,5 @@
 ﻿using MapHandler;
+using ServerCore.Game.Monsters;
 using System.Collections.Generic;
 
 namespace ServerCore.Game.GameMap
@@ -8,6 +9,8 @@ namespace ServerCore.Game.GameMap
         public Dictionary<string, byte[]> Tilesets = new Dictionary<string, byte[]>();
 
         public List<MonsterSpawner> Spawners = new List<MonsterSpawner>();
+
+        public Dictionary<string, Monster> Monsters = new Dictionary<string, Monster>();
 
         public void LoadAllSpawners()
         {

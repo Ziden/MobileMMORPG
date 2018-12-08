@@ -17,7 +17,7 @@ namespace ServerCore.ConsoleCmds.Commands
             var result = "";
             foreach(var player in players)
             {
-                result += $"{player.Login} ";
+                result += $"{player.Name} ";
             }
             Log.Info($"Online Players: {players.Count}");
             Log.Info(result);

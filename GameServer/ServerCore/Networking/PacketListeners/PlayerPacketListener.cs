@@ -10,11 +10,18 @@ namespace ServerCore.Networking.PacketListeners
 {
     public class PlayerPacketListener : IEventListener
     {
+        [EventMethod]
+        public void OnPlayerTarget(TargetPacket packet)
+        {
+            var targetingPlayer = Server.GetPlayer(packet.WhoUuid);
+            var targetingMonster = Server.GetMonster(packet.TargetUuid);
+        }
+
         [EventMethod] 
         public void OnPlayerMovePath(EntityMovePacket packet)
         {
             var player = Server.GetPlayerByConnectionId(packet.ClientId);
-            var distanceMoved = MapHelpers.GetDistance(player.GetPosition(), packet.To);
+            var distanceMoved = MapHelpers.GetDistance(player.Position, packet.To);
             var timeToMove = Formulas.GetTimeToMoveBetweenTwoTiles(player.MoveSpeed);
             var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
             var lastMovementArrival = now + timeToMove;
@@ -25,7 +32,7 @@ namespace ServerCore.Networking.PacketListeners
                 // send player back to the position client-side
                 player.Tcp.Send(new SyncPacket()
                 {
-                    Position = player.GetPosition()
+                    Position = player.Position
                 });
                 return;
             }
@@ -43,7 +50,7 @@ namespace ServerCore.Networking.PacketListeners
                 // send player back to the position client-side
                 player.Tcp.Send(new SyncPacket()
                 {
-                    Position = player.GetPosition()
+                    Position = player.Position
                 });
                 return;
             }
@@ -52,11 +59,11 @@ namespace ServerCore.Networking.PacketListeners
             player.CanMoveAgainTime = now + timeToMove - player.Tcp.Latency;
 
             // Updating player position locally
-            player.X = packet.To.X;
-            player.Y = packet.To.Y;
+            player.Position.X = packet.To.X;
+            player.Position.Y = packet.To.Y;
 
             // updating in database
-            PlayerService.UpdatePlayerPosition(player, player.X, player.Y);
+            PlayerService.UpdatePlayerPosition(player.UID, player.Position.X, player.Position.Y);
         }
     }
 }

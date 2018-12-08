@@ -22,7 +22,7 @@ public class TestSerializer
     [Test]
     public void TestSimpleSerialization ()
     {
-        var player = new Player();
+        var player = new StoredPlayer();
         player.Email = "wololo";
         player.Login = "walala";
         player.MoveSpeed = 15;
@@ -44,13 +44,13 @@ public class TestSerializer
     [Test]
     public void TestSimpleDeSerialization()
     {
-        var player = new Player();
+        var player = new StoredPlayer();
         player.Email = "wololo";
         player.Login = "walala";
         player.MoveSpeed = 15;
         var serializedPlayer = DataSerializer.ToRedisHash(player);
 
-        var player2 = DataSerializer.FromRedisHash<Player>(serializedPlayer);
+        var player2 = DataSerializer.FromRedisHash<StoredPlayer>(serializedPlayer);
 
         Assert.AreEqual(player.Login, player2.Login);
         Assert.AreEqual(player.Email, player2.Email);

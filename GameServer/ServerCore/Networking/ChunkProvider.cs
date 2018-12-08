@@ -16,8 +16,8 @@ namespace ServerCore.Networking
             var client = player.Tcp;
             if (client.OnlinePlayer != null && client.OnlinePlayer.AssetsReady)
             {
-                var chunkX = client.OnlinePlayer.X >> 4;
-                var chunkY = client.OnlinePlayer.Y >> 4;
+                var chunkX = client.OnlinePlayer.Position.X >> 4;
+                var chunkY = client.OnlinePlayer.Position.Y >> 4;
 
                 var shouldBeLoaded = MapHelpers.GetSquared3x3(new Position(chunkX, chunkY));
 
@@ -44,8 +44,8 @@ namespace ServerCore.Networking
                                     MonsterUid = monsterInstance.UID,
                                     MonsterName = monsterInstance.Name,
                                     Position = monsterInstance.Position,
-                                    SpriteIndex = monsterInstance.SpriteIndex,
-                                    MoveSpeed = monsterInstance.Speed,
+                                    SpriteIndex = monsterInstance.GetSpriteAsset().SpriteRowIndex,
+                                    MoveSpeed = monsterInstance.MoveSpeed,
                                     SpawnAnimation = false
                                 });
                             }

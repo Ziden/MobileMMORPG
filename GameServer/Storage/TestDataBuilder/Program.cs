@@ -12,10 +12,13 @@ namespace Storage.TestDataBuilder
             Console.WriteLine("Creating admin account");
             try
             {
-                var testPlayerTemplate = new Player()
+                var testPlayerTemplate = new StoredPlayer()
                 {
                     MoveSpeed = 10,
-                    SpriteIndex = 2
+                    BodySpriteIndex = 2,
+                    HeadSpriteIndex = 2,
+                    ChestSpriteIndex = 2,
+                    LegsSpriteIndex = 2
                 };
 
                 Redis.Server.FlushAllDatabases();

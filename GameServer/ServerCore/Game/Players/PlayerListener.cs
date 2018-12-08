@@ -16,7 +16,8 @@ namespace ServerCore.GameServer.Players
         {
             Log.Info($"Player {ev.Player.Login} Logged In with session {ev.Player.SessionId}", ConsoleColor.Yellow);
 
-            var player = Mapper.Map<OnlinePlayer>(ev.Player);
+            var player = new OnlinePlayer();
+            player.FromStored(ev.Player);
             player.Tcp = ev.Client;
             Server.Players.Add(player);
             ev.Client.OnlinePlayer = player;
@@ -26,7 +27,7 @@ namespace ServerCore.GameServer.Players
         public void OnPlayerQuit(PlayerQuitEvent ev)
         {
             if (ev.Player != null)
-                Log.Info($"Player {ev.Player.Login} Disconnected", ConsoleColor.Yellow);
+                Log.Info($"Player {ev.Player.Name} Disconnected", ConsoleColor.Yellow);
             else
                 Log.Info($"Connection {ev.Client.ConnectionId} Disconnected", ConsoleColor.Yellow);
 
@@ -55,30 +56,12 @@ namespace ServerCore.GameServer.Players
             chunk.PlayersInChunk.Add(ev.Player);
             var player = ev.Player;
             var nearPlayers = player.GetPlayersNear();
-            var packet = new PlayerPacket()
-            {
-                Name = player.Login,
-                X = player.X,
-                Y = player.Y,
-                UserId = player.UserId,
-                Speed = player.MoveSpeed,
-                SpriteIndex = player.SpriteIndex
-            };
+            var packet = player.ToPacket();
            
             foreach (var nearPlayer in nearPlayers)
             {
-                Log.Info("SENDING TO " + nearPlayer.X);
                 nearPlayer.Tcp.Send(packet);
-
-                var otherPlayerPacket = new PlayerPacket()
-                {
-                    Name = nearPlayer.Login,
-                    X = nearPlayer.X,
-                    Y = nearPlayer.Y,
-                    UserId = nearPlayer.UserId,
-                    Speed = nearPlayer.MoveSpeed,
-                    SpriteIndex = nearPlayer.SpriteIndex
-                };
+                var otherPlayerPacket = nearPlayer.ToPacket();
                 player.Tcp.Send(otherPlayerPacket);
             }
         }
@@ -99,7 +82,7 @@ namespace ServerCore.GameServer.Players
             {
                 From = ev.From,
                 To = ev.To,
-                UID = ev.Player.UserId
+                UID = ev.Player.UID
             };
 
             foreach (var nearPlayer in nearPlayers)

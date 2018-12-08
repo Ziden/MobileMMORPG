@@ -57,7 +57,10 @@ namespace Assets.Code.Net.PacketListeners
             // instantiate the player if needed
             PlayerFactory.BuildAndInstantiate(new PlayerFactoryOptions()
             {
-                SpriteIndex = packet.SpriteIndex,
+                HeadSpriteIndex = packet.HeadSpriteIndex,
+                BodySpriteIndex = packet.BodySpriteIndex,
+                LegsSpriteIndex = packet.LegSpriteIndex,
+                ChestSpriteIndex = packet.ChestSpriteIndex,
                 UserId = packet.UserId,
                 Speed = packet.Speed,
                 tileX = packet.X,

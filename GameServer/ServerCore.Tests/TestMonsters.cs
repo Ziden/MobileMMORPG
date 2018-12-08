@@ -15,7 +15,7 @@ namespace GameTests
     [TestFixture]
     public class TestMonsters
     {
-        private Player _player;
+        private StoredPlayer _player;
         private Server _server = new Server(123, "test");
 
         [SetUp]
@@ -25,7 +25,7 @@ namespace GameTests
             redis.Start();
             TestDb.Create();
             _server.StartGameThread();
-            _player = new Player()
+            _player = new StoredPlayer()
             {
                 UserId = "wololo",
                 Login = "login",

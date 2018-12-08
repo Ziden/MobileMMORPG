@@ -3,6 +3,7 @@ using Common;
 using Common.Networking.Packets;
 using ServerCore.ConsoleCmds;
 using ServerCore.Game.GameMap;
+using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Players;
 using ServerCore.Networking;
 using ServerCore.Utils.Scheduler;
@@ -42,7 +43,7 @@ namespace ServerCore
             AssetLoader.LoadAnimations();
             Mapper.Reset();
             Mapper.Initialize(cfg => {
-                cfg.CreateMap<Player, OnlinePlayer>();
+                cfg.CreateMap<StoredPlayer, OnlinePlayer>();
             });
            // Map.LoadAllSpawners();
         }
@@ -68,6 +69,7 @@ namespace ServerCore
 
         public void Stop()
         {
+            AssetLoader.Clear();
             GameScheduler.Tasks.Clear();
             Events.Clear();
             GameThread.Stop();
@@ -77,12 +79,17 @@ namespace ServerCore
 
         public static OnlinePlayer GetPlayer(string UserId)
         {
-            return Players.ToArray().FirstOrDefault(p => p.UserId == UserId);
+            return Players.ToArray().FirstOrDefault(p => p.UID == UserId);
         }
 
         public static OnlinePlayer GetPlayerByConnectionId(string connectionId)
         {
             return Players.ToArray().FirstOrDefault(p => p.Tcp.ConnectionId == connectionId);
+        }
+
+        public static Monster GetMonster(string monsterUid)
+        {
+            return Map.Monsters[monsterUid];
         }
 
     }

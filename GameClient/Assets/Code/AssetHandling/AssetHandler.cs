@@ -34,7 +34,8 @@ namespace Assets.Code.Net
             {
                 for(var y = 0; y < spritesY; y++)
                 {
-                    spriteMap[x, spritesY-y-1] = Sprite.Create(SpriteTexture, new Rect(x * 16, y*16 , 16, 16), new Vector2(0, 0));
+                    var sprite = Sprite.Create(SpriteTexture, new Rect(x * 16, y * 16, 16, 16), new Vector2(0, 0));
+                    spriteMap[x, spritesY - y - 1] = sprite;
                 }
             }
             return spriteMap;

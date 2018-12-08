@@ -34,7 +34,7 @@ namespace Assets.Code.Game.Factories
                 var spriteSheet = bodyObj.AddComponent<SpriteSheet>();
                 spriteRenderer.sortingOrder = 2;
                 var bodySprite = AssetHandler.LoadedAssets[AssetHandler.BODIES];
-                var spriteRow = bodySprite.SliceRow(opts.SpriteIndex).ToArray();
+                var spriteRow = bodySprite.SliceRow(opts.BodySpriteIndex).ToArray();
                 spriteSheet.SetSheet(spriteRow);
                 spriteRenderer.sprite = spriteSheet.WalkSouth[1];
                 bodyObj.transform.parent = playerObj.transform;
@@ -46,7 +46,7 @@ namespace Assets.Code.Game.Factories
                 var legsSpriteSheet = legsObj.AddComponent<SpriteSheet>();
                 legsSpriteRenderer.sortingOrder = 3;
                 var legsSprite = AssetHandler.LoadedAssets[AssetHandler.LEGS];
-                var legsSpriteRow = legsSprite.SliceRow(opts.SpriteIndex).ToArray();
+                var legsSpriteRow = legsSprite.SliceRow(opts.LegsSpriteIndex).ToArray();
                 legsSpriteSheet.SetSheet(legsSpriteRow);
                 legsSpriteRenderer.sprite = legsSpriteSheet.WalkSouth[1];
                 legsObj.transform.parent = playerObj.transform;
@@ -58,7 +58,7 @@ namespace Assets.Code.Game.Factories
                 var chestSpriteSheet = chestObj.AddComponent<SpriteSheet>();
                 chestSpriteRenderer.sortingOrder = 4;
                 var chestSprite = AssetHandler.LoadedAssets[AssetHandler.CHESTS];
-                var chestSpriteRow = chestSprite.SliceRow(opts.SpriteIndex).ToArray();
+                var chestSpriteRow = chestSprite.SliceRow(opts.ChestSpriteIndex).ToArray();
                 chestSpriteSheet.SetSheet(chestSpriteRow);
                 chestSpriteRenderer.sprite = chestSpriteSheet.WalkSouth[1];
                 chestObj.transform.parent = playerObj.transform;
@@ -70,7 +70,7 @@ namespace Assets.Code.Game.Factories
                 var headSpriteSheet = headObj.AddComponent<SpriteSheet>();
                 headSpriteRenderer.sortingOrder = 5;
                 var headSprite = AssetHandler.LoadedAssets[AssetHandler.HEADS];
-                var headSpriteRow = headSprite.SliceRow(opts.SpriteIndex).ToArray();
+                var headSpriteRow = headSprite.SliceRow(opts.HeadSpriteIndex).ToArray();
                 headSpriteSheet.SetSheet(headSpriteRow);
                 headSpriteRenderer.sprite = headSpriteSheet.WalkSouth[1];
                 headObj.transform.parent = playerObj.transform;
@@ -96,7 +96,10 @@ namespace Assets.Code.Game.Factories
     {
         public bool IsMainPlayer;
         public string UserId;
-        public int SpriteIndex;
+        public int BodySpriteIndex;
+        public int ChestSpriteIndex;
+        public int HeadSpriteIndex;
+        public int LegsSpriteIndex;
         public int tileX;
         public int tileY;
         public int Speed;

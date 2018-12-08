@@ -43,6 +43,8 @@ namespace ServerCore.Game.GameMap
 
                     monsterInstance.Position = spawnPosition;
 
+                    monsterInstance.OriginSpawner = this;
+
                     Server.Events.Call(new MonsterSpawnEvent()
                     {
                         Monster = monsterInstance,
@@ -55,6 +57,7 @@ namespace ServerCore.Game.GameMap
                     var chunk = Server.Map.GetChunk(chunkX, chunkY);
 
                     chunk.MonstersInChunk.Add(monsterInstance);
+                    Server.Map.Monsters.Add(monsterInstance.UID, monsterInstance);
 
                     // Let players know this monster spawned
                     foreach (var player in monsterInstance.GetNearbyPlayers())
@@ -64,8 +67,8 @@ namespace ServerCore.Game.GameMap
                             MonsterUid = monsterInstance.UID,
                             MonsterName = monsterInstance.Name,
                             Position = monsterInstance.Position,
-                            SpriteIndex = monsterInstance.SpriteIndex,
-                            MoveSpeed = monsterInstance.Speed,
+                            SpriteIndex = monsterInstance.GetSpriteAsset().SpriteRowIndex,
+                            MoveSpeed = monsterInstance.MoveSpeed,
                             SpawnAnimation = true
                         });
                     }

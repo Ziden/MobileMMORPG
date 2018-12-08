@@ -22,7 +22,7 @@ namespace ServerCore.Tests.TestUtilities
             });
         }
 
-        public static OnlinePlayer FullLoginSequence(this MockedClient client, Player player)
+        public static OnlinePlayer FullLoginSequence(this MockedClient client, StoredPlayer player)
         {
             AccountService.RegisterAccount(player.Login, player.Password, player.Email, player);
             client.Login(player.Login, player.Password);

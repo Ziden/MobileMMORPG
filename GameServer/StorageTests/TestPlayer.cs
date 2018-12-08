@@ -18,13 +18,13 @@ public class TestPlayer
     [Test]
     public void TestPlayerDaoSaveRead ()
     {
-        var player = new Player();
+        var player = new StoredPlayer();
         player.UserId = "123";
         player.Login = "wololo";
         player.Password = "walala";
 
-        RedisHash<Player>.Set(player);
-        var user = RedisHash<Player>.Get("123");
+        RedisHash<StoredPlayer>.Set(player);
+        var user = RedisHash<StoredPlayer>.Get("123");
 
         Assert.AreEqual(user.Login, player.Login);
         Assert.AreEqual(user.Password, player.Password);
@@ -34,18 +34,18 @@ public class TestPlayer
     public void TestUpdatingPosition()
     {
 
-        var player = new Player();
+        var player = new StoredPlayer();
         player.UserId = "123";
         player.Login = "wololo";
         player.Password = "walala";
         player.X = 1;
         player.Y = 2;
 
-        RedisHash<Player>.Set(player);
+        RedisHash<StoredPlayer>.Set(player);
 
-        PlayerService.UpdatePlayerPosition(player, 3, 4);
+        PlayerService.UpdatePlayerPosition(player.UserId, 3, 4);
 
-        var obtainedPlayer = RedisHash<Player>.Get("123");
+        var obtainedPlayer = RedisHash<StoredPlayer>.Get("123");
 
         Assert.AreEqual(obtainedPlayer.X, 3);
         Assert.AreEqual(obtainedPlayer.Y, 4);

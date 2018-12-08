@@ -15,5 +15,7 @@ namespace ServerCore.Game.Monsters
         {
             Log.Info($"MONSTER SPAWNED {ev.Position.X} - {ev.Position.Y}");
         }
+
+
     }
 }
