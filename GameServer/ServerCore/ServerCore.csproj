@@ -13,7 +13,7 @@
     <None Remove="Assets\sprites\heads.png" />
     <None Remove="Assets\sprites\legs.png" />
     <None Remove="Assets\sprites\monsters_1.png" />
-    <None Remove="Assets\sprites\sprites.png" />
+    <None Remove="Assets\sprites\test.png" />
     <None Remove="Assets\test_map.tmx" />
     <None Remove="Assets\tilesets\Set1.png" />
     <None Remove="Assets\world.tmx" />
@@ -21,19 +21,15 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\sprites\animations\smoke.png" />
-    <EmbeddedResource Include="Assets\sprites\bodies.png" />
-    <EmbeddedResource Include="Assets\sprites\chests.png" />
-    <EmbeddedResource Include="Assets\sprites\heads.png" />
-    <EmbeddedResource Include="Assets\sprites\legs.png" />
-    <EmbeddedResource Include="Assets\sprites\monsters_1.png" />
-    <EmbeddedResource Include="Assets\sprites\sprites.png" />
+    <EmbeddedResource Include="Assets\sprites\characters\bodies.png" />
+    <EmbeddedResource Include="Assets\sprites\characters\chests.png" />
+    <EmbeddedResource Include="Assets\sprites\characters\heads.png" />
+    <EmbeddedResource Include="Assets\sprites\characters\legs.png" />
+    <EmbeddedResource Include="Assets\sprites\characters\monsters_1.png" />
+    <EmbeddedResource Include="Assets\sprites\test.png" />
     <EmbeddedResource Include="Assets\maps\test_map.tmx" />
     <EmbeddedResource Include="Assets\tilesets\Set1.png" />
     <EmbeddedResource Include="Assets\maps\world.tmx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using CommonCode;
+using CommonCode.Networking.Packets;
 using MapHandler;
 using ServerCore.Game.GameMap.MobSpawners;
 using ServerCore.Utils;
@@ -44,7 +45,7 @@ namespace ServerCore.Game.GameMap
                 {
                     var imgSource = tileset.Element("image").Attribute("source").Value;
                     var tilesetName = imgSource.Split('/').Last();
-                    byte[] image = AssetLoader.LoadImageData(tilesetName);
+                    byte[] image = AssetLoader.LoadedAssets.GetAsset(AssetType.TILESET, tilesetName).ImageData;
                     map.Tilesets.Add(tilesetName, image);
                 }
 

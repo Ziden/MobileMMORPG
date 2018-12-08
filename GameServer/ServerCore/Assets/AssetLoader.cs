@@ -9,80 +9,67 @@ using System.Xml.Linq;
 
 namespace ServerCore.Game.GameMap
 {
-
-    public class LoadedAssets : Dictionary<AssetType, List<GameAsset>>
+    // TODO: Rework this when we have sound assets or other types
+    public class LoadedAssets : Dictionary<AssetType, List<ImageAsset>>
     {
+        public void AddAsset(AssetType type, ImageAsset asset)
+        {
+            if (!this.ContainsKey(type))
+            {
+                this[type] = new List<ImageAsset>();
+            }
+            this[type].Add(asset);
+        }
 
+        public ImageAsset GetAsset(AssetType type, string name)
+        {
+            var list = this[type];
+            return list.Where(asset => asset.ImageName.ToLower() == name.ToLower()).First();
+        }
     }
 
     public class AssetLoader
     {
-        
-        private static Dictionary<string, byte[]> _imageCache = new Dictionary<string, byte[]>();
 
-        private static Dictionary<string, byte[]> _animations = new Dictionary<string, byte[]>();
-        
+        public static LoadedAssets LoadedAssets = new LoadedAssets();
 
-        // Image must be declared as "Embedded Resource" in the project to be read like this
-        
-        public static byte[] LoadImageData(string imageName)
+        private static void LoadAssetType(AssetType type, string assetFolderName)
         {
-            if(_imageCache.ContainsKey(imageName))
-            {
-                return _imageCache[imageName];
-            }
-
             var mapAssembly = AppDomain.CurrentDomain.GetAssemblies().Last(a => a.FullName.Contains("ServerCore,"));
-            var tileset = mapAssembly.GetManifestResourceNames()
-                .Where(resourceName => resourceName.Contains(imageName))
-                .Where(resourceName => resourceName.EndsWith(".png")).FirstOrDefault();
-
-            using (var stream = mapAssembly.GetManifestResourceStream(tileset))
+            var assets = mapAssembly.GetManifestResourceNames()
+                .Where(resourceName => resourceName.Contains(assetFolderName))
+                .Where(resourceName => resourceName.EndsWith(".png")).ToList();
+            foreach (var asset in assets)
             {
-                _imageCache[imageName] = ReadFully(stream);
-                return _imageCache[imageName];
+                var splitName = asset.Split(".");
+                var assetName = $"{splitName[splitName.Length - 2]}.{splitName[splitName.Length - 1]}";
+
+                using (var stream = mapAssembly.GetManifestResourceStream(asset))
+                {
+                    var gameAsset = new ImageAsset()
+                    {
+                        ImageName = assetName,
+                        ImageData = ReadStreamGetBytes(stream)
+                    };
+                    LoadedAssets.AddAsset(type, gameAsset);
+                }
             }
         }
-        
+
+        public static void LoadServerAssets()
+        {
+            LoadAssetType(AssetType.ANIMATION, "animations");
+            LoadAssetType(AssetType.SPRITE, "characters");
+            LoadAssetType(AssetType.TILESET, "tilesets");
+        }
+
+
         public static void Clear()
         {
-            _imageCache = new Dictionary<string, byte[]>();
-            _animations = new Dictionary<string, byte[]>();
-        }
-            
-        public static List<String> GetAnimations()
-        {
-            return _animations.Keys.ToList();
+            LoadedAssets.Clear();
         }
 
-        public static byte [] GetAnimation(string name)
-        {
-            return _animations[name];
-        }
-
-        public static List<string> LoadAnimations()
-        {
-            var mapAssembly = AppDomain.CurrentDomain.GetAssemblies().Last(a => a.FullName.Contains("ServerCore,"));
-            var animations = mapAssembly.GetManifestResourceNames()
-                .Where(resourceName => resourceName.Contains("animations"))
-                .Where(resourceName => resourceName.EndsWith(".png")).ToList();
-
-            foreach(var anim in animations)
-            {
-                var splitName = anim.Split(".");
-                var animName = $"{splitName[splitName.Length - 2]}.{splitName[splitName.Length - 1]}";
-
-                using (var stream = mapAssembly.GetManifestResourceStream(anim))
-                {
-                    _animations.Add(animName, ReadFully(stream));
-                }         
-            }
-
-            return _animations.Keys.ToList();
-        }
-        
-
-        public static byte[] ReadFully(Stream input)
+        private static byte[] ReadStreamGetBytes(Stream input)
         {
             byte[] buffer = new byte[16 * 1024];
             using (MemoryStream ms = new MemoryStream())
@@ -101,7 +88,7 @@ namespace ServerCore.Game.GameMap
             Log.Info("Loading Map");
             var mapAssembly = AppDomain.CurrentDomain.GetAssemblies().Last(a => a.FullName.Contains("ServerCore,"));
             var mapNames = mapAssembly.GetManifestResourceNames().Where(resourceName => resourceName.EndsWith(".tmx"));
-            if(searchMapName != null)
+            if (searchMapName != null)
             {
                 mapNames = mapNames.Where(mapName => mapName.Contains(searchMapName));
             }
@@ -116,7 +103,7 @@ namespace ServerCore.Game.GameMap
             return null;
         }
 
-        public static XDocument GetXDocument(string name)
+        private static XDocument GetXDocument(string name)
         {
             var mapAssembly = AppDomain.CurrentDomain.GetAssemblies().Last(a => a.FullName.Contains("ServerCore,"));
 

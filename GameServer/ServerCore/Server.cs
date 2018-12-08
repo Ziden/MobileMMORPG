@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Common;
+﻿using Common;
 using Common.Networking.Packets;
 using ServerCore.ConsoleCmds;
 using ServerCore.Game.GameMap;
@@ -7,7 +6,6 @@ using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Players;
 using ServerCore.Networking;
 using ServerCore.Utils.Scheduler;
-using Storage.Players;
 using System.Collections.Concurrent;
 using System.Linq;
 
@@ -39,12 +37,8 @@ namespace ServerCore
             Events?.Clear();
             Events = new ServerEvents();
             CommandHandler = new CommandHandler();
+            AssetLoader.LoadServerAssets();
             Map = AssetLoader.LoadMapFromFile(mapName);
-            AssetLoader.LoadAnimations();
-            Mapper.Reset();
-            Mapper.Initialize(cfg => {
-                cfg.CreateMap<StoredPlayer, OnlinePlayer>();
-            });
            // Map.LoadAllSpawners();
         }
 

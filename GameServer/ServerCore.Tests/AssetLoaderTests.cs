@@ -2,6 +2,7 @@ using NUnit.Framework;
 using MapHandler;
 using ServerCore.Game.GameMap;
 using ServerCore.Game.Monsters;
+using CommonCode.Networking.Packets;
 
 namespace MapTests
 {
@@ -37,11 +38,13 @@ namespace MapTests
         }
 
         [Test]
-        public void TestPlayerMoving()
+        public void TestGeneralAssetLoading()
         {
-            var animations = AssetLoader.LoadAnimations();
+            AssetLoader.LoadServerAssets();
 
-            Assert.That(animations.Count > 0);
+            Assert.That(AssetLoader.LoadedAssets[AssetType.ANIMATION].Count > 0);
+            Assert.That(AssetLoader.LoadedAssets[AssetType.TILESET].Count > 0);
+            Assert.That(AssetLoader.LoadedAssets[AssetType.SPRITE].Count > 0);
         }
 
         [Test]

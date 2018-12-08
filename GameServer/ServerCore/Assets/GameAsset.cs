@@ -4,5 +4,6 @@ namespace ServerCore.Assets
 {
     public interface GameAsset
     {  
+
     }
 }

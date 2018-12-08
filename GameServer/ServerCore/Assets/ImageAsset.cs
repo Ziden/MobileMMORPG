@@ -5,5 +5,7 @@
         // with suffix ".png"
         public string ImageName;
 
+        public byte [] ImageData;
+
     }
 }

@@ -18,7 +18,6 @@ namespace ServerCore.Networking.PacketListeners
         public static string SPR_MONTERS_1 = "monsters_1.png";
     }
 
-
     public class AssetListener : IEventListener
     {
         // This looks horrible, seriously
@@ -69,11 +68,13 @@ namespace ServerCore.Networking.PacketListeners
                 AssetType = AssetType.SPRITE
             });
 
-            foreach (var animationName in AssetLoader.GetAnimations())
+            var animations = AssetLoader.LoadedAssets[AssetType.ANIMATION];
+
+            foreach (var animationAsset in animations)
             {
                 client.Send(new AssetPacket()
                 {
-                    ResquestedImageName = animationName,
+                    ResquestedImageName = animationAsset.ImageName,
                     AssetType = AssetType.ANIMATION
                 });
             }
@@ -114,19 +115,9 @@ namespace ServerCore.Networking.PacketListeners
             // if client doesnt have the asset we gotta send it
             if (packet.HaveIt == false)
             {
-                byte[] bytes = null;
-                if (packet.AssetType == AssetType.TILESET)
-                {
-                    bytes = Server.Map.Tilesets[packet.ResquestedImageName];
-                }
-                else if (packet.AssetType == AssetType.SPRITE)
-                {
-                    bytes = AssetLoader.LoadImageData(packet.ResquestedImageName);
-                }
-                else if (packet.AssetType == AssetType.ANIMATION)
-                {
-                    bytes = AssetLoader.GetAnimation(packet.ResquestedImageName);
-                }
+                var assetType = packet.AssetType;
+                var asset = AssetLoader.LoadedAssets.GetAsset(packet.AssetType, packet.ResquestedImageName);
+                var bytes = asset.ImageData;
                 packet.Asset = bytes;
                 ServerTcpHandler.GetClient(packet.ClientId).Send(packet);
             }
