@@ -1,4 +1,5 @@
-﻿using ServerCore.Assets;
+﻿using CommonCode.EntityShared;
+using ServerCore.Assets;
 using ServerCore.Game.Entities;
 using ServerCore.Game.Monsters.Behaviours;
 using ServerCore.Game.Monsters.Behaviours.MoveBehaviours;

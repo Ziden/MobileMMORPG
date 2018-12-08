@@ -1,4 +1,5 @@
 ﻿using Common.Networking.Packets;
+using CommonCode.EntityShared;
 using CommonCode.EventBus;
 using CommonCode.Networking.Packets;
 using MapHandler;
@@ -8,16 +9,6 @@ using System.IO;
 
 namespace ServerCore.Networking.PacketListeners
 {
-    // Assets pre-baked into the server
-    public static class DefaultAssets
-    {
-        public static string SPR_BODIES = "bodies.png";
-        public static string SPR_LEGS = "legs.png";
-        public static string SPR_HEADS = "heads.png";
-        public static string SPR_CHESTS = "chests.png";
-        public static string SPR_MONTERS_1 = "monsters_1.png";
-    }
-
     public class AssetListener : IEventListener
     {
         // This looks horrible, seriously

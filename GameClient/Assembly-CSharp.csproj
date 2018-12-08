@@ -66,7 +66,6 @@
     <Compile Include="Assets\Code\AssetHandling\SpriteSheet.cs" />
     <Compile Include="Assets\Code\Game\AnimationBehaviour.cs" />
     <Compile Include="Assets\Code\Game\ClientEvents.cs" />
-    <Compile Include="Assets\Code\Game\ClientMap\Animations.cs" />
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerBehaviour.cs" />
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerObjectExtensions.cs" />
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerWrapper.cs" />
@@ -74,7 +73,7 @@
     <Compile Include="Assets\Code\Game\Factories\AnimationFactory.cs" />
     <Compile Include="Assets\Code\Game\Factories\FactoryMethods.cs" />
     <Compile Include="Assets\Code\Game\Factories\MonsterFactory.cs" />
-    <Compile Include="Assets\Code\Game\Factories\PlayerHandler.cs" />
+    <Compile Include="Assets\Code\Game\Factories\PlayerFactory.cs" />
     <Compile Include="Assets\Code\Game\Factories\TileFactory.cs" />
     <Compile Include="Assets\Code\Game\GameCamera.cs" />
     <Compile Include="Assets\Code\Game\MovingEntityBehaviour.cs" />

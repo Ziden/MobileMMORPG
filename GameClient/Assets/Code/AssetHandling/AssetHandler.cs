@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Code.Net
@@ -10,14 +9,6 @@ namespace Assets.Code.Net
     public static class AssetHandler
     {
         public static ConcurrentList<string> WaitingForAssets = new ConcurrentList<string>();
-
-        // TODO: MAKE THIS BETTER...
-        public static readonly string BODIES = "bodies.png";
-        public static readonly string CHESTS = "chests.png";
-        public static readonly string LEGS = "legs.png";
-        public static readonly string HEADS = "heads.png";
-        public static readonly string TILESET_FILE = "Set1.png";
-        public static readonly string MONSTERS_1 = "monsters_1.png";
 
         public static Dictionary<string, Sprite[,]> LoadedAssets = new Dictionary<string, Sprite[,]>();
 

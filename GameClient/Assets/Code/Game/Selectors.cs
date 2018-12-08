@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Net;
+using CommonCode.EntityShared;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace Assets.Code.Game
             var selector = new GameObject(selectorName);
             var renderer = selector.AddComponent<SpriteRenderer>();
             // Selector Image
-            var tileset = AssetHandler.LoadedAssets[AssetHandler.TILESET_FILE];
+            var tileset = AssetHandler.LoadedAssets[DefaultAssets.TLE_SET1];
             renderer.sprite = tileset[3, 1];
             renderer.color = color;
             renderer.sortingOrder = 1;
@@ -57,7 +58,7 @@ namespace Assets.Code.Game
                 _moveSelector = new GameObject("Move Selector");
                 _renderer = _moveSelector.AddComponent<SpriteRenderer>();
                 // Selector Image
-                var tileset = AssetHandler.LoadedAssets[AssetHandler.TILESET_FILE];
+                var tileset = AssetHandler.LoadedAssets[DefaultAssets.TLE_SET1];
                 _renderer.sprite = tileset[3,1];
                 _renderer.color = Color.green;
                 _renderer.sortingOrder = 1;

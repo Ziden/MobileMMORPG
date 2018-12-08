@@ -17,7 +17,7 @@ namespace ServerCore.Networking
         public TcpClient TcpClient;
         public string ConnectionId;
         public OnlinePlayer OnlinePlayer;
-        public int Latency = 100; // Default Latency
+        public int Latency = 100; // Default Latency for smoother movement interpolation
         public bool Listening = false;
 
         public static int PING_CHECK_SECONDS = 10;
@@ -41,7 +41,7 @@ namespace ServerCore.Networking
                 stream.Write(packetSizeBytes, 0, packetSizeBytes.Length);
                 stream.Write(packetDeserialized, 0, packetDeserialized.Length);
 
-                if (packet.GetType() != typeof(PingPacket))
+                if (packet.GetType() != typeof(PingPacket)) // fucking spam...
                     Log.Debug("Sent Packet " + packet.GetType().Name);
             }
             catch (Exception e)

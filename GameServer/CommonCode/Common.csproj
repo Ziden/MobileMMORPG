@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BaseThread.cs" />
     <Compile Include="ConcurrentList.cs" />
+    <Compile Include="EntityShared\DefaultAssets.cs" />
     <Compile Include="GameCfg.cs" />
     <Compile Include="EventBus\IEventListener.cs" />
     <Compile Include="EventBus\EventBus.cs" />

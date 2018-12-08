@@ -1,6 +1,7 @@
 ﻿using Assets.Code.AssetHandling;
 using Assets.Code.Net;
 using Client.Net;
+using CommonCode.EntityShared;
 using MapHandler;
 using System.Linq;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Assets.Code.Game.Factories
                 var spriteRenderer = monsterObj.AddComponent<SpriteRenderer>();
                 var spriteSheet = monsterObj.AddComponent<SpriteSheet>();
                 spriteRenderer.sortingOrder = 2;
-                var bodySprite = AssetHandler.LoadedAssets[AssetHandler.MONSTERS_1];
+                var bodySprite = AssetHandler.LoadedAssets[DefaultAssets.SPR_MONTERS_1];
                 var spriteRow = bodySprite.SliceRow(opts.SpriteIndex).ToArray();
                 spriteSheet.SetSheet(spriteRow, rowSize:2);
                 spriteRenderer.sprite = spriteSheet.WalkSouth[1];

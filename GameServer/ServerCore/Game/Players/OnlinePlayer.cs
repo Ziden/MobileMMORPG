@@ -1,9 +1,9 @@
-﻿using CommonCode.Networking.Packets;
+﻿using CommonCode.EntityShared;
+using CommonCode.Networking.Packets;
 using MapHandler;
 using ServerCore.Assets;
 using ServerCore.Game.Entities;
 using ServerCore.Networking;
-using ServerCore.Networking.PacketListeners;
 using Storage.Players;
 
 namespace ServerCore.GameServer.Players
@@ -19,25 +19,25 @@ namespace ServerCore.GameServer.Players
         public long CanMoveAgainTime = 0;
 
 
-        private SpriteAsset _bodySprite = new SpriteAsset()
+        private SpriteAsset BodySprite = new SpriteAsset()
         {
             ImageName = DefaultAssets.SPR_BODIES,
             SpriteRowIndex = 2,
         };
 
-        private SpriteAsset _legSprite = new SpriteAsset()
+        private SpriteAsset LegSprite = new SpriteAsset()
         {
             ImageName = DefaultAssets.SPR_LEGS,
             SpriteRowIndex = 2,
         };
 
-        private SpriteAsset _headSprite = new SpriteAsset()
+        private SpriteAsset HeadSprite = new SpriteAsset()
         {
             ImageName = DefaultAssets.SPR_HEADS,
             SpriteRowIndex = 2,
         };
 
-        private SpriteAsset _chestSprite = new SpriteAsset()
+        private SpriteAsset ChestSprite = new SpriteAsset()
         {
             ImageName = DefaultAssets.SPR_CHESTS,
             SpriteRowIndex = 2,
@@ -46,10 +46,10 @@ namespace ServerCore.GameServer.Players
         public SpriteAsset[] GetSpriteAsset()
         {
             return new SpriteAsset[] {
-                _bodySprite,
-                _legSprite,
-                _headSprite,
-                _chestSprite
+                BodySprite,
+                LegSprite,
+                HeadSprite,
+                ChestSprite
             };
         }
 
@@ -59,8 +59,10 @@ namespace ServerCore.GameServer.Players
             this.MoveSpeed = player.MoveSpeed;
             this.Position = new Position(player.X, player.Y);
             this.UID = player.UserId;
-            // TODO
-            // this.Sprites =
+            this.BodySprite.SpriteRowIndex = player.BodySpriteIndex;
+            this.LegSprite.SpriteRowIndex = player.LegsSpriteIndex;
+            this.ChestSprite.SpriteRowIndex = player.ChestSpriteIndex;
+            this.HeadSprite.SpriteRowIndex = player.ChestSpriteIndex;
         }
 
         public PlayerPacket ToPacket()
@@ -73,10 +75,10 @@ namespace ServerCore.GameServer.Players
                 UserId = this.UID,
                 Speed = this.MoveSpeed,
 
-                BodySpriteIndex = this.GetSpriteAsset()[0].SpriteRowIndex,
-                HeadSpriteIndex = this.GetSpriteAsset()[1].SpriteRowIndex,
-                LegSpriteIndex = this.GetSpriteAsset()[2].SpriteRowIndex,
-                ChestSpriteIndex = this.GetSpriteAsset()[3].SpriteRowIndex
+                BodySpriteIndex = BodySprite.SpriteRowIndex,
+                HeadSpriteIndex = HeadSprite.SpriteRowIndex,
+                LegSpriteIndex = LegSprite.SpriteRowIndex,
+                ChestSpriteIndex = ChestSprite.SpriteRowIndex
             };
             return packet;
         }

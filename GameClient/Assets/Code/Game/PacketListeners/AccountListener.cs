@@ -1,7 +1,6 @@
 ﻿using Common.Networking.Packets;
 using CommonCode.EventBus;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Client.Net.PacketListeners
 {

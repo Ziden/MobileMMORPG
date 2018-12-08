@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Net;
+using CommonCode.EntityShared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Assets.Code.Game.Factories
             gameObj.tag = "Tile";
             var spriteRenderer = gameObj.AddComponent<SpriteRenderer>();
 
-            var spriteFile = AssetHandler.LoadedAssets[AssetHandler.TILESET_FILE];
+            var spriteFile = AssetHandler.LoadedAssets[DefaultAssets.TLE_SET1];
 
             var tilesW = spriteFile.GetLength(0);
             var tilesH = spriteFile.GetLength(1);

@@ -18,13 +18,13 @@
         [RedisField("cspr")]
         public int ChestSpriteIndex { get; set; }
 
-        [RedisField("cspr")]
+        [RedisField("lspr")]
         public int LegsSpriteIndex { get; set; }
 
         [RedisField("cspr")]
         public int HeadSpriteIndex { get; set; }
 
-        [RedisField("cspr")]
+        [RedisField("bspr")]
         public int BodySpriteIndex { get; set; }
 
         [RedisField("l")]
