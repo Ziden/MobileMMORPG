@@ -6,24 +6,24 @@ using UnityEngine;
 
 public class MovingEntityBehaviour : MonoBehaviour
 {
-    private Position _goingToPosition;
 
-    private Direction _movingToDirection = Direction.NONE;
-
-    public Position MapPosition = new Position(0, 0);
-    public int Speed;
+    // Add a position to the route to make the entity move, or add a route. :)
     public List<Position> Route = new List<Position>();
+    public Position MapPosition = new Position(0, 0);
     public List<SpriteSheet> SpriteSheets = new List<SpriteSheet>();
+    public int MoveSpeed;
 
-    private float t;
-    private Vector3 startPosition;
+    private Position _goingToPosition;
+    private Direction _movingToDirection = Direction.NONE;
+    private float _timeForLerp;
+    private Vector3 _startPosition;
     private Vector3? _target;
     private float timeToReachTarget;
     private bool _lastMovement;
 
     void Start()
     {
-        _target = startPosition = transform.position;
+        _target = _startPosition = transform.position;
     }
 
     void Update()
@@ -45,8 +45,8 @@ public class MovingEntityBehaviour : MonoBehaviour
     {
         if (!_target.HasValue)
             return;
-        t += Time.deltaTime / timeToReachTarget;
-        transform.position = Vector3.Lerp(startPosition, _target.Value, t);
+        _timeForLerp += Time.deltaTime / timeToReachTarget;
+        transform.position = Vector3.Lerp(_startPosition, _target.Value, _timeForLerp);
 
         if (transform.position == _target && _movingToDirection != Direction.NONE)
         {
@@ -67,10 +67,9 @@ public class MovingEntityBehaviour : MonoBehaviour
         if (_goingToPosition != null && _movingToDirection == Direction.NONE)
         {
             _movingToDirection = MapHelpers.GetDirection(MapPosition, _goingToPosition);
-            var timeToMove = (float)Formulas.GetTimeToMoveBetweenTwoTiles(Speed);
+            var timeToMove = (float)Formulas.GetTimeToMoveBetweenTwoTiles(MoveSpeed);
 
             SetDestination(new Vector3(_goingToPosition.X * 16, _goingToPosition.Y * 16, 0), timeToMove / 1000);
-            Debug.Log("Moving Entity To " + _goingToPosition.X + " - " + _goingToPosition.Y);
 
             SpriteSheets.ForEach(e => e.Direction = _movingToDirection);
             SpriteSheets.ForEach(e => e.Moving = true);
@@ -83,8 +82,8 @@ public class MovingEntityBehaviour : MonoBehaviour
 
     public void SetDestination(Vector3 destination, float time)
     {
-        t = 0;
-        startPosition = transform.position;
+        _timeForLerp = 0;
+        _startPosition = transform.position;
         timeToReachTarget = time;
         _target = new Vector2(destination.x, -destination.y);
     }

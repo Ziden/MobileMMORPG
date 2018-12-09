@@ -28,7 +28,7 @@ namespace Assets.Code.Game.Factories
                 spriteRenderer.sprite = spriteSheet.WalkSouth[1];
                 var movingBehaviour = monsterObj.AddComponent<MovingEntityBehaviour>();
                 movingBehaviour.SpriteSheets.Add(spriteSheet);
-                movingBehaviour.Speed = opts.MoveSpeed;
+                movingBehaviour.MoveSpeed = opts.MoveSpeed;
                 movingBehaviour.MapPosition = opts.Position;
                 monsterObj.transform.position = new Vector2(opts.Position.X * 16, -opts.Position.Y * 16);
             }

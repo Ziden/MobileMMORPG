@@ -68,7 +68,7 @@ namespace Assets.Code.Net.PacketListeners
                 tileY = packet.Y,
                 IsMainPlayer = packet.UserId == UnityClient.Player.UserId
             });
-            TouchHandler.GameTouchOn = true;
+            TouchHandler.GameTouchEnabled = true;
         }
 
         public static void PlayerSetTarget(GameObject target)

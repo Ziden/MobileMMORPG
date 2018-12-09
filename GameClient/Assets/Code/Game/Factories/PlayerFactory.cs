@@ -82,7 +82,7 @@ namespace Assets.Code.Game.Factories
                 if (!opts.IsMainPlayer)
                 { 
                     var movingEntity = playerObj.AddComponent<MovingEntityBehaviour>();
-                    movingEntity.Speed = opts.Speed;
+                    movingEntity.MoveSpeed = opts.Speed;
                     movingEntity.MapPosition = new Position(opts.tileX, opts.tileY);
                     movingEntity.SpriteSheets.Add(spriteSheet);
                     movingEntity.SpriteSheets.Add(headSpriteSheet);

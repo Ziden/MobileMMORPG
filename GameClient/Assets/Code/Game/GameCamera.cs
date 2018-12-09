@@ -8,11 +8,11 @@ public class GameCamera : MonoBehaviour
     public float dampTime = 0.15f;
     private Vector3 velocity = Vector3.zero;
 
-    // Update is called once per frame
     void Update()
     {
         if (UnityClient.Player.PlayerObject == null)
             return;
+
         var target = UnityClient.Player.PlayerObject.transform;
         if (target)
         {

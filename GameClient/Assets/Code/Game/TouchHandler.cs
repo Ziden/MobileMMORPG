@@ -4,20 +4,15 @@ using Client.Net;
 using MapHandler;
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Assets.Code.Game
 {
     public class TouchHandler : MonoBehaviour
     {
-        public static bool GameTouchOn = false;
+        public static bool GameTouchEnabled = false;
 
-        /// <summary>
-        /// When user clicks any non object place, it clicks on a tile position
-        /// </summary>
         private void ClickTile(Vector2 tile)
         {
-            Debug.Log("Clicked tile " + tile.x + " " + tile.y);
             var player = UnityClient.Player;
             var path = WorldMap<Chunk>.FindPath(player.Position, new Position((int)tile.x, (int)tile.y), UnityClient.Map.Chunks);
             if(path != null)
@@ -34,8 +29,7 @@ namespace Assets.Code.Game
             var realX = (int)Math.Floor(realPosition.x / 16);
             var realY = (int)Math.Floor(realPosition.y / 16);
 
-            var clickedObject = SelectedByMouse();
-
+            var clickedObject = SelectedObjectByMouse();
             if(clickedObject != null)
             {
                 Selectors.RemoveSelector("targeted");
@@ -45,23 +39,20 @@ namespace Assets.Code.Game
                     Selectors.AddSelector(clickedObject, "targeted", Color.red);
                     PlayerListener.PlayerSetTarget(clickedObject);
                 }
-                return;
+  
+            } else
+            {
+                //if (EventSystem.current.()) // check if didnt clickd UI elements
+                ClickTile(new Vector2(realX, -realY));
             }
-
-            //if (EventSystem.current.()) // check if didnt clickd UI elements
-            
-            ClickTile(new Vector2(realX, -realY));
         }
 
-        public GameObject SelectedByMouse()
+        public GameObject SelectedObjectByMouse()
         {
-            //Converting Mouse Pos to 2D (vector2) World Pos
             var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var hitCollider = Physics2D.OverlapPoint(mousePosition);
-
             if(hitCollider != null && hitCollider.transform != null)
             {
-                Debug.Log("Hit " + hitCollider.name);
                 return hitCollider.gameObject;
             }
             return null;
@@ -69,7 +60,7 @@ namespace Assets.Code.Game
 
         public void Update()
         {
-            if (!GameTouchOn)
+            if (!GameTouchEnabled)
                 return;
 
             if (Input.touchCount > 0)
