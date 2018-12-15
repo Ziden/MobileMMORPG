@@ -42,6 +42,7 @@ namespace ServerCore
             }
         }
 
+
         public void ProcessPlayerInput()
         {
             while(Server.PacketsToProccess.Count > 0)
@@ -61,7 +62,5 @@ namespace ServerCore
            //     continue;
                 //ChunkProvider.CheckChunks(onlinePlayer);
         }
-
-
     }
 }

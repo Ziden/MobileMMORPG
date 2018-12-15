@@ -1,5 +1,4 @@
 ﻿using Assets.Code.Game;
-using Client.Net;
 using Common;
 using Common.Networking.Packets;
 using MapHandler;

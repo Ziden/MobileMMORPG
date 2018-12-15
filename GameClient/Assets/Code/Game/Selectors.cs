@@ -1,5 +1,6 @@
 ﻿using Assets.Code.Net;
 using CommonCode.EntityShared;
+using MapHandler;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,11 +10,11 @@ namespace Assets.Code.Game
     {
         private static Dictionary<string, GameObject> _selectors = new Dictionary<string, GameObject>();
         private static GameObject _moveSelector = null;
-        private static SpriteRenderer _renderer = null;
+        private static SpriteRenderer _movementSelectorRenderer = null;
 
         public static void HideSelector()
         {
-            _renderer.sortingOrder = -1;
+            _movementSelectorRenderer.sortingOrder = -1;
         }
 
         public static void AddSelector(GameObject obj, string selectorName, Color color)
@@ -51,23 +52,23 @@ namespace Assets.Code.Game
             }
         }
 
-        public static void MoveSelector(Vector2 vec)
+        public static void MoveMovementSelectorTo(Position pos)
         {
             if(_moveSelector == null)
             {
                 _moveSelector = new GameObject("Move Selector");
-                _renderer = _moveSelector.AddComponent<SpriteRenderer>();
+                _movementSelectorRenderer = _moveSelector.AddComponent<SpriteRenderer>();
                 // Selector Image
                 var tileset = AssetHandler.LoadedAssets[DefaultAssets.TLE_SET1];
-                _renderer.sprite = tileset[3,1];
-                _renderer.color = Color.green;
-                _renderer.sortingOrder = 1;
+                _movementSelectorRenderer.sprite = tileset[3,1];
+                _movementSelectorRenderer.color = Color.green;
+                _movementSelectorRenderer.sortingOrder = 1;
                 _moveSelector.transform.localScale = new Vector2(100, 100);
-                _moveSelector.transform.position = new Vector2(vec.x * 16, -vec.y * 16);
+                _moveSelector.transform.position = new Vector2(pos.X * 16, -pos.Y * 16);
             } else
             {
-                _renderer.sortingOrder = 1;
-                _moveSelector.transform.position = new Vector2(vec.x * 16, -vec.y * 16);
+                _movementSelectorRenderer.sortingOrder = 1;
+                _moveSelector.transform.position = new Vector2(pos.X * 16, -pos.Y * 16);
             }
         }
 

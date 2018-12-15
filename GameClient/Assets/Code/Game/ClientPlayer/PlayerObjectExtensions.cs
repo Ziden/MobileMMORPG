@@ -16,5 +16,15 @@ namespace Assets.Code.Game.ClientPlayer
             UnityClient.Player.Position.X = x;
             UnityClient.Player.Position.Y = y;
         }
+
+        public static bool FindPathTo(this PlayerWrapper player, Position position)
+        {
+            var path = WorldMap<Chunk>.FindPath(player.Position, position, UnityClient.Map.Chunks);
+            if (path != null)
+            {
+                player.FollowingPath = path;
+            }
+            return path != null;
+        }
     }
 }

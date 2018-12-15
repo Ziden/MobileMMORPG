@@ -39,20 +39,6 @@ namespace Assets.Code.Net.PacketListeners
         }
 
         [EventMethod]
-        public void OnPlayerMove(EntityMovePacket packet)
-        {
-            var entityObj = GameObject.Find(packet.UID);
-            if (entityObj != null)
-            {
-                var movingEntity = entityObj.GetComponent<MovingEntityBehaviour>();
-                if(movingEntity != null)
-                {
-                    movingEntity.Route.Add(packet.To);
-                }
-            }
-        }
-
-        [EventMethod]
         public void OnPlayerAppears(PlayerPacket packet)
         {
             // instantiate the player if needed
@@ -73,12 +59,19 @@ namespace Assets.Code.Net.PacketListeners
 
         public static void PlayerSetTarget(GameObject target)
         {
-            UnityClient.TcpClient.Send(new TargetPacket()
+            Selectors.RemoveSelector("targeted");
+            var objType = FactoryMethods.GetType(target);
+            if (objType == FactoryObjectTypes.MONSTER)
             {
-                TargetUuid = target.name,
-                WhoUuid = UnityClient.Player.UserId
-            });
-            UnityClient.Player.Target = target;
+                UnityClient.Player.Target = target;
+                Selectors.AddSelector(target, "targeted", Color.red);
+                var path = WorldMap<Chunk>.FindPath(UnityClient.Player.Position, target.GetMapPosition(), UnityClient.Map.Chunks);
+                if (path != null)
+                {
+                    UnityClient.Player.FollowingPath = path;
+                    Selectors.HideSelector();
+                }
+            } 
         }
     }
 }

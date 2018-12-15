@@ -1,4 +1,4 @@
-﻿using Assets.Code.Game.Factories;
+﻿using Assets.Code.Game.ClientPlayer;
 using Assets.Code.Net.PacketListeners;
 using Client.Net;
 using MapHandler;
@@ -11,15 +11,17 @@ namespace Assets.Code.Game
     {
         public static bool GameTouchEnabled = false;
 
-        private void ClickTile(Vector2 tile)
+        private void ClickTile(Position tile)
         {
-            var player = UnityClient.Player;
-            var path = WorldMap<Chunk>.FindPath(player.Position, new Position((int)tile.x, (int)tile.y), UnityClient.Map.Chunks);
-            if(path != null)
+            var willMove = UnityClient.Player.FindPathTo(tile);
+            if(willMove)
             {
-               player.FollowingPath = path;
+                // put the green square on the gruond to indicate where u going to
+                Selectors.MoveMovementSelectorTo(tile);
             }
-            Selectors.MoveSelector(tile);
+            // remove the indicators that we are targeting any monsters
+            Selectors.RemoveSelector("targeted");
+            UnityClient.Player.Target = null;
         }
 
         private void ButtonDown(Vector2 position)
@@ -32,18 +34,11 @@ namespace Assets.Code.Game
             var clickedObject = SelectedObjectByMouse();
             if(clickedObject != null)
             {
-                Selectors.RemoveSelector("targeted");
-                var objType = FactoryMethods.GetType(clickedObject);
-                if(objType == FactoryObjectTypes.MONSTER)
-                {
-                    Selectors.AddSelector(clickedObject, "targeted", Color.red);
-                    PlayerListener.PlayerSetTarget(clickedObject);
-                }
-  
+                PlayerListener.PlayerSetTarget(clickedObject);
             } else
             {
                 //if (EventSystem.current.()) // check if didnt clickd UI elements
-                ClickTile(new Vector2(realX, -realY));
+                ClickTile(new Position(realX, -realY));
             }
         }
 

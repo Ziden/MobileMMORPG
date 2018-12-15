@@ -79,10 +79,12 @@
     <Compile Include="Assets\Code\Game\MovingEntityBehaviour.cs" />
     <Compile Include="Assets\Code\Game\PacketListeners\AccountListener.cs" />
     <Compile Include="Assets\Code\Game\PacketListeners\AssetListener.cs" />
+    <Compile Include="Assets\Code\Game\PacketListeners\EntityListener.cs" />
     <Compile Include="Assets\Code\Game\PacketListeners\MapListener.cs" />
     <Compile Include="Assets\Code\Game\PacketListeners\PlayerListener.cs" />
     <Compile Include="Assets\Code\Game\Selectors.cs" />
     <Compile Include="Assets\Code\Game\TouchHandler.cs" />
+    <Compile Include="Assets\Code\Game\UnityExtensions.cs" />
     <Compile Include="Assets\Code\Net\Behaviours\ConnectionBehaviour.cs" />
     <Compile Include="Assets\Code\Net\Behaviours\LoadingBehaviour.cs" />
     <Compile Include="Assets\Code\Net\Behaviours\NetworkBehaviour.cs" />

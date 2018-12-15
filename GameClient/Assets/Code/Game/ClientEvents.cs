@@ -1,4 +1,5 @@
-﻿using Assets.Code.Net.PacketListeners;
+﻿using Assets.Code.Game.PacketListeners;
+using Assets.Code.Net.PacketListeners;
 using Client.Net.PacketListeners;
 using Common;
 using Common.Networking.Packets;
@@ -27,6 +28,7 @@ namespace Assets.Code.Game
             eventHandler.RegisterListener(new AccountListener());
             eventHandler.RegisterListener(new AssetListener());
             eventHandler.RegisterListener(new MapListener());
+            eventHandler.RegisterListener(new EntityListener());
         }
     }
 
