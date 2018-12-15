@@ -7,6 +7,8 @@ namespace MapHandler
 {
     public class WorldMap<ChunkType> where ChunkType : Chunk
     {
+        public EntityPositionsCache EntityPositions = new EntityPositionsCache();
+
         public Dictionary<string, ChunkType> Chunks = new Dictionary<string, ChunkType>();
 
         public void AddChunk(ChunkType c)
@@ -29,6 +31,19 @@ namespace MapHandler
             }
         }
 
+        public bool IsPassable(int x, int y)
+        {
+            if (!TileProperties.IsPassable(GetTile(x, y)))
+            {
+                return false;
+            }
+            if (!EntityPositions.IsVacant(new Position(x, y)))
+            {
+                return false;
+            }
+            return true;
+        }
+
         public ChunkType GetChunk(int x, int y)
         {
             var key = $"{x}_{y}";
@@ -37,10 +52,41 @@ namespace MapHandler
             return Chunks[key];
         }
 
-        public static List<Position> FindPath(Position start, Position goal, Dictionary<string, Chunk> chunks)
+        public class EntityPositionsCache : Dictionary<string, List<Entity>>
         {
+            public bool IsVacant(Position pos)
+            {
+                var teste = this;
+                var key = $"{pos.X}_{pos.Y}";
+                return !ContainsKey(key);
+            }
 
-            var passableMapResult = PathfinderHelper.GetPassableByteArray(start, goal, chunks);
+            public void RemoveEntity(Entity e, Position pos)
+            {
+                var key = $"{pos.X}_{pos.Y}";
+                if (ContainsKey(key))
+                {
+                    var entities = this[key];
+                    entities.Remove(e);
+                    if (entities.Count == 0)
+                        Remove(key);
+                }
+            }
+
+            public void AddEntity(Entity entity, Position pos)
+            {
+                var key = $"{pos.X}_{pos.Y}";
+                if (!ContainsKey(key))
+                {
+                    Add(key, new List<Entity>());
+                }
+                this[key].Add(entity);
+            }
+        }
+
+        public List<Position> FindPath(Position start, Position goal)
+        {
+            var passableMapResult = PathfinderHelper.GetPassableByteArray(start, goal, this.Chunks, IsPassable);
             var pathfinder = new PathFinder(passableMapResult.PassableMap);
 
             var offsetedStart = new Position(start.X + (passableMapResult.OffsetX * 16), start.Y + (passableMapResult.OffsetY * 16));

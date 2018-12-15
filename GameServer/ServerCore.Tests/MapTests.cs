@@ -6,7 +6,6 @@ using Storage.TestDataBuilder;
 using ServerCore.Tests.TestUtilities;
 using ServerCore.Game.Monsters;
 using MapHandler;
-using ServerCore.Game.Entities;
 using ServerCore.GameServer.Players.Evs;
 
 namespace MapTests
@@ -61,7 +60,6 @@ namespace MapTests
 
             Assert.That(Server.Map.IsPassable(skeleton.Position.X, skeleton.Position.Y) == false,
                 "Tile should not be passable as there is a skeleton there now");
-
         }
     }
 }

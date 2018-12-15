@@ -56,6 +56,8 @@
     <Compile Include="EventBus\RegisteredListener.cs" />
     <Compile Include="MapShared\Chunk.cs" />
     <Compile Include="MapShared\Directions.cs" />
+    <Compile Include="MapShared\Entity.cs" />
+    <Compile Include="MapShared\EntityType.cs" />
     <Compile Include="MapShared\MapHelpers.cs" />
     <Compile Include="MapShared\MapUtils.cs" />
     <Compile Include="MapShared\PathfinderHelper.cs" />

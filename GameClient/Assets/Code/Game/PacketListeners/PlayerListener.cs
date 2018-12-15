@@ -30,7 +30,7 @@ namespace Assets.Code.Net.PacketListeners
             // recalculating route to destination
             if (destination != null)
             {
-                var path = WorldMap<Chunk>.FindPath(UnityClient.Player.Position, destination, UnityClient.Map.Chunks);
+                var path = UnityClient.Map.FindPath(UnityClient.Player.Position, destination);
                 if (path != null)
                 {
                     UnityClient.Player.FollowingPath = path;
@@ -65,7 +65,7 @@ namespace Assets.Code.Net.PacketListeners
             {
                 UnityClient.Player.Target = target;
                 Selectors.AddSelector(target, "targeted", Color.red);
-                var path = WorldMap<Chunk>.FindPath(UnityClient.Player.Position, target.GetMapPosition(), UnityClient.Map.Chunks);
+                var path = UnityClient.Map.FindPath(UnityClient.Player.Position, target.GetMapPosition());
                 if (path != null)
                 {
                     UnityClient.Player.FollowingPath = path;

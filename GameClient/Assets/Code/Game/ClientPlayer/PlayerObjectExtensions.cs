@@ -19,7 +19,7 @@ namespace Assets.Code.Game.ClientPlayer
 
         public static bool FindPathTo(this PlayerWrapper player, Position position)
         {
-            var path = WorldMap<Chunk>.FindPath(player.Position, position, UnityClient.Map.Chunks);
+            var path =UnityClient.Map.FindPath(player.Position, position);
             if (path != null)
             {
                 player.FollowingPath = path;

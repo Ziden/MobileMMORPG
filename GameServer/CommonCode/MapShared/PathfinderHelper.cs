@@ -15,7 +15,7 @@ namespace CommonCode.Pathfinder
     public class PathfinderHelper
     {
 
-        private static Position [] GetMinMaxChunks(Dictionary<string, Chunk> chunks)
+        private static Position [] GetMinMaxChunks<ChunkType>(Dictionary<string, ChunkType> chunks) where ChunkType : Chunk
         {
             int minX = int.MaxValue;
             int minY = int.MaxValue;
@@ -37,23 +37,15 @@ namespace CommonCode.Pathfinder
             return new Position[] { new Position(minX, minY), new Position(maxX, maxY) };
         }
 
-        public static PassableMapResult GetPassableByteArray(Position start, Position goal, Dictionary<string, Chunk> chunks)
+        public static PassableMapResult GetPassableByteArray<ChunkType>(Position start, Position goal, Dictionary<string, ChunkType> chunks, Func<int, int, bool> PassableCheck) where ChunkType : Chunk
         {
-           // var startChunkX = start.X >> 4;
-           // var startChunkY = start.Y >> 4;
-
-           // var endChunkX = goal.X >> 4;
-           // var endChunkY = goal.Y >> 4;
-
             var minMaxChunks = GetMinMaxChunks(chunks);
             var minChunk = minMaxChunks[0];
             var maxChunk = minMaxChunks[1];
 
-            var chunkDistanceX = 3; //Math.Abs(startChunkX - endChunkX) + 1;
-            var chunkDistanceY = 3; //Math.Abs(startChunkY - endChunkY) + 1;
+            var chunkDistanceX = 3; 
+            var chunkDistanceY = 3;
 
-            //var maxChunk = new Position(Math.Max(startChunkX, endChunkX), Math.Max(startChunkY, endChunkY));
-            //var minChunk = new Position(Math.Min(startChunkX, endChunkX), Math.Min(startChunkY, endChunkY));
 
             int gridSize = Math.Max(chunkDistanceX, chunkDistanceY);
 
@@ -87,7 +79,11 @@ namespace CommonCode.Pathfinder
                         for (var tileY = 0; tileY <= 15; tileY++)
                         {
                             var tile = c.GetTile(tileX, tileY);
-                            if (TileProperties.IsPassable(tile))
+
+                            var mapTileX = chunkX * 16 + tileX;
+                            var mapTileY = chunkY * 16 + tileY;
+
+                            if (PassableCheck.Invoke(mapTileX, mapTileY))
                             {
                                 passableMap[(chunkX + xOffset) * 16 + tileX, (chunkY + yOffset) * 16 + tileY] = 1;
                             }
