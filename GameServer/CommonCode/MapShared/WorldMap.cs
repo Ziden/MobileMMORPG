@@ -37,12 +37,6 @@ namespace MapHandler
             return Chunks[key];
         }
 
-        public bool IsPassable(int x, int y)
-        {
-            return TileProperties.IsPassable(GetTile(x, y));
-
-        }
-
         public static List<Position> FindPath(Position start, Position goal, Dictionary<string, Chunk> chunks)
         {
 

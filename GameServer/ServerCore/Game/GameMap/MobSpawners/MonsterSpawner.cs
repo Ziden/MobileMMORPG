@@ -1,5 +1,6 @@
 ﻿using Common.Networking.Packets;
 using MapHandler;
+using ServerCore.Game.Entities;
 using ServerCore.Game.GameMap.MobSpawners;
 using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Players.Evs;
@@ -42,28 +43,20 @@ namespace ServerCore.Game.GameMap
                         return;
 
                     monsterInstance.Position = spawnPosition;
-
                     monsterInstance.OriginSpawner = this;
 
-                    Server.Events.Call(new MonsterSpawnEvent()
+                    var spawnEvent = new EntitySpawnEvent()
                     {
-                        Monster = monsterInstance,
+                        Entity = monsterInstance,
                         Position = spawnPosition
-                    });
-
-                    var chunkX = spawnPosition.X >> 4;
-                    var chunkY = spawnPosition.Y >> 4;
-
-                    var chunk = Server.Map.GetChunk(chunkX, chunkY);
-
-                    chunk.MonstersInChunk.Add(monsterInstance);
-                    Server.Map.Monsters.Add(monsterInstance.UID, monsterInstance);
+                    };
+                    Server.Events.Call(spawnEvent);
 
                     // Let players know this monster spawned
                     foreach (var player in monsterInstance.GetNearbyPlayers())
                     {
                         player.Tcp.Send(new MonsterSpawnPacket()
-                        { 
+                        {
                             MonsterUid = monsterInstance.UID,
                             MonsterName = monsterInstance.Name,
                             Position = monsterInstance.Position,

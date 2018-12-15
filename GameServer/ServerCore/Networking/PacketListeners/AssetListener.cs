@@ -94,6 +94,14 @@ namespace ServerCore.Networking.PacketListeners
             // make the player itself appear
             client.Send(playerPacket);
 
+            // to track the entity spawning caches etc
+            Server.Events.Call(new EntitySpawnEvent()
+            {
+                Entity = player,
+                Position = player.Position
+            });
+
+            // to handle packets when a player joins
             Server.Events.Call(new PlayerJoinEvent()
             {
                 Player = player

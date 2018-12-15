@@ -3,6 +3,8 @@ using ServerCore.GameServer.Players.Evs;
 using ServerCore.Networking.NetworkEvents;
 using System;
 using Common.Networking.Packets;
+using ServerCore.GameServer.Entities;
+using ServerCore.Game.Entities;
 
 namespace ServerCore.GameServer.Players
 {
@@ -36,7 +38,6 @@ namespace ServerCore.GameServer.Players
                     chunk.PlayersInChunk.Remove(ev.Player);
                     Server.Players.Remove(ev.Player);
                 }
-
                 ev.Player = null;
                 ev.Client.Stop();
             }
@@ -50,7 +51,6 @@ namespace ServerCore.GameServer.Players
         public void OnPlayerJoinEvent(PlayerJoinEvent ev)
         {
             var chunk = ev.Player.GetChunk();
-            chunk.PlayersInChunk.Add(ev.Player);
             var player = ev.Player;
             var nearPlayers = player.GetPlayersNear();
             var packet = player.ToPacket();
@@ -60,40 +60,6 @@ namespace ServerCore.GameServer.Players
                 nearPlayer.Tcp.Send(packet);
                 var otherPlayerPacket = nearPlayer.ToPacket();
                 player.Tcp.Send(otherPlayerPacket);
-            }
-        }
-
-        [EventMethod]
-        public void OnPlayerMove(PlayerMoveEvent ev)
-        {
-            var fromChunkX = ev.From.X >> 4;
-            var fromChunkY = ev.From.Y >> 4;
-
-            var toChunkX = ev.To.X >> 4;
-            var toChunkY = ev.To.Y >> 4;
-
-            var toChunk = Server.Map.GetChunk(toChunkX, toChunkY);
-
-            var nearPlayers = ev.Player.GetPlayersNear();
-            var movePacket = new EntityMovePacket()
-            {
-                From = ev.From,
-                To = ev.To,
-                UID = ev.Player.UID
-            };
-
-            foreach (var nearPlayer in nearPlayers)
-            {
-                nearPlayer.Tcp.Send(movePacket);
-            }
-
-            // Changed chunk
-            if (fromChunkX != toChunkX || fromChunkY != toChunkY)
-            {
-                var fromChunk = Server.Map.GetChunk(fromChunkX, fromChunkY);
-
-                fromChunk.PlayersInChunk.Remove(ev.Player);
-                toChunk.PlayersInChunk.Add(ev.Player);
             }
         }
     }

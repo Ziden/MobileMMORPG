@@ -1,5 +1,7 @@
 ﻿using Common.Networking.Packets;
 using MapHandler;
+using ServerCore.Game.Entities;
+using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Players;
 using System;
 using System.Collections.Generic;
@@ -37,8 +39,9 @@ namespace ServerCore.Networking
                                 ChunkData = chunk.GetData()
                             });
 
-                            foreach(var monsterInstance in chunk.MonstersInChunk)
+                            foreach(var entity in chunk.EntitiesInChunk[EntityType.MONSTER])
                             {
+                                var monsterInstance = (Monster)entity;
                                 client.Send(new MonsterSpawnPacket()
                                 {
                                     MonsterUid = monsterInstance.UID,

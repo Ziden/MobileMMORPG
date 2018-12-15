@@ -41,15 +41,15 @@ namespace ServerCore.Networking.PacketListeners
                 return;
             }
 
-            var playerMoveEvent = new PlayerMoveEvent()
+            var entityMoveEvent = new EntityMoveEvent()
             {
                 From = packet.From,
                 To = packet.To,
-                Player = player
+                Entity = player
             };
-            Server.Events.Call(playerMoveEvent);
+            Server.Events.Call(entityMoveEvent);
 
-            if (playerMoveEvent.IsCancelled)
+            if (entityMoveEvent.IsCancelled)
             {
                 // send player back to the position client-side
                 player.Tcp.Send(new SyncPacket()

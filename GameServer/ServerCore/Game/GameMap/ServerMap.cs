@@ -13,7 +13,7 @@ namespace ServerCore.Game.GameMap
 
         public Dictionary<string, Monster> Monsters = new Dictionary<string, Monster>();
 
-        public EntityPositions EntityPositions = new EntityPositions();
+        public EntityPositionsCache EntityPositions = new EntityPositionsCache();
 
         public void LoadAllSpawners()
         {
@@ -22,22 +22,50 @@ namespace ServerCore.Game.GameMap
                 spawner.SpawnTick();
             }
         }
+
+        public bool IsPassable(int x, int y)
+        {
+            if (!TileProperties.IsPassable(GetTile(x, y)))
+            {
+                return false;
+            }
+            if (!EntityPositions.IsVacant(new Position(x, y))) {
+                return false;
+            }
+            return true;
+        }
     }
 
-    public class EntityPositions : Dictionary<string, Entity>
+    public class EntityPositionsCache : Dictionary<string, List<Entity>>
     {
-        public void RemoveEntity(Position pos)
+
+        public bool IsVacant(Position pos)
+        {
+            var teste = this;
+            var key = $"{pos.X}_{pos.Y}";
+            return !ContainsKey(key);
+        }
+
+        public void RemoveEntity(Entity e, Position pos)
         {
             var key = $"{pos.X}_{pos.Y}";
-            if (this.ContainsKey(key))
+            if (ContainsKey(key))
             {
-                this.Remove(key);
+                var entities = this[key];
+                entities.Remove(e);
+                if (entities.Count == 0)
+                    Remove(key);
             }
         }
 
-        public void AddEntity(Position position, Entity entity)
+        public void AddEntity(Entity entity, Position pos)
         {
-
+            var key = $"{pos.X}_{pos.Y}";
+            if (!ContainsKey(key))
+            {
+                Add(key, new List<Entity>());
+            }
+            this[key].Add(entity);
         }
     }
 }

@@ -32,54 +32,14 @@ namespace ServerCore.Game.Monsters.Behaviours.MoveBehaviours
 
             if (Server.Map.IsPassable(newPosition.X, newPosition.Y))
             {
-                var oldNearPlayers = monster.GetNearbyPlayers();
-
-                var monsterMoveEvent = new MonsterMoveEvent()
+                var monsterMoveEvent = new EntityMoveEvent()
                 {
-                    Monster = monster,
+                    Entity = monster,
                     From = oldPosition,
                     To = newPosition
                 };
-
-                if (!MapHelpers.IsSameChunk(newPosition, oldPosition))
-                {
-                    monsterMoveEvent.ChangedChunk = true;
-                }
-
                 Server.Events.Call(monsterMoveEvent);
-
-                // after calling the event, update the monster position
-                monster.Position = newPosition;
-                if (monsterMoveEvent.ChangedChunk)
-                {
-                    var chunk = Server.Map.GetChunk(newPosition.X >> 4, newPosition.Y >> 4);
-                    var oldChunk = Server.Map.GetChunk(oldPosition.X >> 4, oldPosition.Y >> 4);
-
-                    oldChunk.MonstersInChunk.Remove(monster);
-                    chunk.MonstersInChunk.Add(monster);
-                }
-
-                var newNearPlayers = monster.GetNearbyPlayers();
-                // if the monster moved chunk, some players wont be in the new list
-                // so we gotta track them as well
-                if (monsterMoveEvent.ChangedChunk)
-                {
-                    newNearPlayers.AddRange(
-                        oldNearPlayers.Where(p => !newNearPlayers.Contains(p))
-                    );
-                }
-
-                foreach (var player in monster.GetNearbyPlayers())
-                {
-                    player.Tcp.Send(new EntityMovePacket()
-                    {
-                        From = oldPosition,
-                        To = newPosition,
-                        UID = monster.UID
-                    });
-                }
             }
-
         }
     }
 }

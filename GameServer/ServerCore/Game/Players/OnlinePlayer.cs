@@ -10,6 +10,11 @@ namespace ServerCore.GameServer.Players
 {
     public class OnlinePlayer : LivingEntity, IClientLayeredRenderable
     {
+        public OnlinePlayer()
+        {
+            EntityType = EntityType.PLAYER;
+        }
+
         public ConnectedClientTcpHandler Tcp;
 
         // Becomes true when all assets have been loaded so its a "valid" online player

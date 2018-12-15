@@ -11,7 +11,8 @@ namespace Common
 
         public void RunCallbacks(EventType ev) {
             if (!_registeredListeners.ContainsKey(ev.GetType()))
-                return;
+                if (!_registeredListeners.ContainsKey(ev.GetType().BaseType))
+                    return;
 
             var registeredEvents = _registeredListeners[ev.GetType()];
             foreach(var registeredEvent in registeredEvents)

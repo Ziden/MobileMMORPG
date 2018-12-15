@@ -20,6 +20,7 @@ namespace ServerCore.Game.Monsters
         public Monster()
         {
             UID = $"mon_{Guid.NewGuid().ToString()}";
+            EntityType = EntityType.MONSTER;
         }
 
         public abstract SpriteAsset GetSprite();

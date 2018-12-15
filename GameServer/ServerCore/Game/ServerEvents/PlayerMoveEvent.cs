@@ -1,10 +1,11 @@
 ﻿using MapHandler;
+using ServerCore.Game.Entities;
 
 namespace ServerCore.GameServer.Players.Evs
 {
-    public class PlayerMoveEvent : IEvent
+    public class EntityMoveEvent : IEvent
     {
-        public OnlinePlayer Player;
+        public Entity Entity;
         public Position From;
         public Position To;
 

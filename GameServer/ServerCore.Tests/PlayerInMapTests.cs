@@ -7,6 +7,7 @@ using ServerCore.Tests.TestUtilities;
 using Common.Networking.Packets;
 using Storage.Players;
 using ServerCore.GameServer.Players;
+using ServerCore.GameServer.Entities;
 
 namespace MapTests
 {

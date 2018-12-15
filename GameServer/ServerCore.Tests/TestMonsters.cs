@@ -9,6 +9,8 @@ using Storage.Players;
 using ServerCore.GameServer.Players;
 using ServerCore.Game.Monsters;
 using System.Linq;
+using ServerCore.GameServer.Entities;
+using ServerCore.Game.Entities;
 
 namespace GameTests
 {
@@ -37,7 +39,7 @@ namespace GameTests
         }
 
         [Test]
-        public void TestPlayerMoving()
+        public void TestMonsterMovingUpdatingClients()
         {
             var client = ServerMocker.GetClient();
             var player = client.FullLoginSequence(_player);
@@ -47,7 +49,8 @@ namespace GameTests
                 Position = new Position(0, 1)
             };
             var chunk = player.GetChunk();
-            chunk.MonstersInChunk.Add(skeleton);
+
+            chunk.EntitiesInChunk[EntityType.MONSTER].Add(skeleton);
 
             client.RecievedPackets.Clear();
 
@@ -81,7 +84,7 @@ namespace GameTests
 
             var chunks = Server.Map.Chunks;
 
-            monsterChunk.MonstersInChunk.Add(skeleton);
+            monsterChunk.EntitiesInChunk[EntityType.MONSTER].Add(skeleton);
 
             client.RecievedPackets.Clear();
 
@@ -113,7 +116,7 @@ namespace GameTests
             var monsterChunk = Server.Map.GetChunk(0, 1);
             var playerChunki = Server.Map.GetChunk(0, 0);
 
-            monsterChunk.MonstersInChunk.Add(skeleton);
+            monsterChunk.EntitiesInChunk[EntityType.MONSTER].Add(skeleton);
 
             client.RecievedPackets.Clear();
 

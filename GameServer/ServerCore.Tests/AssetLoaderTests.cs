@@ -7,7 +7,7 @@ using CommonCode.Networking.Packets;
 namespace MapTests
 {
     [TestFixture]
-    public class AssetLoaderTests
+    public class MapLoadingTests
     {
         [Test]
         public void TestSimpleLoading()

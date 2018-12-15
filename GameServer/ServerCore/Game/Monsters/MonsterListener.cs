@@ -10,12 +10,6 @@ namespace ServerCore.Game.Monsters
 {
     public class MonsterListener : IEventListener
     {
-        [EventMethod]
-        public void OnMonsterSpawn(MonsterSpawnEvent ev)
-        {
-            Log.Info($"MONSTER SPAWNED {ev.Position.X} - {ev.Position.Y}");
-        }
-
-
+        
     }
 }
