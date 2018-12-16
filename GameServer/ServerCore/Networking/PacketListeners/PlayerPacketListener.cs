@@ -10,17 +10,6 @@ namespace ServerCore.Networking.PacketListeners
 {
     public class PlayerPacketListener : IEventListener
     {
-        [EventMethod]
-        public void OnPlayerTarget(TargetPacket packet)
-        {
-            // I think i might not have to track this server side O_O
-            /*
-            var targetingPlayer = Server.GetPlayer(packet.WhoUuid);
-            var target = Server.GetMonster(packet.TargetUuid);
-            targetingPlayer.Target = target;
-            */
-        }
-
         [EventMethod] 
         // server recieving entitymove means its a player moving
         public void OnEntityMovePacket(EntityMovePacket packet)
@@ -46,6 +35,9 @@ namespace ServerCore.Networking.PacketListeners
                 return;
             }
 
+            // subtract the player latency for possibility of lag for a smoother movement
+            player.CanMoveAgainTime = now + timeToMove - player.Tcp.Latency;
+
             var entityMoveEvent = new EntityMoveEvent()
             {
                 From = packet.From,
@@ -63,10 +55,7 @@ namespace ServerCore.Networking.PacketListeners
                 });
                 return;
             }
-
-            // subtract the player latency for possibility of lag for a smoother movement
-            player.CanMoveAgainTime = now + timeToMove - player.Tcp.Latency;
-
+  
             // Updating player position locally
             player.Position.X = packet.To.X;
             player.Position.Y = packet.To.Y;

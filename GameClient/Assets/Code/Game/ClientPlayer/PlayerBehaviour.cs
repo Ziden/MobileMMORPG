@@ -4,6 +4,8 @@ using Client.Net;
 using Common.Networking.Packets;
 using CommonCode.EntityShared;
 using MapHandler;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,6 +23,7 @@ public class PlayerBehaviour : MonoBehaviour
     private Vector3? _target;
     private float timeToReachTarget;
     private bool _lastMovement;
+    private long _shouldArriveAt;
 
     void Start()
     {
@@ -36,7 +39,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         ReadPathfindingNextMovement();
-        SetRoute();
+        PerformNextStep();
         MoveTick();
     }
 
@@ -52,13 +55,11 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (!_target.HasValue)
             return;
-        t += Time.deltaTime / timeToReachTarget;
-        transform.position = Vector3.Lerp(startPosition, new Vector2(_target.Value.x, _target.Value.y), t);
 
-        if (transform.position == _target && _movingToDirection != Direction.NONE)
+        var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
+        if (transform.position == _target && _movingToDirection != Direction.NONE && now > _shouldArriveAt)
         {
-
-            Debug.Log("ARRIVED IN " + test);
             _movingToDirection = Direction.NONE;
 
             SpriteSheets.ForEach(e => e.Moving = false);
@@ -66,23 +67,31 @@ public class PlayerBehaviour : MonoBehaviour
             if (_lastMovement)
             {
                 _lastMovement = false;
-                if(UnityClient.Player.FollowingPath == null)
+                if (UnityClient.Player.FollowingPath == null)
                     Selectors.HideSelector();
                 _target = null;
             }
+        } else
+        {
+            t += Time.deltaTime;
+            transform.position = Vector3.Lerp(startPosition, new Vector2(_target.Value.x, _target.Value.y), t / timeToReachTarget);
         }
     }
 
     long test = 0;
 
-
-    private void SetRoute()
+    private void PerformNextStep()
     {
         var player = UnityClient.Player;
         if (_nextStep != null && _movingToDirection == Direction.NONE)
         {
             _movingToDirection = MapHelpers.GetDirection(player.Position, _nextStep);
-            var timeToMove = (float)Formulas.GetTimeToMoveBetweenTwoTiles(player.Speed);
+            var moveTimeInMs = Formulas.GetTimeToMoveBetweenTwoTiles(player.Speed);
+
+            var moveTimeInSeconds = (float)moveTimeInMs / 1000;
+
+            var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            _shouldArriveAt = now + moveTimeInMs;
 
             UnityClient.TcpClient.Send(new EntityMovePacket()
             {
@@ -91,8 +100,8 @@ public class PlayerBehaviour : MonoBehaviour
                 To = _nextStep
             });
 
-            SetDestination(new Vector3(_nextStep.X * 16, _nextStep.Y * 16, 0), timeToMove / 1000);
-            Debug.Log("Moving Player To " + _nextStep.X + " - " + _nextStep.Y+" In "+timeToMove+" ms");
+            StartMovement(new Vector3(_nextStep.X * 16, _nextStep.Y * 16, 0), moveTimeInSeconds);
+            Debug.Log("Moving Player To " + _nextStep.X + " - " + _nextStep.Y);
 
             SpriteSheets.ForEach(e => e.Direction = _movingToDirection);
             SpriteSheets.ForEach(e => e.Moving = true);
@@ -108,9 +117,10 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    public void SetDestination(Vector3 destination, float time)
+    public void StartMovement(Vector3 destination, float time)
     {
-        Debug.Log("STARTED TO MOVE TIME "+time);
+
+        Debug.Log("STARTED TO MOVE TIME " + time);
         t = 0;
         startPosition = transform.position;
         timeToReachTarget = time;

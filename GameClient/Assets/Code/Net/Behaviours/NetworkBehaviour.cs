@@ -28,10 +28,8 @@ public class NetworkBehaviour : MonoBehaviour
 
             // Not an asset, just process the packet
             var packet = UnityClient.PacketsToProccess[0];
-            Debug.Log("Calling " + packet.GetType().Name);
             ClientEvents.Call(packet);
             UnityClient.PacketsToProccess.RemoveAt(0);
-            Debug.Log("Called");
         }
     }
 }
