@@ -88,6 +88,12 @@ namespace Assets.Code.Game.Factories
                     movingEntity.SpriteSheets.Add(headSpriteSheet);
                     movingEntity.SpriteSheets.Add(legsSpriteSheet);
                     movingEntity.SpriteSheets.Add(chestSpriteSheet);
+                    var playerWrapper = new PlayerWrapper()
+                    {
+                        PlayerObject = playerObj
+                    };
+                    movingEntity.EntityWrapper = playerWrapper;
+                    UnityClient.Map.EntityPositions.AddEntity(movingEntity.EntityWrapper, new Position(opts.tileX, opts.tileY));
                 }
             }
         }

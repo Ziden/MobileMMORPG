@@ -91,10 +91,10 @@ namespace Assets.Code.Net.PacketListeners
                     NumberOfAssetsToRecieve = 0;
                     AssetsRecieved = 0;
                     State = AssetLoadingState.UPDATED;
-                    Debug.Log("Assets of user " + UnityClient.Player.UserId + " ready");
+                    Debug.Log("Assets of user " + UnityClient.Player.UID + " ready");
                     UnityClient.TcpClient.Send(new AssetsReadyPacket()
                     {
-                        UserId = UnityClient.Player.UserId
+                        UserId = UnityClient.Player.UID
                     });
                 }
             }

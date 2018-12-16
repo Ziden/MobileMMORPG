@@ -64,12 +64,13 @@
     <Compile Include="Assets\Code\AssetHandling\ArraysPlus.cs" />
     <Compile Include="Assets\Code\AssetHandling\AssetHandler.cs" />
     <Compile Include="Assets\Code\AssetHandling\SpriteSheet.cs" />
-    <Compile Include="Assets\Code\Game\Behaviours\AnimationBehaviour.cs" />
     <Compile Include="Assets\Code\Game\ClientEvents.cs" />
-    <Compile Include="Assets\Code\Game\ClientMapHandler.cs" />
+    <Compile Include="Assets\Code\Game\ClientMap\AnimationBehaviour.cs" />
+    <Compile Include="Assets\Code\Game\ClientMap\Selectors.cs" />
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerBehaviour.cs" />
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerObjectExtensions.cs" />
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerWrapper.cs" />
+    <Compile Include="Assets\Code\Game\Entities\MonsterWrapper.cs" />
     <Compile Include="Assets\Code\Game\Entities\MovingEntityBehaviour.cs" />
     <Compile Include="Assets\Code\Game\Factories\AnimationFactory.cs" />
     <Compile Include="Assets\Code\Game\Factories\FactoryMethods.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="Assets\Code\Game\PacketListeners\EntityListener.cs" />
     <Compile Include="Assets\Code\Game\PacketListeners\MapListener.cs" />
     <Compile Include="Assets\Code\Game\PacketListeners\PlayerListener.cs" />
-    <Compile Include="Assets\Code\Game\Selectors.cs" />
     <Compile Include="Assets\Code\Game\TouchHandler.cs" />
     <Compile Include="Assets\Code\Game\UnityExtensions.cs" />
     <Compile Include="Assets\Code\Net\Behaviours\ConnectionBehaviour.cs" />

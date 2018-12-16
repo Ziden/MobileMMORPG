@@ -57,6 +57,8 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (transform.position == _target && _movingToDirection != Direction.NONE)
         {
+
+            Debug.Log("ARRIVED IN " + test);
             _movingToDirection = Direction.NONE;
 
             SpriteSheets.ForEach(e => e.Moving = false);
@@ -71,6 +73,9 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    long test = 0;
+
+
     private void SetRoute()
     {
         var player = UnityClient.Player;
@@ -81,26 +86,31 @@ public class PlayerBehaviour : MonoBehaviour
 
             UnityClient.TcpClient.Send(new EntityMovePacket()
             {
-                UID = UnityClient.Player.UserId,
+                UID = UnityClient.Player.UID,
                 From = UnityClient.Player.Position,
                 To = _nextStep
             });
 
             SetDestination(new Vector3(_nextStep.X * 16, _nextStep.Y * 16, 0), timeToMove / 1000);
-            Debug.Log("Moving Player To " + _nextStep.X + " - " + _nextStep.Y);
+            Debug.Log("Moving Player To " + _nextStep.X + " - " + _nextStep.Y+" In "+timeToMove+" ms");
 
             SpriteSheets.ForEach(e => e.Direction = _movingToDirection);
             SpriteSheets.ForEach(e => e.Moving = true);
 
+            UnityClient.Map.EntityPositions.RemoveEntity(UnityClient.Player, UnityClient.Player.Position);
+
             UnityClient.Player.Position.X = _nextStep.X;
-            // minus cause <reason>
             UnityClient.Player.Position.Y = _nextStep.Y;
+
+            UnityClient.Map.EntityPositions.AddEntity(UnityClient.Player, UnityClient.Player.Position);
+
             _nextStep = null;
         }
     }
 
     public void SetDestination(Vector3 destination, float time)
     {
+        Debug.Log("STARTED TO MOVE TIME "+time);
         t = 0;
         startPosition = transform.position;
         timeToReachTarget = time;

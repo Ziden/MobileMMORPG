@@ -10,7 +10,7 @@ namespace Client.Net.PacketListeners
         public void OnLoginResponse(LoginResponsePacket packet)
         {
             UnityClient.Player.SessionId = packet.SessionId;
-            UnityClient.Player.UserId = packet.UserId;
+            UnityClient.Player.UID = packet.UserId;
             Debug.Log("Logged in userid "+packet.UserId);
             LoginScreen.Kill();
         }

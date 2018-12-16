@@ -1,4 +1,5 @@
 ﻿using Assets.Code.AssetHandling;
+using Client.Net;
 using CommonCode.EntityShared;
 using MapHandler;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ public class MovingEntityBehaviour : MonoBehaviour
     public Position MapPosition = new Position(0, 0);
     public List<SpriteSheet> SpriteSheets = new List<SpriteSheet>();
     public int MoveSpeed;
+
+    public Entity EntityWrapper;
 
     private Position _goingToPosition;
     private Direction _movingToDirection = Direction.NONE;
@@ -73,8 +76,13 @@ public class MovingEntityBehaviour : MonoBehaviour
             SpriteSheets.ForEach(e => e.Direction = _movingToDirection);
             SpriteSheets.ForEach(e => e.Moving = true);
 
+            UnityClient.Map.EntityPositions.RemoveEntity(EntityWrapper, MapPosition);
+
             MapPosition.X = _goingToPosition.X;
             MapPosition.Y = _goingToPosition.Y;
+
+            UnityClient.Map.EntityPositions.RemoveEntity(EntityWrapper, MapPosition);
+
             _goingToPosition = null;
         }
     }

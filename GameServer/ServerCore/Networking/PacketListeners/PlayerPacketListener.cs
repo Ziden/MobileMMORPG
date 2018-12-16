@@ -22,17 +22,22 @@ namespace ServerCore.Networking.PacketListeners
         }
 
         [EventMethod] 
-        public void OnPlayerMovePath(EntityMovePacket packet)
+        // server recieving entitymove means its a player moving
+        public void OnEntityMovePacket(EntityMovePacket packet)
         {
             var player = Server.GetPlayerByConnectionId(packet.ClientId);
             var distanceMoved = MapHelpers.GetDistance(player.Position, packet.To);
             var timeToMove = Formulas.GetTimeToMoveBetweenTwoTiles(player.MoveSpeed);
+
+            Log.Info("TIME TO MOVE " + timeToMove);
+
             var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            var lastMovementArrival = now + timeToMove;
 
             // Player tryng to hack ?
             if (distanceMoved > 1 || now < player.CanMoveAgainTime)
             {
+
+                Log.Debug($"Player time to move {player.CanMoveAgainTime - now}");
                 // send player back to the position client-side
                 player.Tcp.Send(new SyncPacket()
                 {

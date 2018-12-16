@@ -42,6 +42,7 @@ namespace ServerCore.Game.Entities
             var toChunk = Server.Map.GetChunk(toChunkX, toChunkY);
 
             var nearPlayers = ev.Entity.GetPlayersNear();
+
             var movePacket = new EntityMovePacket()
             {
                 From = ev.From,
@@ -52,6 +53,7 @@ namespace ServerCore.Game.Entities
             // Update Entity Position Cache
             Server.Map.EntityPositions.RemoveEntity(ev.Entity, ev.From);
             Server.Map.EntityPositions.AddEntity(ev.Entity, ev.To);
+
             ev.Entity.LastPosition = ev.From;
 
             // Updating this movement to nearby players soo the client updates

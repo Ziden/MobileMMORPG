@@ -1,4 +1,5 @@
 ﻿using Assets.Code.AssetHandling;
+using Assets.Code.Game.Entities;
 using Assets.Code.Net;
 using Client.Net;
 using CommonCode.EntityShared;
@@ -30,7 +31,14 @@ namespace Assets.Code.Game.Factories
                 movingBehaviour.SpriteSheets.Add(spriteSheet);
                 movingBehaviour.MoveSpeed = opts.MoveSpeed;
                 movingBehaviour.MapPosition = opts.Position;
+                var monsterEntityWrapper = new MonsterWrapper()
+                {
+                    MonsterObj = monsterObj
+                };
+                movingBehaviour.EntityWrapper = monsterEntityWrapper;
                 monsterObj.transform.position = new Vector2(opts.Position.X * 16, -opts.Position.Y * 16);
+                UnityClient.Map.EntityPositions.AddEntity(monsterEntityWrapper, opts.Position);
+
             }
         }
     }

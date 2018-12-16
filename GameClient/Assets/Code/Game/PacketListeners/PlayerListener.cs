@@ -52,7 +52,7 @@ namespace Assets.Code.Net.PacketListeners
                 Speed = packet.Speed,
                 tileX = packet.X,
                 tileY = packet.Y,
-                IsMainPlayer = packet.UserId == UnityClient.Player.UserId
+                IsMainPlayer = packet.UserId == UnityClient.Player.UID
             });
             TouchHandler.GameTouchEnabled = true;
         }

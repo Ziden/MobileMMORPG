@@ -60,6 +60,25 @@ namespace MapTests
 
             Assert.That(Server.Map.IsPassable(skeleton.Position.X, skeleton.Position.Y) == false,
                 "Tile should not be passable as there is a skeleton there now");
+
+            var newPosition = new Position(skeleton.Position.X+1, skeleton.Position.Y);
+
+            Assert.That(Server.Map.IsPassable(newPosition.X, newPosition.Y) == true,
+              "Skeleton didnt move yet so it should be passable");
+
+            Server.Events.Call(new EntityMoveEvent()
+            {
+                Entity = skeleton,
+                From = skeleton.Position,
+                To = newPosition
+            });
+
+            Assert.That(Server.Map.IsPassable(newPosition.X, newPosition.Y) == false,
+                "After skeleton moved his tile should be impassable");
+
+            Assert.That(Server.Map.IsPassable(newPosition.X-1, newPosition.Y) == true,
+                "Skeleton last position was not freed after he moved");
+
         }
     }
 }
