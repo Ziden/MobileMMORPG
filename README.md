@@ -6,8 +6,6 @@ A nameless (yet) customizable mobile mmorpg in .net core (Server) and Unity (Cli
 
 The infinite chunk based map loaded from tiled will be serve for this dungeon party oriented mmorpg, where players will kill creatures to gain power and items. The idea is to start as a simple casual mmorpg grinder with a simple historyline.
 
-* This project has been discontinued and his engine will be used in another project : https://github.com/Ziden/MobileMMORTS *
-
 ### Features in initial roadmap:
 
 - Good Character Customization.
