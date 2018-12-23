@@ -17,7 +17,7 @@ namespace ServerCore.Game.Entities
         public List<OnlinePlayer> GetNearbyPlayers()
         {
             List<OnlinePlayer> near = new List<OnlinePlayer>();
-            var radius = MapHelpers.GetSquared3x3(new Position(Position.X >> 4, Position.Y >> 4));
+            var radius = PositionExtensions.GetSquared3x3Around(new Position(Position.X >> 4, Position.Y >> 4));
             foreach (var position in radius)
             {
                 var chunkThere = Server.Map.GetChunkByChunkPosition(position.X, position.Y);

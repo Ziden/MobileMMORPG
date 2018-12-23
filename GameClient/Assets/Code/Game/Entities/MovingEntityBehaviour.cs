@@ -69,7 +69,8 @@ public class MovingEntityBehaviour : MonoBehaviour
     {
         if (_goingToPosition != null && _movingToDirection == Direction.NONE)
         {
-            _movingToDirection = MapHelpers.GetDirection(MapPosition, _goingToPosition);
+            // TODO - KEEP CLEANING THE CLIENT
+            _movingToDirection = MapPosition.GetDirection(_goingToPosition);
             var timeToMove = (float)Formulas.GetTimeToMoveBetweenTwoTiles(MoveSpeed);
 
             SetDestination(_goingToPosition.ToUnityPosition(), timeToMove / 1000);

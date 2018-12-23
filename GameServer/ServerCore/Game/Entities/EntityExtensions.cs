@@ -19,7 +19,7 @@ namespace ServerCore.GameServer.Entities
         {
             List<OnlinePlayer> near = new List<OnlinePlayer>();
             var chunk = player.GetChunk();
-            var radius = MapHelpers.GetSquared3x3(new Position(chunk.x, chunk.y));
+            var radius = PositionExtensions.GetSquared3x3Around(new Position(chunk.x, chunk.y));
             foreach (var position in radius)
             {
                 var chunkThere = Server.Map.GetChunkByChunkPosition(position.X, position.Y);

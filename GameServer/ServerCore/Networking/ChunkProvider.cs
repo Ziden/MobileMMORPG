@@ -21,7 +21,7 @@ namespace ServerCore.Networking
                 var chunkX = client.OnlinePlayer.Position.X >> 4;
                 var chunkY = client.OnlinePlayer.Position.Y >> 4;
 
-                var shouldBeLoaded = MapHelpers.GetSquared3x3(new Position(chunkX, chunkY));
+                var shouldBeLoaded = PositionExtensions.GetSquared3x3Around(new Position(chunkX, chunkY));
 
                 foreach (var position in shouldBeLoaded)
                 {

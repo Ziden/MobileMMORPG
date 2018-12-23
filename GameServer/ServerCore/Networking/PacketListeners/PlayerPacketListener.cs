@@ -15,7 +15,7 @@ namespace ServerCore.Networking.PacketListeners
         public void OnEntityMovePacket(EntityMovePacket packet)
         {
             var player = Server.GetPlayerByConnectionId(packet.ClientId);
-            var distanceMoved = MapHelpers.GetDistance(player.Position, packet.To);
+            var distanceMoved = PositionExtensions.GetDistance(player.Position, packet.To);
             var timeToMove = Formulas.GetTimeToMoveBetweenTwoTiles(player.MoveSpeed);
 
             Log.Info("TIME TO MOVE " + timeToMove);

@@ -82,7 +82,7 @@ public class PlayerBehaviour : MonoBehaviour
         var player = UnityClient.Player;
         if (_nextStep != null && _movingToDirection == Direction.NONE)
         {
-            _movingToDirection = MapHelpers.GetDirection(player.Position, _nextStep);
+            _movingToDirection = player.Position.GetDirection(_nextStep);
             var moveTimeInMs = Formulas.GetTimeToMoveBetweenTwoTiles(player.Speed);
 
             var moveTimeInSeconds = (float)moveTimeInMs / 1000;
