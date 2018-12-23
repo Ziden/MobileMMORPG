@@ -30,15 +30,15 @@ namespace ServerCore.GameServer.Players
             else
                 Log.Info($"Connection {ev.Client.ConnectionId} Disconnected", ConsoleColor.Yellow);
 
+            if (ev.Player != null) // will be null if havent downloaded assets, need to fix this
+            {
+                Server.Map.UpdateEntityPosition(ev.Player, ev.Player.Position, null);
+                Server.Players.Remove(ev.Player);
+            }
+            ev.Player = null;
+
             try
             {
-                if (ev.Player != null)
-                {
-                    var chunk = ev.Player.GetChunk();
-                    chunk.PlayersInChunk.Remove(ev.Player);
-                    Server.Players.Remove(ev.Player);
-                }
-                ev.Player = null;
                 ev.Client.Stop();
             }
             catch (Exception e)

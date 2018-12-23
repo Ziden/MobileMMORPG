@@ -1,5 +1,6 @@
 ﻿using Assets.Code.Net;
 using CommonCode.EntityShared;
+using MapHandler;
 using System;
 using UnityEngine;
 
@@ -7,11 +8,11 @@ namespace Assets.Code.Game.Factories
 {
     public class TileFactory
     {
-        public static void BuildAndInstantiate(int x, int y, int tileId, GameObject parent = null)
+        public static void BuildAndInstantiate(TileOptions opts)
         {
-            if (tileId == 0)
+            if (opts.TileId == 0)
                 return;
-            var gameObj = new GameObject(x + "_" + y); ;
+            var gameObj = new GameObject("Tile_"+opts.Position.X + "_" + opts.Position.Y);
 
             gameObj.transform.localScale = new Vector3(100, 100);
             gameObj.tag = "Tile";
@@ -22,20 +23,27 @@ namespace Assets.Code.Game.Factories
             var tilesW = spriteFile.GetLength(0);
             var tilesH = spriteFile.GetLength(1);
 
-            tileId--;
+            opts.TileId--;
 
-            int tileIndexY = (int)Math.Floor((double)tileId / tilesW);
-            var tileIndexX = tileId % tilesW;
+            int tileIndexY = (int)Math.Floor((double)opts.TileId / tilesW);
+            var tileIndexX = opts.TileId % tilesW;
 
             var tileSprite = spriteFile[tileIndexX, tileIndexY];
             spriteRenderer.sprite = tileSprite;
 
-            gameObj.transform.position = new Vector3(x * 16, -y * 16, 0);
+            gameObj.transform.position = opts.Position.ToUnityPosition();
 
-            if (parent != null)
+            if (opts.Parent != null)
             {
-                gameObj.transform.SetParent(parent.transform);
+                gameObj.transform.SetParent(opts.Parent.transform);
             }
         }
+    }
+
+    public class TileOptions
+    {
+        public Position Position;
+        public short TileId;
+        public GameObject Parent;
     }
 }

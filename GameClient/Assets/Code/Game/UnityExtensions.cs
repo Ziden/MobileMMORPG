@@ -9,5 +9,10 @@ namespace Assets.Code.Game
         {
             return new Position((int)obj.transform.position.x / 16, -(int)obj.transform.position.y / 16);
         }
+
+        public static Vector2 ToUnityPosition(this Position p)
+        {
+            return new Vector2(p.X * 16, -p.Y * 16);
+        }
     }
 }

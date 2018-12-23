@@ -53,8 +53,18 @@ namespace Assets.Code.Net.PacketListeners
                 for(var y = 0; y < 16; y++)
                 {
                     var tileId = data[x, y];
-                    c.SetTile(x, y, tileId);
-                    TileFactory.BuildAndInstantiate(chunkX * 16 + x, chunkY * 16 + y, tileId, chunkParent);
+
+                    c.Tiles[x, y] = new MapTile()
+                    {
+                        TileId = tileId
+                    };
+
+                    TileFactory.BuildAndInstantiate(new TileOptions()
+                    {
+                        Parent = chunkParent,
+                        Position = new Position(chunkX * 16 + x, chunkY * 16 + y),
+                        TileId = tileId
+                    });
                 }
             }
 

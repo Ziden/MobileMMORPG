@@ -20,12 +20,12 @@ namespace ServerCore.Game.Entities
             var radius = MapHelpers.GetSquared3x3(new Position(Position.X >> 4, Position.Y >> 4));
             foreach (var position in radius)
             {
-                var chunkThere = Server.Map.GetChunk(position.X, position.Y);
+                var chunkThere = Server.Map.GetChunkByChunkPosition(position.X, position.Y);
                 if (chunkThere != null)
                 {
-                    foreach (var playerInChunk in chunkThere.PlayersInChunk)
+                    foreach (var playerInChunk in chunkThere.EntitiesInChunk[EntityType.PLAYER])
                     {
-                        near.Add(playerInChunk);
+                        near.Add((OnlinePlayer)playerInChunk);
                     }
                 }
             }

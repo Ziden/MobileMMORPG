@@ -6,8 +6,8 @@ using ServerCore;
 using ServerCore.Tests.TestUtilities;
 using Common.Networking.Packets;
 using Storage.Players;
-using ServerCore.GameServer.Players;
 using ServerCore.GameServer.Entities;
+using ServerCore.Game.Entities;
 
 namespace MapTests
 {
@@ -63,7 +63,7 @@ namespace MapTests
             Assert.That(chunk.x == -1, 
                 "Player should have moved to other chunk");
 
-            Assert.That(chunk.PlayersInChunk.Contains(onlinePlayer),
+            Assert.That(chunk.EntitiesInChunk[EntityType.PLAYER].Contains(onlinePlayer),
                 "New chunk did not contain the player reference");
 
         }

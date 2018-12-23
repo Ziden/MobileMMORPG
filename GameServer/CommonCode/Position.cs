@@ -13,6 +13,11 @@ namespace MapHandler
             this.X = x;
             this.Y = y;
         }
+
+        public string ToString()
+        {
+            return X + "_" + Y;
+        }
         
     }
 

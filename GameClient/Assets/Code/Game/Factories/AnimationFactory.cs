@@ -24,7 +24,7 @@ namespace Assets.Code.Game.Factories
             var animationSprite = AssetHandler.LoadedAssets[opts.AnimationImageName];
             var spriteRow = animationSprite.SliceRow(0).ToArray();
             animationBehaviour.FrameArray = spriteRow;
-            animationObj.transform.position = new Vector2(opts.MapPosition.X * 16, -opts.MapPosition.Y * 16);
+            animationObj.transform.position = opts.MapPosition.ToUnityPosition();
         }
     }
 }

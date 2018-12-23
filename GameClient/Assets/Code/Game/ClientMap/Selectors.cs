@@ -64,11 +64,11 @@ namespace Assets.Code.Game
                 _movementSelectorRenderer.color = Color.green;
                 _movementSelectorRenderer.sortingOrder = 1;
                 _moveSelector.transform.localScale = new Vector2(100, 100);
-                _moveSelector.transform.position = new Vector2(pos.X * 16, -pos.Y * 16);
+                _moveSelector.transform.position = pos.ToUnityPosition();
             } else
             {
                 _movementSelectorRenderer.sortingOrder = 1;
-                _moveSelector.transform.position = new Vector2(pos.X * 16, -pos.Y * 16);
+                _moveSelector.transform.position = pos.ToUnityPosition();
             }
         }
 

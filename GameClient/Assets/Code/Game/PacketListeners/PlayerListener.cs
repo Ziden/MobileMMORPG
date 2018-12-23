@@ -50,8 +50,7 @@ namespace Assets.Code.Net.PacketListeners
                 ChestSpriteIndex = packet.ChestSpriteIndex,
                 UserId = packet.UserId,
                 Speed = packet.Speed,
-                tileX = packet.X,
-                tileY = packet.Y,
+                Position = new Position(packet.X, packet.Y),
                 IsMainPlayer = packet.UserId == UnityClient.Player.UID
             });
             TouchHandler.GameTouchEnabled = true;

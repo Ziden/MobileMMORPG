@@ -79,8 +79,8 @@ namespace GameTests
                 Position = new Position(33, 0)
             };
 
-            var monsterChunk = Server.Map.GetChunk(2,0);
-            var playerChunki = Server.Map.GetChunk(0, 0);
+            var monsterChunk = Server.Map.GetChunkByChunkPosition(2,0);
+            var playerChunki = Server.Map.GetChunkByChunkPosition(0, 0);
 
             var chunks = Server.Map.Chunks;
 
@@ -113,8 +113,8 @@ namespace GameTests
                 Position = new Position(0, 22)
             };
 
-            var monsterChunk = Server.Map.GetChunk(0, 1);
-            var playerChunki = Server.Map.GetChunk(0, 0);
+            var monsterChunk = Server.Map.GetChunkByChunkPosition(0, 1);
+            var playerChunki = Server.Map.GetChunkByChunkPosition(0, 0);
 
             monsterChunk.EntitiesInChunk[EntityType.MONSTER].Add(skeleton);
 

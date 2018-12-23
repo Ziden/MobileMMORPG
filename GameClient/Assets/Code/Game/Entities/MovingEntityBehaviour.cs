@@ -1,4 +1,5 @@
 ﻿using Assets.Code.AssetHandling;
+using Assets.Code.Game;
 using Client.Net;
 using CommonCode.EntityShared;
 using MapHandler;
@@ -71,28 +72,26 @@ public class MovingEntityBehaviour : MonoBehaviour
             _movingToDirection = MapHelpers.GetDirection(MapPosition, _goingToPosition);
             var timeToMove = (float)Formulas.GetTimeToMoveBetweenTwoTiles(MoveSpeed);
 
-            SetDestination(new Vector3(_goingToPosition.X * 16, _goingToPosition.Y * 16, 0), timeToMove / 1000);
+            SetDestination(_goingToPosition.ToUnityPosition(), timeToMove / 1000);
 
             SpriteSheets.ForEach(e => e.Direction = _movingToDirection);
             SpriteSheets.ForEach(e => e.Moving = true);
 
-            UnityClient.Map.EntityPositions.RemoveEntity(EntityWrapper, MapPosition);
+            UnityClient.Map.UpdateEntityPosition(EntityWrapper, MapPosition, _goingToPosition);
 
             MapPosition.X = _goingToPosition.X;
             MapPosition.Y = _goingToPosition.Y;
-
-            UnityClient.Map.EntityPositions.RemoveEntity(EntityWrapper, MapPosition);
 
             _goingToPosition = null;
         }
     }
 
-    public void SetDestination(Vector3 destination, float time)
+    public void SetDestination(Vector2 destination, float time)
     {
         _timeForLerp = 0;
         _startPosition = transform.position;
         timeToReachTarget = time;
-        _target = new Vector2(destination.x, -destination.y);
+        _target = destination;
     }
 
     private void ReadPathfindingNextMovement()

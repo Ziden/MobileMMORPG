@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MapHandler
 {
    
-    public class MapUtils
+    public static class MapUtils
     {
         // Gets all positions in a squared radius
         public static List<Position> GetRadius(int x,int y, int range)

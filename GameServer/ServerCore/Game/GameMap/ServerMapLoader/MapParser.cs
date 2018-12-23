@@ -135,10 +135,14 @@ namespace ServerCore.Game.GameMap
                         {
                             for (int x = 0; x < Chunk.SIZE; x++)
                             {
-                                var tile = Int16.Parse(tileArray[x + y * Chunk.SIZE]);
-                                chunk.SetTile(x, y, tile);
+                                var tileId = Int16.Parse(tileArray[x + y * Chunk.SIZE]);
+                                chunk.Tiles[x, y] = new MapTile()
+                                {
+                                    TileId = tileId
+                                };
                             }
                         }
+                        chunk.BuildChunkPacketData();
                         map.AddChunk(chunk);
                     }
                 }

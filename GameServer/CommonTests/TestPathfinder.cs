@@ -8,7 +8,6 @@ namespace Common.Tests
     [TestFixture]
     public class TestPathfinder
     {
-
         public static short BLOCK = 2;
         public static short PASSABLE = 1;
 
@@ -27,11 +26,12 @@ namespace Common.Tests
                 x = x,
                 y = y
             };
+
             for(int xx = 0; xx < 16; xx++)
             {
                 for (int yy = 0; yy < 16; yy++)
                 {
-                    chunk1.SetTile(xx, yy, PASSABLE);
+                    chunk1.Tiles[xx, yy] = new MapTile() { TileId = PASSABLE };
                 }
             }
             return chunk1;
@@ -39,13 +39,13 @@ namespace Common.Tests
 
 
         [Test]
-        public void Test1()
+        public void TestSomePathfinding()
         {
 
             var chunk1 = CreateChunk(0, 0);
-            chunk1.SetTile(1, 0, BLOCK);
-            chunk1.SetTile(1, 1, BLOCK);
-            chunk1.SetTile(1, 2, BLOCK);
+            chunk1.Tiles[1, 0].TileId = BLOCK;
+            chunk1.Tiles[1, 1].TileId = BLOCK;
+            chunk1.Tiles[1, 2].TileId = BLOCK;
             _map.AddChunk(chunk1);
 
             var path = _map.FindPath(new Position(0, 0), new Position(2, 0));
@@ -67,10 +67,9 @@ namespace Common.Tests
         {
 
             var chunk1 = CreateChunk(0, 0);
-            chunk1.SetTile(0, 0, BLOCK);
+            chunk1.Tiles[0, 0].TileId = BLOCK;
 
             var chunk2 = CreateChunk(-1, 0);
-
 
             _map.AddChunk(chunk1);
             _map.AddChunk(chunk2);
@@ -80,11 +79,34 @@ namespace Common.Tests
         }
 
         [Test]
+        public void TestGeneratePassableByteArrayNegativeChunks()
+        {
+            var chunk1 = CreateChunk(0, 0);
+            chunk1.Tiles[0, 0].TileId = BLOCK;
+
+            var chunk2 = CreateChunk(-1, 0);
+
+            _map.AddChunk(chunk1);
+            _map.AddChunk(chunk2);
+
+            var passableArrayResponse = _map.GetPassableByteArray(new Position(1, 0), new Position(-1, 0));
+
+            var chunk00 = passableArrayResponse.PassableMap.GetSubSquare(1, 1);
+
+            var negativeChunk = passableArrayResponse.PassableMap.GetSubSquare(0, 1);
+
+            Assert.That(passableArrayResponse.OffsetY == 1,
+                "Since we had a negative chunk, our offset Y should be added to still be able to make the 2d array");
+
+         
+        }
+
+        [Test]
         public void TestNegativeMultiChunkY()
         {
 
             var chunk1 = CreateChunk(0, 0);
-            chunk1.SetTile(0, 0, BLOCK);
+            chunk1.Tiles[0, 0].TileId = BLOCK;
 
             var chunk2 = CreateChunk(0, -1);
 
@@ -100,19 +122,18 @@ namespace Common.Tests
         {
 
             var chunk1 = CreateChunk(0, 0);
-            chunk1.SetTile(0, 1, BLOCK);
-            chunk1.SetTile(1, 0, BLOCK);
+            chunk1.Tiles[0, 1].TileId = BLOCK;
+            chunk1.Tiles[1, 0].TileId = BLOCK;
 
             var chunk2 = CreateChunk(0, -1);
 
             _map.AddChunk(chunk1);
             _map.AddChunk(chunk2);
 
-            var grid = PathfinderHelper.GetPassableByteArray(new Position(0, 0), new Position(0, 2), _map.Chunks, _map.IsPassable);
+            var grid = _map.GetPassableByteArray(new Position(0, 0), new Position(0, 2));
 
             Assert.AreEqual(48, grid.PassableMap.GetLength(0));
             Assert.AreEqual(48, grid.PassableMap.GetLength(1));
-
         }
 
         [Test]
@@ -153,13 +174,29 @@ namespace Common.Tests
             _map.AddChunk(chunk8);
             _map.AddChunk(chunk9);
 
-            var passableMapArray = PathfinderHelper.GetPassableByteArray(new Position(0, 0), new Position(-1, 0), _map.Chunks, _map.IsPassable);
+            var passableMapArray =_map.GetPassableByteArray(new Position(0, 0), new Position(-1, 0));
 
             var path = _map.FindPath(new Position(0, 0), new Position(-1, 0));
             Assert.That(path.Count == 2);
 
             Assert.That(path[0].X == 0 && path[0].Y == 0);
             Assert.That(path[1].X == -1 && path[1].Y == 0);
+        }
+
+        [Test]
+        public void TestPassableBlockArrayRandomBug()
+        {
+            for(int x = 0; x < 10; x++)
+            {
+                for(int y = 0; y < 10; y++)
+                {
+                    _map.AddChunk(CreateChunk(x, y));
+                }
+            }
+          
+            var path = _map.FindPath(new Position(0, 0), new Position(2, 0));
+
+            Assert.That(path.Count == 3);
         }
     }
 }

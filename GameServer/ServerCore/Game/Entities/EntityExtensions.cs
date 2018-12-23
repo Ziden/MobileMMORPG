@@ -1,4 +1,5 @@
 ﻿using MapHandler;
+using ServerCore.Game.Entities;
 using ServerCore.Game.GameMap;
 using ServerCore.GameServer.Players;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace ServerCore.GameServer.Entities
         {
             var chunkX = player.Position.X >> 4;
             var chunkY = player.Position.Y >> 4;
-            return Server.Map.GetChunk(chunkX, chunkY);
+            return Server.Map.GetChunkByChunkPosition(chunkX, chunkY);
         }
 
         public static List<OnlinePlayer> GetPlayersNear(this Entity player)
@@ -21,13 +22,13 @@ namespace ServerCore.GameServer.Entities
             var radius = MapHelpers.GetSquared3x3(new Position(chunk.x, chunk.y));
             foreach (var position in radius)
             {
-                var chunkThere = Server.Map.GetChunk(position.X, position.Y);
+                var chunkThere = Server.Map.GetChunkByChunkPosition(position.X, position.Y);
                 if(chunkThere != null)
                 {
-                    foreach (var playerInChunk in chunkThere.PlayersInChunk)
+                    foreach (var playerInChunk in chunkThere.EntitiesInChunk[EntityType.PLAYER])
                     {
                         if(playerInChunk.UID != player.UID)
-                            near.Add(playerInChunk);
+                            near.Add((OnlinePlayer)playerInChunk);
                     }
                 }
                 

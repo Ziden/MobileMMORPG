@@ -1,6 +1,7 @@
 ﻿using MapHandler;
 using ServerCore.Game.Entities;
 using ServerCore.GameServer.Players;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,23 +9,17 @@ namespace ServerCore.Game.GameMap
 {
     public class ServerChunk : Chunk
     {
-        public Dictionary<EntityType, List<Entity>> EntitiesInChunk = new Dictionary<EntityType, List<Entity>>();
+        // Packet Data
+        public short[,] TilePacketData = new short[SIZE, SIZE];
 
-        public ServerChunk()
+        public void BuildChunkPacketData()
         {
-            EntitiesInChunk.Add(EntityType.PLAYER, new List<Entity>());
-            EntitiesInChunk.Add(EntityType.MONSTER, new List<Entity>());
-        }
-
-        public void MoveFromChunk(Entity e, ServerChunk from)
-        {
-            this.EntitiesInChunk[e.EntityType].Add(e);
-            from.EntitiesInChunk[e.EntityType].Remove(e);
-        }
-
-        public List<OnlinePlayer> PlayersInChunk {
-            get {
-                return EntitiesInChunk[EntityType.PLAYER].Select(entity => (OnlinePlayer)entity).ToList();
+            for (int x = 0; x < SIZE; x++)
+            {
+                for (int y = 0; y < SIZE; y++)
+                {
+                    TilePacketData[x, y] = Tiles[x, y].TileId;
+                }
             }
         }
     }

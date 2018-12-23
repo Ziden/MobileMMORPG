@@ -36,7 +36,7 @@ namespace ServerCore.Networking
                             {
                                 X = position.X,
                                 Y = position.Y,
-                                ChunkData = chunk.GetData()
+                                ChunkData = chunk.TilePacketData
                             });
 
                             foreach(var entity in chunk.EntitiesInChunk[EntityType.MONSTER])

@@ -7,6 +7,7 @@ using ServerCore.GameServer.Players;
 using ServerCore.Networking;
 using ServerCore.Utils.Scheduler;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ServerCore
@@ -61,14 +62,16 @@ namespace ServerCore
             Running = true;
         }
 
+        // mainly for tests to make sure everything gets cleaned up
         public void Stop()
         {
             AssetLoader.Clear();
             GameScheduler.Tasks.Clear();
             Events.Clear();
-            GameThread.Stop();
+            GameThread?.Stop();
             TcpHandler?.Stop();
             Running = false;
+            Server.Map.Chunks = new Dictionary<string, ServerChunk>();
         }
 
         public static OnlinePlayer GetPlayer(string UserId)

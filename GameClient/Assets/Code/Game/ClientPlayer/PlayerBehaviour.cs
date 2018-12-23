@@ -5,7 +5,6 @@ using Common.Networking.Packets;
 using CommonCode.EntityShared;
 using MapHandler;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -78,8 +77,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    long test = 0;
-
     private void PerformNextStep()
     {
         var player = UnityClient.Player;
@@ -100,31 +97,34 @@ public class PlayerBehaviour : MonoBehaviour
                 To = _nextStep
             });
 
-            StartMovement(new Vector3(_nextStep.X * 16, _nextStep.Y * 16, 0), moveTimeInSeconds);
-            Debug.Log("Moving Player To " + _nextStep.X + " - " + _nextStep.Y);
+            StartMovement(_nextStep.ToUnityPosition(), moveTimeInSeconds);
 
             SpriteSheets.ForEach(e => e.Direction = _movingToDirection);
             SpriteSheets.ForEach(e => e.Moving = true);
 
-            UnityClient.Map.EntityPositions.RemoveEntity(UnityClient.Player, UnityClient.Player.Position);
+            try
+            {
+                UnityClient.Map.UpdateEntityPosition(UnityClient.Player, UnityClient.Player.Position, _nextStep);
+            }
+            catch (Exception e)
+            {
+                var asd = 123;
+                asd += 5;
+            }
 
             UnityClient.Player.Position.X = _nextStep.X;
             UnityClient.Player.Position.Y = _nextStep.Y;
-
-            UnityClient.Map.EntityPositions.AddEntity(UnityClient.Player, UnityClient.Player.Position);
 
             _nextStep = null;
         }
     }
 
-    public void StartMovement(Vector3 destination, float time)
+    public void StartMovement(Vector2 destination, float time)
     {
-
-        Debug.Log("STARTED TO MOVE TIME " + time);
         t = 0;
         startPosition = transform.position;
         timeToReachTarget = time;
-        _target = new Vector2(destination.x, -destination.y);
+        _target = destination;
     }
 
     private void ReadPathfindingNextMovement()

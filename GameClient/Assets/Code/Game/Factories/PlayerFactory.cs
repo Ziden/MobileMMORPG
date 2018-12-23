@@ -3,6 +3,7 @@ using Assets.Code.Net;
 using Client.Net;
 using CommonCode.EntityShared;
 using MapHandler;
+using ServerCore.Game.Entities;
 using System.Linq;
 using UnityEngine;
 
@@ -25,7 +26,8 @@ namespace Assets.Code.Game.Factories
                     playerObj.AddComponent<PlayerBehaviour>();
                     UnityClient.Player.Speed = opts.Speed;
                     UnityClient.Player.PlayerObject = playerObj;
-                    UnityClient.Player.Position = new Position(opts.tileX, opts.tileY);
+                    UnityClient.Player.Position = opts.Position;
+                    UnityClient.Player.EntityType = EntityType.PLAYER;
                 }
 
                 // Body
@@ -77,23 +79,25 @@ namespace Assets.Code.Game.Factories
                 headObj.transform.parent = playerObj.transform;
 
                 // This gotta be in the end
-                playerObj.transform.position = new Vector2(opts.tileX * 16, -opts.tileY * 16);
+                playerObj.transform.position = opts.Position.ToUnityPosition();
 
                 if (!opts.IsMainPlayer)
                 { 
                     var movingEntity = playerObj.AddComponent<MovingEntityBehaviour>();
                     movingEntity.MoveSpeed = opts.Speed;
-                    movingEntity.MapPosition = new Position(opts.tileX, opts.tileY);
+                    movingEntity.MapPosition = opts.Position;
                     movingEntity.SpriteSheets.Add(spriteSheet);
                     movingEntity.SpriteSheets.Add(headSpriteSheet);
                     movingEntity.SpriteSheets.Add(legsSpriteSheet);
                     movingEntity.SpriteSheets.Add(chestSpriteSheet);
                     var playerWrapper = new PlayerWrapper()
                     {
-                        PlayerObject = playerObj
+                        PlayerObject = playerObj,
+                        EntityType = EntityType.PLAYER
+                       
                     };
                     movingEntity.EntityWrapper = playerWrapper;
-                    UnityClient.Map.EntityPositions.AddEntity(movingEntity.EntityWrapper, new Position(opts.tileX, opts.tileY));
+                    UnityClient.Map.UpdateEntityPosition(movingEntity.EntityWrapper, null, opts.Position);
                 }
             }
         }
@@ -107,8 +111,7 @@ namespace Assets.Code.Game.Factories
         public int ChestSpriteIndex;
         public int HeadSpriteIndex;
         public int LegsSpriteIndex;
-        public int tileX;
-        public int tileY;
+        public Position Position;
         public int Speed;
     }
 }

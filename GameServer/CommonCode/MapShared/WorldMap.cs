@@ -7,8 +7,6 @@ namespace MapHandler
 {
     public class WorldMap<ChunkType> where ChunkType : Chunk
     {
-        public EntityPositionsCache EntityPositions = new EntityPositionsCache();
-
         public Dictionary<string, ChunkType> Chunks = new Dictionary<string, ChunkType>();
 
         public void AddChunk(ChunkType c)
@@ -16,77 +14,90 @@ namespace MapHandler
             Chunks.Add($"{c.x}_{c.y}", c);
         }
 
-        public Int16 GetTile(int x, int y)
+        public MapTile GetTile(int x, int y)
         {
-            var chunkX = x >> 4;
-            var chunkY = y >> 4;
-            var chunk = GetChunk(chunkX, chunkY);
+            var chunk = GetChunk(x, y);
             if (chunk == null)
-                return -1;
+                return null;
             else
             {
-                var chunkTileX = x - (chunkX << 4);
-                var chunkTileY = y - (chunkY << 4);
-                return chunk.GetTile(chunkTileX, chunkTileY);
+                var chunkTileX = x - (chunk.x << 4);
+                var chunkTileY = y - (chunk.y << 4);
+                return chunk.Tiles[chunkTileX, chunkTileY];
             }
+        }
+
+        public void UpdateEntityPosition(Entity e, Position from, Position to)
+        {
+            if (from == null && to != null) // spawning
+            {
+                var spawnChunk = GetChunk(to.X, to.Y);
+                spawnChunk.EntitiesInChunk[e.EntityType].Add(e);
+                GetTile(to).Occupator = e;
+            }
+            else if (to == null && from != null) // despawning
+            {
+                var spawnChunk = GetChunk(from.X, from.Y);
+                spawnChunk.EntitiesInChunk[e.EntityType].Remove(e);
+                GetTile(from).Occupator = null;
+            }
+            else 
+            {
+                // moving
+                var chunkFrom = GetChunk(from.X, from.Y);
+                var chunkTo = GetChunk(to.X, to.Y);
+
+                if (chunkFrom == null || chunkTo == null)
+                {
+                    throw new Exception("Chunk the entity came from is not stored +"+from.ToString()+" TO: "+to.ToString());
+                } 
+ 
+                if (chunkFrom != chunkTo)
+                {
+                    chunkFrom.EntitiesInChunk[e.EntityType].Remove(e);
+                    chunkTo.EntitiesInChunk[e.EntityType].Add(e);
+                }
+
+                var oldTile = GetTile(from);
+                var newTile = GetTile(to);
+                oldTile.Occupator = null;
+                newTile.Occupator = e;
+            }
+        }
+
+        public MapTile GetTile(Position p)
+        {
+            return GetTile(p.X, p.Y);
         }
 
         public bool IsPassable(int x, int y)
         {
-            if (!TileProperties.IsPassable(GetTile(x, y)))
-            {
-                return false;
-            }
-            if (!EntityPositions.IsVacant(new Position(x, y)))
-            {
-                return false;
-            }
-            return true;
+            var tile = GetTile(x, y);
+            return (
+                tile != null &&
+                TileProperties.IsPassable(tile.TileId) &&
+                tile.Occupator == null
+            );
         }
 
         public ChunkType GetChunk(int x, int y)
         {
-            var key = $"{x}_{y}";
+            var chunkX = x >> 4;
+            var chunkY = y >> 4;
+            return GetChunkByChunkPosition(chunkX, chunkY);
+        }
+
+        public ChunkType GetChunkByChunkPosition(int chunkX, int chunkY)
+        {
+            var key = $"{chunkX}_{chunkY}";
             if (!Chunks.ContainsKey(key))
                 return null;
             return Chunks[key];
         }
 
-        public class EntityPositionsCache : Dictionary<string, List<Entity>>
-        {
-            public bool IsVacant(Position pos)
-            {
-                var teste = this;
-                var key = $"{pos.X}_{pos.Y}";
-                return !ContainsKey(key);
-            }
-
-            public void RemoveEntity(Entity e, Position pos)
-            {
-                var key = $"{pos.X}_{pos.Y}";
-                if (ContainsKey(key))
-                {
-                    var entities = this[key];
-                    entities.Remove(e);
-                    if (entities.Count == 0)
-                        Remove(key);
-                }
-            }
-
-            public void AddEntity(Entity entity, Position pos)
-            {
-                var key = $"{pos.X}_{pos.Y}";
-                if (!ContainsKey(key))
-                {
-                    Add(key, new List<Entity>());
-                }
-                this[key].Add(entity);
-            }
-        }
-
         public List<Position> FindPath(Position start, Position goal)
         {
-            var passableMapResult = PathfinderHelper.GetPassableByteArray(start, goal, this.Chunks, IsPassable);
+            var passableMapResult = this.GetPassableByteArray(start, goal);
             var pathfinder = new PathFinder(passableMapResult.PassableMap);
 
             var offsetedStart = new Position(start.X + (passableMapResult.OffsetX * 16), start.Y + (passableMapResult.OffsetY * 16));
@@ -107,6 +118,5 @@ namespace MapHandler
 
             return returned;
         }
-
     }
 }

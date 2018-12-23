@@ -12,12 +12,13 @@ namespace Assets.Code.Game.ClientPlayer
     {
         public static void TeleportToTile(this PlayerWrapper player, int x,  int y)
         {
-            UnityClient.Map.EntityPositions.RemoveEntity(player, player.Position);
-            player.PlayerObject.transform.position = new Vector2(x * 16, -y * 16);
-            UnityClient.Player.Position.X = x;
-            UnityClient.Player.Position.Y = y;
-            UnityClient.Map.EntityPositions.AddEntity(player, player.Position);
-            
+            var newPosition = new Position(x, y);
+
+            UnityClient.Map.UpdateEntityPosition(player, player.Position, newPosition);
+            UnityClient.Player.Position = newPosition;
+
+            player.PlayerObject.transform.position = player.Position.ToUnityPosition();
+
         }
 
         public static bool FindPathTo(this PlayerWrapper player, Position position)

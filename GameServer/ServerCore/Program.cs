@@ -53,7 +53,6 @@ namespace ServerCore
                     Log.Error("[Console] Command Not Found. Use 'help' for help");
                 }
             }
-            
         }
     }
 }

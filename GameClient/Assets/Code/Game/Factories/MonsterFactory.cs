@@ -36,8 +36,8 @@ namespace Assets.Code.Game.Factories
                     MonsterObj = monsterObj
                 };
                 movingBehaviour.EntityWrapper = monsterEntityWrapper;
-                monsterObj.transform.position = new Vector2(opts.Position.X * 16, -opts.Position.Y * 16);
-                UnityClient.Map.EntityPositions.AddEntity(monsterEntityWrapper, opts.Position);
+                monsterObj.transform.position = opts.Position.ToUnityPosition();
+                UnityClient.Map.UpdateEntityPosition(monsterEntityWrapper, opts.Position, opts.Position);
 
             }
         }

@@ -1,4 +1,6 @@
-﻿namespace ServerCore.ConsoleCmds.Commands
+﻿using ServerCore.Game.Entities;
+
+namespace ServerCore.ConsoleCmds.Commands
 {
     public class DebugCmd : ConsoleCommand
     {
@@ -16,9 +18,9 @@
                 {
                     foreach(var chunk in Server.Map.Chunks.Values)
                     {
-                        if(chunk.PlayersInChunk.Count > 0)
+                        if(chunk.EntitiesInChunk[EntityType.PLAYER].Count > 0)
                         {
-                            Log.Info($"Chunk {chunk.x} - {chunk.x} have players {chunk.PlayersInChunk.Count}");
+                            //Log.Info($"Chunk {chunk.x} - {chunk.x} have players {chunk.PlayersInChunk.Count}");
                         }
                     }
                 }

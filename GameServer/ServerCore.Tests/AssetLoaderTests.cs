@@ -54,18 +54,13 @@ namespace MapTests
 
             Assert.That(map.Chunks.Count >= 2);
 
-            Chunk chunk = map.GetChunk(0, 0);
+            Chunk chunk = map.GetChunkByChunkPosition(0, 0);
 
-            Assert.AreEqual(chunk.GetTile(0, 0), 1);
-            Assert.AreEqual(chunk.GetTile(1, 0), 2);
-            Assert.AreEqual(chunk.GetTile(2, 0), 3);
+            Assert.AreEqual(chunk.Tiles[0, 0].TileId, 1);
+            Assert.AreEqual(chunk.Tiles[1, 0].TileId, 2);
+            Assert.AreEqual(chunk.Tiles[2, 0].TileId, 3);
 
-            Assert.AreEqual(chunk.GetTile(0, 1), 4);
-            Assert.AreEqual(chunk.GetTile(1, 1), 3);
-            Assert.AreEqual(chunk.GetTile(2, 1), 2);
-            Assert.AreEqual(chunk.GetTile(3, 1), 1);
-
-            chunk = map.GetChunk(0, 0);
+            chunk = map.GetChunkByChunkPosition(0, 0);
         }
     }
 }

@@ -7,6 +7,8 @@ using ServerCore.Tests.TestUtilities;
 using ServerCore.Game.Monsters;
 using MapHandler;
 using ServerCore.GameServer.Players.Evs;
+using CommonCode.Pathfinder;
+using System.Linq;
 
 namespace MapTests
 {
@@ -29,9 +31,42 @@ namespace MapTests
                 Login = "login",
                 Password = "password",
                 MoveSpeed = 1,
-                X = 5,
-                Y = 5
+                X = 0,
+                Y = 0
             };
+        }
+
+        [OneTimeTearDown]
+        public void Stop()
+        {
+            _server.Stop();
+        }
+
+        [Test]
+        public void EntityPathfindingColiisionChecks()
+        {
+            var client = ServerMocker.GetClient();
+            client.FullLoginSequence(_player);
+
+            var path = Server.Map.FindPath(new Position(0, 0), new Position(-2, 0));
+
+            Assert.That(path.Count == 3);
+
+            var monster = Server.Map.Monsters.Values.First();
+
+            var newPosition = new Position(-1, 0); // in between player and goal
+
+            Server.Events.Call(new EntityMoveEvent()
+            {
+                Entity = monster,
+                From = monster.Position,
+                To = newPosition
+            });
+
+            var pathWithMonsterInBetween = Server.Map.FindPath(new Position(0, 0), new Position(-2, 0));
+
+            Assert.That(pathWithMonsterInBetween.Count == 5);
+
         }
 
         [Test]
