@@ -16,7 +16,7 @@ namespace MapHandler
 
         public MapTile GetTile(int x, int y)
         {
-            var chunk = GetChunk(x, y);
+            var chunk = GetChunkByTilePosition(x, y);
             if (chunk == null)
                 return null;
             else
@@ -31,21 +31,21 @@ namespace MapHandler
         {
             if (from == null && to != null) // spawning
             {
-                var spawnChunk = GetChunk(to.X, to.Y);
+                var spawnChunk = GetChunkByTilePosition(to.X, to.Y);
                 spawnChunk.EntitiesInChunk[e.EntityType].Add(e);
                 GetTile(to).Occupator = e;
             }
             else if (to == null && from != null) // despawning
             {
-                var spawnChunk = GetChunk(from.X, from.Y);
+                var spawnChunk = GetChunkByTilePosition(from.X, from.Y);
                 spawnChunk.EntitiesInChunk[e.EntityType].Remove(e);
                 GetTile(from).Occupator = null;
             }
             else 
             {
                 // moving
-                var chunkFrom = GetChunk(from.X, from.Y);
-                var chunkTo = GetChunk(to.X, to.Y);
+                var chunkFrom = GetChunkByTilePosition(from.X, from.Y);
+                var chunkTo = GetChunkByTilePosition(to.X, to.Y);
 
                 if (chunkFrom == null || chunkTo == null)
                 {
@@ -80,7 +80,7 @@ namespace MapHandler
             );
         }
 
-        public ChunkType GetChunk(int x, int y)
+        public ChunkType GetChunkByTilePosition(int x, int y)
         {
             var chunkX = x >> 4;
             var chunkY = y >> 4;

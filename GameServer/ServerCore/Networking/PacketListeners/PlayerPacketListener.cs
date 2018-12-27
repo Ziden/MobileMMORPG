@@ -14,19 +14,17 @@ namespace ServerCore.Networking.PacketListeners
         // server recieving entitymove means its a player moving
         public void OnEntityMovePacket(EntityMovePacket packet)
         {
-            var player = Server.GetPlayerByConnectionId(packet.ClientId);
+            var player = Server.GetPlayerByConnectionId(packet.ClientId); 
             var distanceMoved = PositionExtensions.GetDistance(player.Position, packet.To);
             var timeToMove = Formulas.GetTimeToMoveBetweenTwoTiles(player.MoveSpeed);
-
-            Log.Info("TIME TO MOVE " + timeToMove);
 
             var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
             // Player tryng to hack ?
-            if (distanceMoved > 1 || now < player.CanMoveAgainTime)
+            var isPassable = Server.Map.IsPassable(packet.To.X, packet.To.Y);
+            if (distanceMoved > 1 || now < player.CanMoveAgainTime || !isPassable)
             {
 
-                Log.Debug($"Player time to move {player.CanMoveAgainTime - now}");
                 // send player back to the position client-side
                 player.Tcp.Send(new SyncPacket()
                 {
@@ -40,7 +38,6 @@ namespace ServerCore.Networking.PacketListeners
 
             var entityMoveEvent = new EntityMoveEvent()
             {
-                From = packet.From,
                 To = packet.To,
                 Entity = player
             };
@@ -48,6 +45,7 @@ namespace ServerCore.Networking.PacketListeners
 
             if (entityMoveEvent.IsCancelled)
             {
+                Log.Debug("Cancalled entity move event");
                 // send player back to the position client-side
                 player.Tcp.Send(new SyncPacket()
                 {

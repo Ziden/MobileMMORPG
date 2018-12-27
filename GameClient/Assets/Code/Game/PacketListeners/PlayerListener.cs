@@ -18,12 +18,12 @@ namespace Assets.Code.Net.PacketListeners
         public void OnPlayerSync(SyncPacket packet)
         {
             Position destination = null;
-            if (UnityClient.Player.FollowingPath != null && UnityClient.Player.FollowingPath.Count > 0)
+            if (UnityClient.Player.Movement.Route.Count > 0)
             {
-                destination = UnityClient.Player.FollowingPath.Last();
+                destination = UnityClient.Player.Movement.Route.Last();
             }
             UnityClient.Player.PlayerObject.GetComponent<PlayerBehaviour>().StopMovement();
-            UnityClient.Player.FollowingPath = null;
+            UnityClient.Player.Movement.Route.Clear();
             UnityClient.Player.TeleportToTile(packet.Position.X, packet.Position.Y);
             Debug.Log("SYNC TO " + packet.Position.X + " - " + packet.Position.Y);
 
@@ -33,7 +33,7 @@ namespace Assets.Code.Net.PacketListeners
                 var path = UnityClient.Map.FindPath(UnityClient.Player.Position, destination);
                 if (path != null)
                 {
-                    UnityClient.Player.FollowingPath = path;
+                    UnityClient.Player.Movement.Route = path;
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace Assets.Code.Net.PacketListeners
                 var path = UnityClient.Map.FindPath(UnityClient.Player.Position, target.GetMapPosition());
                 if (path != null)
                 {
-                    UnityClient.Player.FollowingPath = path;
+                    UnityClient.Player.Movement.Route = path;
                     Selectors.HideSelector();
                 }
             } 

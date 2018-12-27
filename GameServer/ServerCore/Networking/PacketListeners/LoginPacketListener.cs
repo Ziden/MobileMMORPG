@@ -29,7 +29,6 @@ namespace ServerCore.PacketListeners
                 }
 
                 var user = AccountService.Login(packet.Login, packet.Password);
-                Log.Info("Sending Login Response");
 
                 client.Send(new LoginResponsePacket()
                 {
@@ -51,7 +50,6 @@ namespace ServerCore.PacketListeners
             }
             catch (AccountError e)
             {
-                Log.Info("Sending Login Error");
                 client.Send(new DialogPacket()
                 {
                     Title = "Acount Error",

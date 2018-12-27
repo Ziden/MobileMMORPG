@@ -78,6 +78,7 @@
     <Compile Include="Assets\Code\Game\Factories\PlayerFactory.cs" />
     <Compile Include="Assets\Code\Game\Factories\TileFactory.cs" />
     <Compile Include="Assets\Code\Game\GameCamera.cs" />
+    <Compile Include="Assets\Code\Game\GameConsole.cs" />
     <Compile Include="Assets\Code\Game\PacketListeners\AccountListener.cs" />
     <Compile Include="Assets\Code\Game\PacketListeners\AssetListener.cs" />
     <Compile Include="Assets\Code\Game\PacketListeners\EntityListener.cs" />

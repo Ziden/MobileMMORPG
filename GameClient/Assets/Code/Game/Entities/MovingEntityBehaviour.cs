@@ -3,6 +3,7 @@ using Assets.Code.Game;
 using Client.Net;
 using CommonCode.EntityShared;
 using MapHandler;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,19 +11,17 @@ public class MovingEntityBehaviour : MonoBehaviour
 {
     // Add a position to the route to make the entity move, or add a route. :)
     public List<Position> Route = new List<Position>();
-    public Position MapPosition = new Position(0, 0);
     public List<SpriteSheet> SpriteSheets = new List<SpriteSheet>();
-    public int MoveSpeed;
-
-    public Entity EntityWrapper;
+    public Entity Entity;
 
     private Position _goingToPosition;
     private Direction _movingToDirection = Direction.NONE;
     private float _timeForLerp;
     private Vector3 _startPosition;
     private Vector3? _target;
-    private float timeToReachTarget;
+    private float _timeToReachTarget;
     private bool _lastMovement;
+    private long _shouldArriveAt;
 
     void Start()
     {
@@ -32,7 +31,7 @@ public class MovingEntityBehaviour : MonoBehaviour
     void Update()
     {
         ReadPathfindingNextMovement();
-        SetRoute();
+        PerformMovement();
         MoveTick();
     }
 
@@ -48,10 +47,10 @@ public class MovingEntityBehaviour : MonoBehaviour
     {
         if (!_target.HasValue)
             return;
-        _timeForLerp += Time.deltaTime / timeToReachTarget;
-        transform.position = Vector3.Lerp(_startPosition, _target.Value, _timeForLerp);
 
-        if (transform.position == _target && _movingToDirection != Direction.NONE)
+        var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
+        if (transform.position == _target && _movingToDirection != Direction.NONE && now >= _shouldArriveAt)
         {
             _movingToDirection = Direction.NONE;
 
@@ -61,27 +60,39 @@ public class MovingEntityBehaviour : MonoBehaviour
             {
                 _lastMovement = false;
                 _target = null;
+                OnFinishRoute();
             }
+        }
+        else
+        {
+            _timeForLerp += Time.deltaTime;
+            transform.position = Vector3.Lerp(_startPosition, new Vector2(_target.Value.x, _target.Value.y), _timeForLerp / _timeToReachTarget);
         }
     }
 
-    private void SetRoute()
+    private void PerformMovement()
     {
         if (_goingToPosition != null && _movingToDirection == Direction.NONE)
         {
-            // TODO - KEEP CLEANING THE CLIENT
-            _movingToDirection = MapPosition.GetDirection(_goingToPosition);
-            var timeToMove = (float)Formulas.GetTimeToMoveBetweenTwoTiles(MoveSpeed);
+            _movingToDirection = Entity.Position.GetDirection(_goingToPosition);
+            var timeToMoveInMillis = Formulas.GetTimeToMoveBetweenTwoTiles(Entity.MoveSpeed);
 
-            SetDestination(_goingToPosition.ToUnityPosition(), timeToMove / 1000);
+            var timeToMoveInSeconds = (float)timeToMoveInMillis / 1000;
+
+            var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            _shouldArriveAt = now + timeToMoveInMillis;
+
+            OnBeforeMoveTile(_goingToPosition);
+
+            SetDestination(_goingToPosition.ToUnityPosition(), timeToMoveInSeconds);
 
             SpriteSheets.ForEach(e => e.Direction = _movingToDirection);
             SpriteSheets.ForEach(e => e.Moving = true);
 
-            UnityClient.Map.UpdateEntityPosition(EntityWrapper, MapPosition, _goingToPosition);
+            UnityClient.Map.UpdateEntityPosition(Entity, Entity.Position, _goingToPosition);
 
-            MapPosition.X = _goingToPosition.X;
-            MapPosition.Y = _goingToPosition.Y;
+            Entity.Position.X = _goingToPosition.X;
+            Entity.Position.Y = _goingToPosition.Y;
 
             _goingToPosition = null;
         }
@@ -91,7 +102,7 @@ public class MovingEntityBehaviour : MonoBehaviour
     {
         _timeForLerp = 0;
         _startPosition = transform.position;
-        timeToReachTarget = time;
+        _timeToReachTarget = time;
         _target = destination;
     }
 
@@ -103,8 +114,14 @@ public class MovingEntityBehaviour : MonoBehaviour
         {
             var nextStep = Route[0];
 
+            if(nextStep == null)
+            {
+                Debug.Log("ADDDFFADSFDSF");
+                return;
+            }
+
             // tryng to move where i am
-            if (MapPosition.X == nextStep.X && MapPosition.Y == nextStep.Y)
+            if (Entity.Position.X == nextStep.X && Entity.Position.Y == nextStep.Y)
             {
                 Route.RemoveAt(0);
                 ReadPathfindingNextMovement();
@@ -119,4 +136,9 @@ public class MovingEntityBehaviour : MonoBehaviour
             }
         }
     }
+
+    // OVERRIDABLES
+    public virtual void OnFinishRoute(){}
+
+    public virtual void OnBeforeMoveTile(Position movingTo) { }
 }

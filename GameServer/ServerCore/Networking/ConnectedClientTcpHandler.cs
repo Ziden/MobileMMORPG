@@ -29,6 +29,11 @@ namespace ServerCore.Networking
 
         }
 
+        public void Configure()
+        {
+            TcpClient.NoDelay = true;
+        }
+
         public virtual bool Send(BasePacket packet)
         {
             try
@@ -46,7 +51,7 @@ namespace ServerCore.Networking
             }
             catch (Exception e)
             {
-                Log.Error("Error sending packet " + e.Message);
+                Log.Error(e.Message);
                 Log.Error(System.Environment.StackTrace);
                 Listening = false;
                
@@ -103,7 +108,7 @@ namespace ServerCore.Networking
                                 continue;
                             }
                         }
-                        Log.Debug($"Packet {packet.GetType().Name} recieved");
+                        // Log.Debug($"Packet {packet.GetType().Name} recieved");
                         // Put the packet to be processed by the main thread
                         Server.PacketsToProccess.Enqueue(packet);
                     }
@@ -126,7 +131,7 @@ namespace ServerCore.Networking
         public void Stop()
         {
             Listening = false;
-            TcpClient.Close();
+            TcpClient?.Close();
         }
 
         private byte[] ReadData()

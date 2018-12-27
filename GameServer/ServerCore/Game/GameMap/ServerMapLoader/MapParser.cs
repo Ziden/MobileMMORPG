@@ -45,8 +45,13 @@ namespace ServerCore.Game.GameMap
                 {
                     var imgSource = tileset.Element("image").Attribute("source").Value;
                     var tilesetName = imgSource.Split('/').Last();
-                    byte[] image = AssetLoader.LoadedAssets.GetAsset(AssetType.TILESET, tilesetName).ImageData;
-                    map.Tilesets.Add(tilesetName, image);
+                    var asset = AssetLoader.LoadedAssets.GetAsset(AssetType.TILESET, tilesetName);
+                    if(asset != null)
+                    {
+                        byte[] image = asset.ImageData;
+                        map.Tilesets.Add(tilesetName, image);
+                    }
+                    
                 }
 
                 // Map Objects
@@ -135,11 +140,10 @@ namespace ServerCore.Game.GameMap
                         {
                             for (int x = 0; x < Chunk.SIZE; x++)
                             {
+                                var tilePositionX = chunk.x * Chunk.SIZE + x;
+                                var tilePositionY = chunk.y * Chunk.SIZE + y;
                                 var tileId = Int16.Parse(tileArray[x + y * Chunk.SIZE]);
-                                chunk.Tiles[x, y] = new MapTile()
-                                {
-                                    TileId = tileId
-                                };
+                                chunk.Tiles[x, y] = new MapTile(new Position(tilePositionX, tilePositionY), tileId);
                             }
                         }
                         chunk.BuildChunkPacketData();

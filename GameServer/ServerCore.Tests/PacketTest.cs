@@ -9,6 +9,7 @@ using Storage.TestDataBuilder;
 using ServerCore.Tests.TestUtilities;
 using System.Linq;
 using System.Net.Sockets;
+using static ServerCore.Server;
 
 [TestFixture]
 public class PacketTests
@@ -20,7 +21,7 @@ public class PacketTests
     [SetUp]
     public void Prepare()
     {
-        _server = new Server(8886);
+        _server = new Server(new ServerStartConfig() { Port = 1234 });
         _server.StartListeningForPackets();
 
         Redis redis = new Redis();
@@ -30,7 +31,7 @@ public class PacketTests
 
         _client = new ConnectedClientTcpHandler()
         {
-            TcpClient = new TcpClient("localhost", 8886),
+            TcpClient = new TcpClient("localhost", 1234),
             ConnectionId = Guid.NewGuid().ToString()
         };
     }
@@ -39,6 +40,7 @@ public class PacketTests
     public void TearDown()
     {
         _client.Stop();
+        _server.Stop();
     }
 
     [Test]

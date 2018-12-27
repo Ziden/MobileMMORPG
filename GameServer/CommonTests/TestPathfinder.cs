@@ -31,7 +31,7 @@ namespace Common.Tests
             {
                 for (int yy = 0; yy < 16; yy++)
                 {
-                    chunk1.Tiles[xx, yy] = new MapTile() { TileId = PASSABLE };
+                    chunk1.Tiles[xx, yy] = new MapTile(new Position(xx, yy), PASSABLE);
                 }
             }
             return chunk1;

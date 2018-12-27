@@ -7,7 +7,6 @@ namespace Common.Networking.Packets
     public class EntityMovePacket : BasePacket
     {
         public string UID;
-        public Position From;
         public Position To;
     }
 }

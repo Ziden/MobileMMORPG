@@ -1,10 +1,5 @@
 ﻿using Client.Net;
 using MapHandler;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
 
 namespace Assets.Code.Game.ClientPlayer
 {
@@ -26,7 +21,7 @@ namespace Assets.Code.Game.ClientPlayer
             var path =UnityClient.Map.FindPath(player.Position, position);
             if (path != null)
             {
-                player.FollowingPath = path;
+                player.Movement.Route = path;
             }
             return path != null;
         }

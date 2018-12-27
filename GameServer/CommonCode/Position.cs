@@ -14,7 +14,7 @@ namespace MapHandler
             this.Y = y;
         }
 
-        public string ToString()
+        public new string ToString()
         {
             return X + "_" + Y;
         }

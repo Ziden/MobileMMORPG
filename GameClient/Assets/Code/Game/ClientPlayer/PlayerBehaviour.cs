@@ -1,16 +1,31 @@
-﻿using Assets.Code.AssetHandling;
-using Assets.Code.Game;
+﻿using Assets.Code.Game;
 using Client.Net;
 using Common.Networking.Packets;
-using CommonCode.EntityShared;
 using MapHandler;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+using System.Diagnostics;
 
-public class PlayerBehaviour : MonoBehaviour
+public class PlayerBehaviour : MovingEntityBehaviour
 {
+
+    public override void OnFinishRoute()
+    {
+        // Hide the green square on the ground when i finish moving
+        if (this.Route.Count == 0)
+            Selectors.HideSelector();
+    }
+
+    public override void OnBeforeMoveTile(Position movingTo)
+    {
+        // Inform the server i moved
+        UnityClient.TcpClient.Send(new EntityMovePacket()
+        {
+            UID = UnityClient.Player.UID,
+            From = UnityClient.Player.Position,
+            To = movingTo
+        });
+    }
+
+    /*
     private Position _nextStep;
 
     private Direction _movingToDirection = Direction.NONE;
@@ -151,4 +166,5 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
     }
+    */
 }

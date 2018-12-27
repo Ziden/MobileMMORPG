@@ -79,7 +79,7 @@ namespace Assets.Code.Net.PacketListeners
             }
             else
             {
-                Debug.Log("Saving asset " + packet.ResquestedImageName);
+                Debug.Log("Saving asset " + packet.ResquestedImageName+" SIZE "+packet.Asset.Length);
                 File.WriteAllBytes(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName), packet.Asset);
                 var spriteMap = AssetHandler.LoadNewSprite(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName));
                 AssetHandler.LoadedAssets.Add(packet.ResquestedImageName, spriteMap);

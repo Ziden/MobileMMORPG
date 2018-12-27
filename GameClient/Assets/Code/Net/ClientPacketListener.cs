@@ -26,7 +26,7 @@ namespace Client.Net
                     if (packetRead != null && packetRead is BasePacket)
                     {
                         var packet = (BasePacket)packetRead;
-                        Debug.Log("Recieved Packet " + packet.GetType().Name);
+                       // Debug.Log("Recieved Packet " + packet.GetType().Name);
 
                         if (typeof(PingPacket) == packet.GetType())
                         {
@@ -42,8 +42,8 @@ namespace Client.Net
                 }
                 catch (SerializationException e)
                 {
-                    Console.WriteLine("ERROR PACKET LISTENER");
-                    Console.WriteLine(e.Message + " " + e.StackTrace.ToString());
+                    Debug.Log("ERROR PACKET LISTENER");
+                    Debug.Log(e.Message + " " + e.StackTrace.ToString());
                 }
             }
             // Disconnected for some reason

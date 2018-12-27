@@ -13,7 +13,7 @@ namespace ServerCore.Game.Monsters
         public Skeleton()
         {
             this.Name = "Skeleton";
-            this.MovementBehaviour = BehaviourPool.Get<RandomWalk>();
+            this.MovementBehaviour = BehaviourPool.Get<LeftRightWalk>();
         }
 
         private static SpriteAsset _sprite = new SpriteAsset()

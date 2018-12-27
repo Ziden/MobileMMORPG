@@ -1,5 +1,4 @@
 ﻿using ServerCore.Game.Entities;
-using System;
 using System.Collections.Generic;
 
 namespace MapHandler
@@ -19,6 +18,11 @@ namespace MapHandler
         {
             EntitiesInChunk.Add(EntityType.PLAYER, new List<Entity>());
             EntitiesInChunk.Add(EntityType.MONSTER, new List<Entity>());
+        }
+
+        public new string ToString()
+        {
+            return x + "_" + y;
         }
     }
 }

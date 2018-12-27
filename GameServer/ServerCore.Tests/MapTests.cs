@@ -7,8 +7,11 @@ using ServerCore.Tests.TestUtilities;
 using ServerCore.Game.Monsters;
 using MapHandler;
 using ServerCore.GameServer.Players.Evs;
-using CommonCode.Pathfinder;
 using System.Linq;
+using Common.Networking.Packets;
+using static ServerCore.Server;
+using ServerCore.Game.Monsters.Behaviours;
+using ServerCore.Game.Monsters.Behaviours.MoveBehaviours;
 
 namespace MapTests
 {
@@ -16,7 +19,7 @@ namespace MapTests
     public class MapTests
     {
         private StoredPlayer _player;
-        private Server _server = new Server(123, mapName: "test");
+        private Server _server;
 
         [SetUp]
         public void Start()
@@ -24,13 +27,15 @@ namespace MapTests
             Redis redis = new Redis();
             redis.Start();
 
+            _server = new Server(new ServerStartConfig() { Port = 123 }); 
+
             TestDb.Create();
             _player = new StoredPlayer()
             {
                 UserId = "wololo",
                 Login = "login",
                 Password = "password",
-                MoveSpeed = 1,
+                MoveSpeed = int.MaxValue,
                 X = 0,
                 Y = 0
             };
@@ -40,6 +45,89 @@ namespace MapTests
         public void Stop()
         {
             _server.Stop();
+        }
+
+        [Test]
+        public void TestMonsterMovingCollision()
+        {
+            var client = ServerMocker.GetClient();
+            client.FullLoginSequence(_player);
+
+            var skeleton = new Skeleton();
+            skeleton.Position = new Position(1, 1);
+            skeleton.MovementBehaviour = BehaviourPool.Get<LeftRightWalk>();
+
+            Server.Map.GetTile(2, 1).TileId = 2; // block
+
+            var originalX = skeleton.Position.X;
+            Server.Events.Call(new EntitySpawnEvent()
+            {
+                Entity = skeleton,
+                Position = skeleton.Position
+            });
+
+            client.SendToServer(new EntityMovePacket()
+            {
+                To = new Position(_player.X, _player.Y + 1),
+                UID = _player.UserId,
+            });
+
+            client.RecievedPackets.Clear();
+
+            skeleton.MovementTick();
+
+            Assert.That(skeleton.Position.X == originalX,
+                "Skeleton couldnt have moved as he was in between 2 obstacles");
+
+            Assert.That(client.RecievedPackets.Count == 0,
+                "Player should not recieve monster move packets if the monster didnt moved");
+        }
+
+        [Test]
+        public void TestMovingPlayerCollision()
+        {
+            var client = ServerMocker.GetClient();
+            client.FullLoginSequence(_player);
+
+            var tilePlayerIn = Server.Map.GetTile(_player.X, _player.Y);
+            Assert.That(tilePlayerIn.Occupator.UID == _player.UserId, 
+                "Player Did not occupy his tile when spawning");
+
+            client.SendToServer(new EntityMovePacket()
+            {
+                To = new Position(_player.X - 1, _player.Y),
+                UID = _player.UserId,
+            });
+
+            var playerWasin = Server.Map.GetTile(_player.X, _player.Y);
+            var playerGoingTo = Server.Map.GetTile(_player.X - 1, _player.Y);
+
+            Assert.That(Server.Map.IsPassable(_player.X - 1, _player.Y) == false,
+                "Player new occupation was not properly set after moving");
+            Assert.That(Server.Map.IsPassable(_player.X, _player.Y) == true,
+                "Player new occupation was not properly set after moving");
+            Assert.That(playerWasin.Occupator == null,
+                "Player new occupation was not properly set after moving");
+            Assert.That(playerGoingTo.Occupator.UID == _player.UserId,
+                "Player new occupation was not properly set after moving");
+
+            client.SendToServer(new EntityMovePacket()
+            {
+                To = new Position(_player.X, _player.Y),
+                UID = _player.UserId,
+            });
+
+            playerWasin = Server.Map.GetTile(_player.X - 1, _player.Y);
+            playerGoingTo = Server.Map.GetTile(_player.X, _player.Y);
+
+            Assert.That(Server.Map.IsPassable(_player.X - 1, _player.Y) == true,
+                "Player new occupation was not properly set after moving");
+            Assert.That(Server.Map.IsPassable(_player.X, _player.Y) == false,
+                "Player new occupation was not properly set after moving");
+            Assert.That(playerWasin.Occupator == null,
+                "Player new occupation was not properly set after moving");
+            Assert.That(playerGoingTo.Occupator.UID == _player.UserId,
+                "Player new occupation was not properly set after moving");
         }
 
         [Test]
@@ -59,14 +147,13 @@ namespace MapTests
             Server.Events.Call(new EntityMoveEvent()
             {
                 Entity = monster,
-                From = monster.Position,
                 To = newPosition
             });
 
             var pathWithMonsterInBetween = Server.Map.FindPath(new Position(0, 0), new Position(-2, 0));
 
-            Assert.That(pathWithMonsterInBetween.Count == 5);
-
+            Assert.That(pathWithMonsterInBetween.Count == 5, 
+                "Player did not move around the monster that spawned between him and his goal");
         }
 
         [Test]
@@ -104,7 +191,6 @@ namespace MapTests
             Server.Events.Call(new EntityMoveEvent()
             {
                 Entity = skeleton,
-                From = skeleton.Position,
                 To = newPosition
             });
 

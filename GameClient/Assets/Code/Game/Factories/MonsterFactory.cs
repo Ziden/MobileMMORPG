@@ -4,6 +4,7 @@ using Assets.Code.Net;
 using Client.Net;
 using CommonCode.EntityShared;
 using MapHandler;
+using ServerCore.Game.Entities;
 using System.Linq;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace Assets.Code.Game.Factories
                 monsterObj.transform.localScale = new Vector3(100, 100);
 
                 FactoryMethods.AddCollider(monsterObj);
+
                 var spriteRenderer = monsterObj.AddComponent<SpriteRenderer>();
                 var spriteSheet = monsterObj.AddComponent<SpriteSheet>();
                 spriteRenderer.sortingOrder = 2;
@@ -27,15 +29,20 @@ namespace Assets.Code.Game.Factories
                 var spriteRow = bodySprite.SliceRow(opts.SpriteIndex).ToArray();
                 spriteSheet.SetSheet(spriteRow, rowSize:2);
                 spriteRenderer.sprite = spriteSheet.WalkSouth[1];
+
+                // Moving Entity
                 var movingBehaviour = monsterObj.AddComponent<MovingEntityBehaviour>();
                 movingBehaviour.SpriteSheets.Add(spriteSheet);
-                movingBehaviour.MoveSpeed = opts.MoveSpeed;
-                movingBehaviour.MapPosition = opts.Position;
                 var monsterEntityWrapper = new MonsterWrapper()
                 {
-                    MonsterObj = monsterObj
+                    MonsterObj = monsterObj,
+                    EntityType = EntityType.MONSTER,
+                    MoveSpeed = opts.MoveSpeed,
+                    UID = opts.MonsterUid,
+                    Position = opts.Position
                 };
-                movingBehaviour.EntityWrapper = monsterEntityWrapper;
+
+                movingBehaviour.Entity = monsterEntityWrapper;
                 monsterObj.transform.position = opts.Position.ToUnityPosition();
                 UnityClient.Map.UpdateEntityPosition(monsterEntityWrapper, opts.Position, opts.Position);
 

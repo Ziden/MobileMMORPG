@@ -15,11 +15,13 @@ namespace Client.Net
         public ClientTcpHandler(string serverIp, int serverPort)
         {
             TcpClient = new TcpClient(serverIp, serverPort);
+            TcpClient.NoDelay = true;
         }
 
         public ClientTcpHandler(TcpClient client)
         {
             TcpClient = client;
+            TcpClient.NoDelay = true;
         }
 
         // use this only inside the server to send to a client
@@ -35,7 +37,7 @@ namespace Client.Net
                 stream.Write(packetSizeBytes, 0, packetSizeBytes.Length);
                 // then write the friggin packet
                 stream.Write(packetDeserialized, 0, packetDeserialized.Length);
-                Debug.Log("Sent Packet " + packet.GetType().Name);
+                // Debug.Log("Sent Packet " + packet.GetType().Name);
             }
             catch (Exception e)
             {

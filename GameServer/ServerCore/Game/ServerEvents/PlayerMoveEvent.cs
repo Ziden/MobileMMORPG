@@ -6,7 +6,6 @@ namespace ServerCore.GameServer.Players.Evs
     public class EntityMoveEvent : IEvent
     {
         public Entity Entity;
-        public Position From;
         public Position To;
 
         public bool IsCancelled = false;

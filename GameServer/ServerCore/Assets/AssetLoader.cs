@@ -23,6 +23,8 @@ namespace ServerCore.Game.GameMap
 
         public ImageAsset GetAsset(AssetType type, string name)
         {
+            if (!this.ContainsKey(type))
+                return null;
             var list = this[type];
             return list.Where(asset => asset.ImageName.ToLower() == name.ToLower()).First();
         }

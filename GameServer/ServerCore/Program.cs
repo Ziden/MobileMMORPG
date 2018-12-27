@@ -7,7 +7,7 @@ namespace ServerCore
 {
     class Program
     {
-        private readonly static int SERVER_PORT = 8888;
+        private readonly static int SERVER_PORT = 8888; 
 
         static void Main(string[] args)
         {
@@ -19,7 +19,7 @@ namespace ServerCore
             TestDb.Create();
 
             Log.Info("Starting Server");
-            var server = new Server(SERVER_PORT);
+            var server = new Server(new Server.ServerStartConfig() { Port = SERVER_PORT });
             server.StartListeningForPackets();
             server.StartGameThread();
 
@@ -54,5 +54,6 @@ namespace ServerCore
                 }
             }
         }
+
     }
 }

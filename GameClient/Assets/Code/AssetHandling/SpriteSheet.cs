@@ -9,7 +9,7 @@ namespace Assets.Code.AssetHandling
 
         private int _frame = 0;
         private float _deltaTime = 0;
-        private float _frameSeconds = 0.1f;
+        private float _frameSeconds = 0.12f;
 
         public bool Moving = false;
 

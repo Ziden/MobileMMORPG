@@ -1,12 +1,10 @@
-﻿using ServerCore.ConsoleCmds;
-using ServerCore.ConsoleCmds.Commands;
-using System;
+﻿using ServerCore.ConsoleCmds.Commands;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ServerCore.ConsoleCmds
 {
+    // TODO IMPLEMENT BETTER COMMAND ARGUMENTS HANDLING
     public class CommandHandler
     {
         public Dictionary<string, ConsoleCommand> _registeredCommands = new Dictionary<string, ConsoleCommand>();
@@ -37,8 +35,5 @@ namespace ServerCore.ConsoleCmds
             _registeredCommands[cmd].RunCommand(args);
             return true;
         }
-
-      
-
     }
 }

@@ -31,16 +31,17 @@ namespace ServerCore
 
         private Server _instance;
 
-        public Server(int port, string mapName = "test")
+        public Server(ServerStartConfig config)
         {
-            PORT = port;
+            PORT = config.Port;
             _instance = this;
             Events?.Clear();
             Events = new ServerEvents();
             CommandHandler = new CommandHandler();
             AssetLoader.LoadServerAssets();
-            Map = AssetLoader.LoadMapFromFile(mapName);
-            Map.LoadAllSpawners();
+            Map = AssetLoader.LoadMapFromFile(config.MapName);
+            if (!config.DisableSpawners)
+                Map.LoadAllSpawners();
         }
 
         public bool IsRunning()
@@ -72,7 +73,9 @@ namespace ServerCore
             TcpHandler?.Stop();
             Running = false;
             Server.Map.Chunks = new Dictionary<string, ServerChunk>();
-        }
+            Players.Clear();
+            PacketsToProccess.Clear();
+    }
 
         public static OnlinePlayer GetPlayer(string UserId)
         {
@@ -87,6 +90,13 @@ namespace ServerCore
         public static Monster GetMonster(string monsterUid)
         {
             return Map.Monsters[monsterUid];
+        }
+
+        public class ServerStartConfig
+        {
+            public bool DisableSpawners = false;
+            public int Port;
+            public string MapName = "test";
         }
 
     }

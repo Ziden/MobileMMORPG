@@ -20,7 +20,6 @@ namespace ServerCore.Networking
         {
             IPAddress address = IPAddress.Parse("127.0.0.1");
             Listener = new TcpListener(address, port);
-
             Listener.Start();
             IsRunning = true;
 
@@ -44,6 +43,8 @@ namespace ServerCore.Networking
                         TcpClient = clientTask.Result
 
                     };
+                    socketClient.Configure();
+                   
                     Log.Info($"Client {socketClient.ConnectionId} connected.");
                     ClientsByConnectionId.Add(socketClient.ConnectionId, socketClient);
                     ThreadPool.QueueUserWorkItem(ConnectedClientTcpHandler.RecievePacketWorker, socketClient);

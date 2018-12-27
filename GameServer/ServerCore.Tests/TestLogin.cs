@@ -8,6 +8,7 @@ using Common.Networking.Packets;
 using Storage.Login;
 using System.Linq;
 using CommonCode.Networking.Packets;
+using static ServerCore.Server;
 
 namespace GameTests
 {
@@ -23,7 +24,7 @@ namespace GameTests
             Redis redis = new Redis();
             redis.Start();
             TestDb.Create();
-            _server = new Server(1234);
+            _server = new Server(new ServerStartConfig() { Port = 123 });
             _server.StartGameThread();
 
             _player = new StoredPlayer()

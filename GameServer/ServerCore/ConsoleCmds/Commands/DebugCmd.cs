@@ -1,4 +1,4 @@
-﻿using ServerCore.Game.Entities;
+﻿using System.Linq;
 
 namespace ServerCore.ConsoleCmds.Commands
 {
@@ -14,19 +14,15 @@ namespace ServerCore.ConsoleCmds.Commands
             if(args.Length == 1)
             {
                 // CHUNK
-                if(args[0]=="chunk")
+                if(args[0]=="playerposition")
                 {
-                    foreach(var chunk in Server.Map.Chunks.Values)
-                    {
-                        if(chunk.EntitiesInChunk[EntityType.PLAYER].Count > 0)
-                        {
-                            //Log.Info($"Chunk {chunk.x} - {chunk.x} have players {chunk.PlayersInChunk.Count}");
-                        }
-                    }
+                    var targetPlayer = Server.Players.First();
+                    Log.Info("Running Consistency Check");
+
                 }
 
                 // SPAWNERS
-                if(args[0]=="spawners")
+                if(args[0]=="reloadspawners")
                 {
                     Server.Map.LoadAllSpawners();
                 }

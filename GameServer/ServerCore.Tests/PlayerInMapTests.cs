@@ -8,6 +8,7 @@ using Common.Networking.Packets;
 using Storage.Players;
 using ServerCore.GameServer.Entities;
 using ServerCore.Game.Entities;
+using static ServerCore.Server;
 
 namespace MapTests
 {
@@ -15,7 +16,7 @@ namespace MapTests
     public class PlayerInMapTests
     {
         private StoredPlayer _player;
-        private Server _server = new Server(123);
+        private Server _server;
 
         [SetUp]
         public void Start()
@@ -23,6 +24,7 @@ namespace MapTests
             Redis redis = new Redis();
             redis.Start();
             TestDb.Create();
+            _server = new Server(new ServerStartConfig() { Port = 123 });
             _server.StartGameThread();
             _player = new StoredPlayer()
             {
@@ -35,6 +37,12 @@ namespace MapTests
             };
         }
 
+        [TearDown] 
+        public void Stop()
+        {
+            _server.Stop();
+        }
+
         [Test]
         public void TestPlayerMoving()
         {
@@ -43,7 +51,6 @@ namespace MapTests
 
             client.SendToServer(new EntityMovePacket()
             {
-                From = new Position(_player.X, _player.Y),
                 To = new Position(_player.X - 1, _player.Y),
                 UID = _player.UserId
             });

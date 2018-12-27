@@ -12,13 +12,16 @@ namespace ServerCore.Game.Entities
         [EventMethod]
         public void OnEntitySpawn(EntitySpawnEvent ev)
         {
+            Log.Info("ENTITY " + ev.Entity.UID + " GOING TO " + ev.Entity.Position.ToString());
+            ev.Entity.Position = ev.Position;
+
             Server.Map.UpdateEntityPosition(ev.Entity, null, ev.Entity.Position);
 
             // Track in monsters list if its a monster
             if(ev.Entity.EntityType == EntityType.MONSTER)
                 Server.Map.Monsters.Add(ev.Entity.UID, (Monster)ev.Entity);
 
-            ev.Entity.Position = ev.Position;
+         
         }
 
         [EventMethod]
@@ -28,12 +31,11 @@ namespace ServerCore.Game.Entities
 
             var movePacket = new EntityMovePacket()
             {
-                From = ev.From,
                 To = ev.To,
                 UID = ev.Entity.UID
             };
 
-            ev.Entity.LastPosition = ev.From;
+            ev.Entity.LastPosition = ev.Entity.Position;
 
             // Updating this movement to nearby players soo the client updates
             foreach (var nearPlayer in nearPlayers)
@@ -42,8 +44,9 @@ namespace ServerCore.Game.Entities
                     nearPlayer.Tcp.Send(movePacket);
             }
 
-            Server.Map.UpdateEntityPosition(ev.Entity, ev.From, ev.To);
+            Log.Info("ENTITY " + ev.Entity.UID + " GOING TO " + ev.To.ToString());
 
+            Server.Map.UpdateEntityPosition(ev.Entity, ev.Entity.Position, ev.To);
             ev.Entity.Position = ev.To;
         }
     }

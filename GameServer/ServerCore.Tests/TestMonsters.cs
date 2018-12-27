@@ -6,11 +6,11 @@ using ServerCore;
 using ServerCore.Tests.TestUtilities;
 using Common.Networking.Packets;
 using Storage.Players;
-using ServerCore.GameServer.Players;
 using ServerCore.Game.Monsters;
 using System.Linq;
 using ServerCore.GameServer.Entities;
 using ServerCore.Game.Entities;
+using static ServerCore.Server;
 
 namespace GameTests
 {
@@ -18,7 +18,7 @@ namespace GameTests
     public class TestMonsters
     {
         private StoredPlayer _player;
-        private Server _server = new Server(123, "test");
+        private Server _server;
 
         [SetUp]
         public void Start()
@@ -26,6 +26,7 @@ namespace GameTests
             Redis redis = new Redis();
             redis.Start();
             TestDb.Create();
+            _server = new Server(new ServerStartConfig() { Port = 123 });
             _server.StartGameThread();
             _player = new StoredPlayer()
             {
@@ -37,6 +38,13 @@ namespace GameTests
                 Y = 0
             };
         }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _server.Stop();
+        }
+
 
         [Test]
         public void TestMonsterMovingUpdatingClients()

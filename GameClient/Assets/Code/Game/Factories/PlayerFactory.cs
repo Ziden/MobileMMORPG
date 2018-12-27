@@ -21,15 +21,7 @@ namespace Assets.Code.Game.Factories
                 playerObj.transform.localScale = new Vector3(100, 100);
                 playerObj.tag = "Player";
                 FactoryMethods.AddCollider(playerObj);
-                if (opts.IsMainPlayer)
-                {
-                    playerObj.AddComponent<PlayerBehaviour>();
-                    UnityClient.Player.Speed = opts.Speed;
-                    UnityClient.Player.PlayerObject = playerObj;
-                    UnityClient.Player.Position = opts.Position;
-                    UnityClient.Player.EntityType = EntityType.PLAYER;
-                }
-
+         
                 // Body
                 var bodyObj = new GameObject("body");
                 bodyObj.transform.localScale = new Vector3(100, 100);
@@ -81,25 +73,35 @@ namespace Assets.Code.Game.Factories
                 // This gotta be in the end
                 playerObj.transform.position = opts.Position.ToUnityPosition();
 
-                if (!opts.IsMainPlayer)
-                { 
-                    var movingEntity = playerObj.AddComponent<MovingEntityBehaviour>();
-                    movingEntity.MoveSpeed = opts.Speed;
-                    movingEntity.MapPosition = opts.Position;
-                    movingEntity.SpriteSheets.Add(spriteSheet);
-                    movingEntity.SpriteSheets.Add(headSpriteSheet);
-                    movingEntity.SpriteSheets.Add(legsSpriteSheet);
-                    movingEntity.SpriteSheets.Add(chestSpriteSheet);
-                    var playerWrapper = new PlayerWrapper()
-                    {
-                        PlayerObject = playerObj,
-                        EntityType = EntityType.PLAYER
-                       
-                    };
-                    movingEntity.EntityWrapper = playerWrapper;
-                    UnityClient.Map.UpdateEntityPosition(movingEntity.EntityWrapper, null, opts.Position);
+                var playerWrapper = new PlayerWrapper()
+                {
+                    PlayerObject = playerObj,
+                    EntityType = EntityType.PLAYER,
+                    MoveSpeed = opts.Speed,
+                    Position = opts.Position,
+                    UID = opts.UserId,
+                };
+
+                if (opts.IsMainPlayer)
+                {
+                    playerWrapper.Movement = playerObj.AddComponent<PlayerBehaviour>();
+                    playerWrapper.SessionId = UnityClient.Player.SessionId;
+                    UnityClient.Player = playerWrapper;
+                } else
+                {
+                    playerWrapper.Movement = playerObj.AddComponent<MovingEntityBehaviour>();
                 }
+
+                playerWrapper.Movement.SpriteSheets.Add(spriteSheet);
+                playerWrapper.Movement.SpriteSheets.Add(headSpriteSheet);
+                playerWrapper.Movement.SpriteSheets.Add(legsSpriteSheet);
+                playerWrapper.Movement.SpriteSheets.Add(chestSpriteSheet);
+
+                playerWrapper.Movement.Entity = playerWrapper;
+
+                UnityClient.Map.UpdateEntityPosition(playerWrapper, null, opts.Position);
             }
+            
         }
     }
 

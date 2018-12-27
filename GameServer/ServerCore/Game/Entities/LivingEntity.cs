@@ -8,7 +8,6 @@ namespace ServerCore.Game.Entities
     {
         public string Name;
         public int HP;
-        public int MoveSpeed = 5;
         public long MovementDelay = 2000; // in millis
 
         // When a living entity is targeting another
