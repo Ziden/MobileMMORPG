@@ -1,5 +1,6 @@
 ﻿using Common.Networking.Packets;
 using ServerCore.GameServer.Players;
+using ServerCore.GameServer.Players.Evs;
 using ServerCore.Networking;
 using Storage.Login;
 using Storage.Players;
@@ -20,6 +21,12 @@ namespace ServerCore.Tests.TestUtilities
                 Login =user,
                 Password = pass
             });
+        }
+
+        public static void Logout(this MockedClient client)
+        {
+            ServerTcpHandler.ClientsByConnectionId.Remove(client.ConnectionId);
+            Server.Events.Call(new PlayerQuitEvent() { Player = client.OnlinePlayer });
         }
 
         public static OnlinePlayer FullLoginSequence(this MockedClient client, StoredPlayer player)

@@ -62,6 +62,8 @@ namespace Assets.Code.Net.PacketListeners
             // If im recieving from the server that i need an asset
             if (packet.Asset == null)
             {
+                // code below is commented to download all assets everytime
+
                 // if i dont have it
                // if (!File.Exists(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName)))
                // {

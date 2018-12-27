@@ -8,11 +8,9 @@ namespace ServerCore.Game.Entities
 {
     public class EntityListener : IEventListener
     {
-
         [EventMethod]
         public void OnEntitySpawn(EntitySpawnEvent ev)
         {
-            Log.Info("ENTITY " + ev.Entity.UID + " GOING TO " + ev.Entity.Position.ToString());
             ev.Entity.Position = ev.Position;
 
             Server.Map.UpdateEntityPosition(ev.Entity, null, ev.Entity.Position);
@@ -20,8 +18,6 @@ namespace ServerCore.Game.Entities
             // Track in monsters list if its a monster
             if(ev.Entity.EntityType == EntityType.MONSTER)
                 Server.Map.Monsters.Add(ev.Entity.UID, (Monster)ev.Entity);
-
-         
         }
 
         [EventMethod]

@@ -21,7 +21,7 @@
         [RedisField("lspr")]
         public int LegsSpriteIndex { get; set; }
 
-        [RedisField("cspr")]
+        [RedisField("hspr")]
         public int HeadSpriteIndex { get; set; }
 
         [RedisField("bspr")]

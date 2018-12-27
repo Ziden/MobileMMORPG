@@ -73,6 +73,7 @@ namespace GameTests
             AccountService.RegisterAccount(_player.Login, _player.Password, _player.Email, _player);
             client.Login(_player.Login, _player.Password);
 
+            // recieving assets that i need
             var assetsRequiredPackets = client.RecievedPackets.
                 Where(p => p.GetType() == typeof(AssetPacket))
                 .ToList();
@@ -86,6 +87,48 @@ namespace GameTests
 
             Assert.That(client.RecievedPackets.Count == assetsRequiredPackets.Count,
                 "Client did not recieve all assets he asked for");
+        }
+
+
+        [Test]
+        public void TestDownloadAssetSequenceTwice()
+        {
+
+            var client = ServerMocker.GetClient();
+            AccountService.RegisterAccount(_player.Login, _player.Password, _player.Email, _player);
+
+            client.Login(_player.Login, _player.Password);
+            var assetsRequiredPackets = client.RecievedPackets.
+               Where(p => p.GetType() == typeof(AssetPacket))
+               .ToList();
+            client.RecievedPackets.Clear();
+            foreach (var assetPacket in assetsRequiredPackets)
+            {
+                client.SendToServer(assetPacket);
+            }
+
+            var assetsRecieved = client.RecievedPackets.
+            Where(p => p.GetType() == typeof(AssetPacket))
+                .ToList();
+
+            // Now logging out and logging in again and recieveing the assets again
+
+            client.Logout();
+            client.Login(_player.Login, _player.Password);
+
+            var assetsRequiredPacketsAgain = client.RecievedPackets.
+                Where(p => p.GetType() == typeof(AssetPacket))
+                .ToList();
+
+            // sending to server that i dont own this assets client-side, please send me mister server
+            client.RecievedPackets.Clear();
+            foreach (var assetPacket in assetsRequiredPacketsAgain)
+            {
+                client.SendToServer(assetPacket);
+            }
+
+
+
         }
 
     }
