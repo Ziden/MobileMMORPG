@@ -1,1 +1,1 @@
-xcopy /y /s /f .\GameServer\CommonCode\bin\Debug\CommonCode.dll .\GameClient\Assets\Plugins\CommonCode.dll*
+xcopy /y /s /f .\GameServer\CommonCode\bin\Debug\netstandard2.0\CommonCode.dll .\GameClient\Assets\Plugins\CommonCode.dll*

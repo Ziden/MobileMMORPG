@@ -20,7 +20,7 @@ public class PlayerBehaviour : MovingEntityBehaviour
         UnityClient.TcpClient.Send(new EntityMovePacket()
         {
             UID = UnityClient.Player.UID,
-            From = UnityClient.Player.Position,
+            //From = UnityClient.Player.Position, //TODO: Verify this line!
             To = movingTo
         });
     }

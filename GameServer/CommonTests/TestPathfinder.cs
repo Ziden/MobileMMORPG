@@ -1,7 +1,6 @@
 ﻿using CommonCode.Pathfinder;
 using MapHandler;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Common.Tests
 {
