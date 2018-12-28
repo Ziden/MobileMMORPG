@@ -18,7 +18,8 @@ namespace Assets.Code.Game.PacketListeners
                 if (movingEntity != null)
                 {
                     movingEntity.Route.Add(packet.To);
-                    if(UnityClient.Player.Target != null && UnityClient.Player.Target == entityObj)
+                    movingEntity.ForceUpdate(); // to make sure its moved rightn away
+                    if (UnityClient.Player.Target != null && UnityClient.Player.Target == entityObj)
                     {
                         UnityClient.Player.FindPathTo(UnityClient.Player.Target.GetMapPosition());
                     }

@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MapHandler
 {
     public static class PositionExtensions
     {
+        private static double Angle90 = Math.PI / 2;
+        private static double Angle180 = Math.PI;
+        private static double Angle270 = -Math.PI / 2;
+        private static double Angle360 = 0;
+        private static double[] Angles = new double[] { Angle90, Angle180, Angle270, Angle360 };
+
         public static int GetDistance(this Position position, Position other)
         {
             return Math.Abs(other.X - position.X) + Math.Abs(other.Y - position.Y);
@@ -16,7 +23,7 @@ namespace MapHandler
         }
 
         // Gets all positions in a squared radius
-        public static List<Position> GetRadius(this Position position, int range)
+        public static List<Position> GetRadius(this Position position, int range, bool includeSelf = true)
         {
             List<Position> list = new List<Position>();
 
@@ -32,6 +39,8 @@ namespace MapHandler
 
                 for (var currX = x - rangeX; currX <= x + rangeX; currX++)
                 {
+                    if (currX == position.X && currY == position.Y && !includeSelf)
+                        continue;
                     list.Add(new Position(currX, currY));
                 }
                 if (currY > y)
@@ -70,15 +79,38 @@ namespace MapHandler
 
         public static Direction GetDirection(this Position from, Position to)
         {
-            if (from.X < to.X)
+            var angle = to.GetAngleRadiansTo(from);
+
+            var closestAngle = Angles
+                .Aggregate((x, y) => Math.Abs(x - angle) < Math.Abs(y - angle) ? x : y);
+
+            if (closestAngle==Angle180)
                 return Direction.LEFT;
-            if (from.X > to.X)
+            if (closestAngle==Angle360)
                 return Direction.RIGHT;
-            if (from.Y > to.Y)
+            if (closestAngle == Angle90)
                 return Direction.NORTH;
-            if (from.Y < to.Y)
+            if (closestAngle == Angle270)
                 return Direction.SOUTH;
             return Direction.NONE;
+        }
+
+        public static double GetAngleRadiansTo(this Position pos1, Position pos2)
+        {
+            return Math.Atan2(pos2.Y - pos1.Y, pos2.X - pos1.X);
+        }
+
+        public static Position Get(this Position from, Direction dir)
+        {
+            if (dir == Direction.LEFT)
+                return new Position(from.X - 1, from.Y);
+            else if(dir == Direction.RIGHT)
+                return new Position(from.X + 1, from.Y);
+            else if (dir == Direction.NORTH)
+                return new Position(from.X, from.Y + 1);
+            else if (dir == Direction.RIGHT)
+                return new Position(from.X, from.Y - 1);
+            else return from;
         }
     }
 }

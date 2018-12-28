@@ -98,6 +98,17 @@ namespace MapHandler
         public List<Position> FindPath(Position start, Position goal)
         {
             var passableMapResult = this.GetPassableByteArray(start, goal);
+
+            // Make the goal as passable to make sure we try to reach it if theres a path
+            if (!IsPassable(goal.X, goal.Y) && start.GetDistance(goal) > 1)
+            {
+                passableMapResult
+                    .PassableMap[
+                    goal.X + passableMapResult.OffsetX * 16,
+                    goal.Y + passableMapResult.OffsetY * 16
+                    ] = 1;
+            }
+
             var pathfinder = new PathFinder(passableMapResult.PassableMap);
 
             var offsetedStart = new Position(start.X + (passableMapResult.OffsetX * 16), start.Y + (passableMapResult.OffsetY * 16));

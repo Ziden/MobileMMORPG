@@ -36,11 +36,20 @@ namespace Common.Tests
             return chunk1;
         }
 
+        [Test]
+        public void TestPathfinderDistanceLimit()
+        {
+            var chunk1 = CreateChunk(0, 0);
+            chunk1.Tiles[1, 0].TileId = BLOCK;
+
+            var path = _map.FindPath(new Position(10, 0), new Position(0, 0));
+
+           // Assert.That(path.Count )
+        }
 
         [Test]
         public void TestSomePathfinding()
         {
-
             var chunk1 = CreateChunk(0, 0);
             chunk1.Tiles[1, 0].TileId = BLOCK;
             chunk1.Tiles[1, 1].TileId = BLOCK;
@@ -90,14 +99,8 @@ namespace Common.Tests
 
             var passableArrayResponse = _map.GetPassableByteArray(new Position(1, 0), new Position(-1, 0));
 
-            var chunk00 = passableArrayResponse.PassableMap.GetSubSquare(1, 1);
-
-            var negativeChunk = passableArrayResponse.PassableMap.GetSubSquare(0, 1);
-
             Assert.That(passableArrayResponse.OffsetY == 1,
                 "Since we had a negative chunk, our offset Y should be added to still be able to make the 2d array");
-
-         
         }
 
         [Test]

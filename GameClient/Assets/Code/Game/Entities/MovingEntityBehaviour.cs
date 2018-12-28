@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class MovingEntityBehaviour : MonoBehaviour
 {
+    public Vector2 PositionOffset = new Vector2(0, -8);
+
     // Add a position to the route to make the entity move, or add a route. :)
     public List<Position> Route = new List<Position>();
     public List<SpriteSheet> SpriteSheets = new List<SpriteSheet>();
@@ -26,6 +28,11 @@ public class MovingEntityBehaviour : MonoBehaviour
     void Start()
     {
         _target = _startPosition = transform.position;
+    }
+
+    public void ForceUpdate()
+    {
+        Update();
     }
 
     void Update()
@@ -106,7 +113,7 @@ public class MovingEntityBehaviour : MonoBehaviour
         _target = destination;
     }
 
-    private void ReadPathfindingNextMovement()
+    public void ReadPathfindingNextMovement()
     {
         if (_movingToDirection != Direction.NONE)
             return;
@@ -116,7 +123,6 @@ public class MovingEntityBehaviour : MonoBehaviour
 
             if(nextStep == null)
             {
-                Debug.Log("ADDDFFADSFDSF");
                 return;
             }
 

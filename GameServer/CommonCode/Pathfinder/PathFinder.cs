@@ -314,6 +314,7 @@ namespace Pathfinder
                 return mClose;
             }
             mStopped = true;
+          
             return null;
         }
 

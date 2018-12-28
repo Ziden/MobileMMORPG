@@ -25,7 +25,6 @@ namespace Assets.Code.Net.PacketListeners
             UnityClient.Player.PlayerObject.GetComponent<PlayerBehaviour>().StopMovement();
             UnityClient.Player.Movement.Route.Clear();
             UnityClient.Player.TeleportToTile(packet.Position.X, packet.Position.Y);
-            Debug.Log("SYNC TO " + packet.Position.X + " - " + packet.Position.Y);
 
             // recalculating route to destination
             if (destination != null)

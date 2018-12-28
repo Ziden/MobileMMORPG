@@ -9,64 +9,37 @@ namespace CommonCode.Pathfinder
         public byte[,] PassableMap;
         public int OffsetX;
         public int OffsetY;
+
+        public byte GetPassableFromTilePosition(int tileX, int tileY)
+        {
+            return PassableMap[tileX + OffsetX * 16, tileY + OffsetY * 16];
+        }
     }
 
+    // Big Chunks of Ugly Code
     public static class PathfinderHelper
     {
-
-        private static Position [] GetMinMaxChunks<ChunkType>(Dictionary<string, ChunkType> chunks) where ChunkType : Chunk
+        public static Position FindClosestPassable<ChunkType>(this WorldMap<ChunkType> map, Position origin, Position goal) where ChunkType : Chunk
         {
-            int minX = int.MaxValue;
-            int minY = int.MaxValue;
-
-            int maxX = int.MinValue;
-            int maxY = int.MinValue;
-
-            foreach(var chunk in chunks.Values)
+            var bestDirection = goal.GetDirection(origin);
+            var supposedBestTile = goal.Get(bestDirection);
+            if(map.IsPassable(supposedBestTile.X, supposedBestTile.Y))
             {
-                if (chunk.x < minX)
-                    minX = chunk.x;
-                if (chunk.x > maxX)
-                    maxX = chunk.x;
-                if (chunk.y < minY)
-                    minY = chunk.y;
-                if (chunk.y > maxY)
-                    maxY = chunk.y;
-            }
-            return new Position[] { new Position(minX, minY), new Position(maxX, maxY) };
-        }
-
-        public static byte[,] GetSubSquare(this byte [,] array, int chunkX, int chunkY)
-        {
-            var initialX = chunkX * 16;
-            var initialY = chunkY * 16;
-
-            byte[,] finalArray = new byte[16, 16];
-            for(int x = 0; x <  16; x++)
+                return supposedBestTile;
+            } else
             {
-                for (int y = 0; y < 16; y++)
+                foreach(var pos in goal.GetRadius(1, includeSelf:false))
                 {
-                    finalArray[x, y] = array[initialX + x, initialY + y];
+                    if (pos == supposedBestTile)
+                        continue; // we already checked it
+                    if(map.IsPassable(pos.X, pos.Y))
+                    {
+                        return pos;
+                    }
                 }
             }
-            return finalArray;
+            return null;
         }
-
-        public static string ToPrettyString(this byte[,] rawNodes)
-        {
-            int rowLength = rawNodes.GetLength(0);
-            int colLength = rawNodes.GetLength(1);
-            string arrayString = "";
-            for (int i = 0; i < rowLength; i++)
-            {
-                for (int j = 0; j < colLength; j++)
-                {
-                    arrayString += string.Format("{0} ", rawNodes[i, j]);
-                }
-                arrayString += System.Environment.NewLine;
-            }
-            return arrayString;
-        } 
 
         // This is a tricky function. It generates a byte array of [3][3] chunk area (48 tiles) to run the pathfinding algorithm
         public static PassableMapResult GetPassableByteArray<ChunkType>(this WorldMap<ChunkType> map, Position start, Position goal) where ChunkType : Chunk

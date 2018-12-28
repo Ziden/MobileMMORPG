@@ -40,8 +40,6 @@ namespace ServerCore.Game.Entities
                     nearPlayer.Tcp.Send(movePacket);
             }
 
-            Log.Info("ENTITY " + ev.Entity.UID + " GOING TO " + ev.To.ToString());
-
             Server.Map.UpdateEntityPosition(ev.Entity, ev.Entity.Position, ev.To);
             ev.Entity.Position = ev.To;
         }

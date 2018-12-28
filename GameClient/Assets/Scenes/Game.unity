@@ -4257,6 +4257,7 @@ GameObject:
   - component: {fileID: 1942177380}
   - component: {fileID: 1942177381}
   - component: {fileID: 1942177382}
+  - component: {fileID: 1942177383}
   m_Layer: 0
   m_Name: SCRIPTS
   m_TagString: Untagged
@@ -4365,6 +4366,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Settings: {fileID: 480420721}
+--- !u!114 &1942177383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1942177374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de47e3dba9fbd6346a88922b773ff183, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleKey: 96
+  openOnStart: 0
+  shakeToOpen: 1
+  shakeAcceleration: 3
+  restrictLogCount: 0
+  maxLogCount: 1000
 --- !u!1 &1950500816
 GameObject:
   m_ObjectHideFlags: 0
