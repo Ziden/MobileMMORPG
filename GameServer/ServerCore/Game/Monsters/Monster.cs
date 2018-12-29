@@ -4,7 +4,7 @@ using ServerCore.Game.Entities;
 using ServerCore.Game.GameMap;
 using ServerCore.Game.Monsters.Behaviours;
 using ServerCore.Networking.PacketListeners;
-using ServerCore.Utils.Scheduler;
+using Common.Scheduler;
 using System;
 
 namespace ServerCore.Game.Monsters
@@ -12,7 +12,7 @@ namespace ServerCore.Game.Monsters
     public abstract class Monster : LivingEntity, IClientRenderable
     {
         public long LastMovement = 0;
-
+        public long MovementDelay = 2000; // in millis
         public IMonsterMovement MovementBehaviour;
 
         public MonsterSpawner OriginSpawner;

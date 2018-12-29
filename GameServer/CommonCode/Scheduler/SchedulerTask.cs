@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ServerCore.Utils.Scheduler
+namespace Common.Scheduler
 {
     public class SchedulerTask
     {
@@ -20,5 +18,7 @@ namespace ServerCore.Utils.Scheduler
         public Action Task;
 
         public bool Repeat;
+
+        public Guid UID = Guid.NewGuid();
     }
 }

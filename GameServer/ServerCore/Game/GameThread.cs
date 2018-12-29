@@ -1,6 +1,6 @@
 ﻿using Common;
 using Common.Networking.Packets;
-using ServerCore.Utils.Scheduler;
+using Common.Scheduler;
 using System;
 
 // Main game thread, will process things in sync, reading incoming packets from the packet queue

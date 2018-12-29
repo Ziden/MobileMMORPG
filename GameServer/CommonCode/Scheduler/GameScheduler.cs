@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace ServerCore.Utils.Scheduler
+namespace Common.Scheduler
 {
     public class GameScheduler
     {
+        public static Dictionary<Guid, SchedulerTask> TaskByIds = new Dictionary<Guid, SchedulerTask>();
         public static List<SchedulerTask> Tasks = new List<SchedulerTask>();
 
         public static void RunTasks(long timeNow)
@@ -18,7 +18,11 @@ namespace ServerCore.Utils.Scheduler
             {
                 task.Task.Invoke();
                 if(!task.Repeat)
+                {
+                    TaskByIds.Remove(task.UID);
                     Tasks.RemoveAt(0);
+                }   
+                    
                 else
                 {
                     task.RunAt = timeNow + task.DelayInMs;
@@ -26,10 +30,13 @@ namespace ServerCore.Utils.Scheduler
                 }
                 RunTasks(timeNow);
             }
-            if(delay > 0)
-            {
-                Log.Debug("Task delay: " + delay);
-            }
+        }
+
+        public static void CancelTask(Guid id)
+        {
+            var task = TaskByIds[id];
+            Tasks.Remove(task);
+            TaskByIds.Remove(id);
         }
 
         public static void Schedule(SchedulerTask newTask)
@@ -41,11 +48,13 @@ namespace ServerCore.Utils.Scheduler
                 if(newTask.RunAt < task.RunAt)
                 {
                     Tasks.Insert(i, newTask);
+                    TaskByIds.Add(newTask.UID, newTask);
                     return;
                 }
             }
             // If its after all tasks
             Tasks.Insert(Tasks.Count, newTask);
+            TaskByIds.Add(newTask.UID, newTask);
         }
     }
 }

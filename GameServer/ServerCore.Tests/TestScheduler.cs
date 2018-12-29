@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using System;
-using ServerCore.Utils.Scheduler;
+using Common.Scheduler;
 using System.Collections.Generic;
 
 [TestFixture]

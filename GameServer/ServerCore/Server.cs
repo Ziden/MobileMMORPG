@@ -5,7 +5,7 @@ using ServerCore.Game.GameMap;
 using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Players;
 using ServerCore.Networking;
-using ServerCore.Utils.Scheduler;
+using Common.Scheduler;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
