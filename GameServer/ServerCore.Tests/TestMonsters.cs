@@ -154,6 +154,8 @@ namespace GameTests
 
             client.RecievedPackets.Clear();
 
+            player.MoveSpeed = int.MaxValue;
+
             for (int i = 1; i <= 30; i++)
             {
                 var newPosition = new Position(player.Position.X + 1, player.Position.Y);
@@ -164,9 +166,7 @@ namespace GameTests
                     UID = player.UID,
                     To = newPosition
                 });
-
-                Thread.Sleep(3000);
-
+                
                 chunkPackets = client.RecievedPackets
                     .Where(p => p.GetType() == typeof(ChunkPacket))
                     .ToList();
