@@ -33,7 +33,6 @@ namespace Assets.Code.Net.PacketListeners
         [EventMethod]
         public void OnAssetReady(AssetsReadyPacket assetReady)
         {
-            Debug.Log("ASSET READY STATE " + State);
             if (State != AssetLoadingState.BEGINING)
             {
                 State = AssetLoadingState.BEGINING;
@@ -58,30 +57,29 @@ namespace Assets.Code.Net.PacketListeners
         [EventMethod]
         public void OnAsset(AssetPacket packet)
         {
-            Debug.Log("ASSET PACKET WITH ASSET DATA ? "+packet.Asset == null);
+
             // If im recieving from the server that i need an asset
             if (packet.Asset == null)
             {
-                // code below is commented to download all assets everytime
 
                 // if i dont have it
-               // if (!File.Exists(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName)))
-               // {
+                if (!File.Exists(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName)))
+                {
                     _assetsRequested.Add(packet);
-              //  }
-             //   else
-            //    {
-            //        var spriteMap = AssetHandler.LoadNewSprite(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName));
-            //        AssetHandler.LoadedAssets.Add(packet.ResquestedImageName, spriteMap);
-           //         UnityClient.TcpClient.Send(new AssetsReadyPacket()
-            //        {
-           //             UserId = UnityClient.UserId
-            //        });
-            //    }
+                }
+                else
+                {
+                    var spriteMap = AssetHandler.LoadNewSprite(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName));
+                    AssetHandler.LoadedAssets.Add(packet.ResquestedImageName, spriteMap);
+                    UnityClient.TcpClient.Send(new AssetsReadyPacket()
+                    {
+                        UserId = UnityClient.Player.UID
+                    });
+                }
             }
             else
             {
-                Debug.Log("Saving asset " + packet.ResquestedImageName+" SIZE "+packet.Asset.Length);
+                Debug.Log("Saving asset " + packet.ResquestedImageName + " SIZE " + packet.Asset.Length);
                 File.WriteAllBytes(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName), packet.Asset);
                 var spriteMap = AssetHandler.LoadNewSprite(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName));
                 AssetHandler.LoadedAssets.Add(packet.ResquestedImageName, spriteMap);

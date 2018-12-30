@@ -1,11 +1,12 @@
 ﻿using Common.Networking.Packets;
 using MapHandler;
-using ServerCore.Game.Entities;
 using ServerCore.Game.GameMap.MobSpawners;
 using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Players.Evs;
 using System;
 using System.Collections.Generic;
+using Common.Entity;
+using ServerCore.GameServer.Entities;
 
 namespace ServerCore.Game.GameMap
 {
@@ -53,7 +54,7 @@ namespace ServerCore.Game.GameMap
                     Server.Events.Call(spawnEvent);
 
                     // Let players know this monster spawned
-                    foreach (var player in monsterInstance.GetNearbyPlayers())
+                    foreach (var player in monsterInstance.GetPlayersNear())
                     {
                         player.Tcp.Send(new MonsterSpawnPacket()
                         {

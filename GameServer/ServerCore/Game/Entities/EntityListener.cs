@@ -3,6 +3,7 @@ using CommonCode.EventBus;
 using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Entities;
 using ServerCore.GameServer.Players.Evs;
+using Common.Entity;
 
 namespace ServerCore.Game.Entities
 {

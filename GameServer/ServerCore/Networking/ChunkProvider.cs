@@ -1,4 +1,5 @@
-﻿using Common.Networking.Packets;
+﻿using Common.Entity;
+using Common.Networking.Packets;
 using MapHandler;
 using ServerCore.Game.Entities;
 using ServerCore.Game.Monsters;

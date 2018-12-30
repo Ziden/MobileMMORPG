@@ -1,9 +1,8 @@
-﻿using ServerCore.Game.Entities;
+﻿using MapHandler;
 using System;
 
-namespace MapHandler
+namespace Common.Entity
 {
-    [Serializable]
     public abstract class Entity
     {
         public string UID;

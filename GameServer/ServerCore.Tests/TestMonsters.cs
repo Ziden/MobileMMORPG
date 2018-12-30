@@ -11,6 +11,7 @@ using System.Linq;
 using ServerCore.GameServer.Entities;
 using ServerCore.Game.Entities;
 using static ServerCore.Server;
+using Common.Entity;
 
 namespace GameTests
 {

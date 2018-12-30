@@ -12,8 +12,4 @@ namespace MapHandler
         RIGHT = 6,
         NONE = 5
     }
-
-    public class Directions
-    {
-    }
 }

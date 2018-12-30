@@ -2,6 +2,7 @@
 using Pathfinder;
 using System;
 using System.Collections.Generic;
+using Common.Entity;
 
 namespace MapHandler
 {

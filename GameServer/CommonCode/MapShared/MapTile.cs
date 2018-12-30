@@ -1,5 +1,6 @@
 ﻿using MapHandler;
 using System;
+using Common.Entity;
 
 namespace MapHandler
 {

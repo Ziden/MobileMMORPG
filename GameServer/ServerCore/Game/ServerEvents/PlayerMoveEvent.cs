@@ -1,5 +1,5 @@
-﻿using MapHandler;
-using ServerCore.Game.Entities;
+﻿using Common.Entity;
+using MapHandler;
 
 namespace ServerCore.GameServer.Players.Evs
 {
