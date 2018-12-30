@@ -40,19 +40,19 @@ public class PlayerBehaviour : MovingEntityBehaviour
             var newChunkParents = PositionExtensions.GetSquared3x3Around(new Position(newChunkX, newChunkY)).ToList();
             
             var chunksToDisable = new List<string>();
-            currentChunkParents.ForEach(c => chunksToDisable.Add($"chunk_{c.X}_{c.Y}"));
+            currentChunkParents.Except(newChunkParents).ToList().ForEach(c => chunksToDisable.Add($"chunk_{c.X}_{c.Y}"));
 
             var chunksToEnable = new List<string>();
-            newChunkParents.ForEach(c => chunksToEnable.Add($"chunk_{c.X}_{c.Y}"));
+            newChunkParents.Except(currentChunkParents).ToList().ForEach(c => chunksToEnable.Add($"chunk_{c.X}_{c.Y}"));
 
-            foreach (var cd in chunksToDisable.Except(chunksToEnable))
+            foreach (var cd in chunksToDisable)
             {
                 var chunk = UnityClient.Map.Chunks.Values.FirstOrDefault(c => c.GameObject.name.Equals(cd));
                 if (chunk != null)
                     chunk.GameObject.SetActive(false);
             }
 
-            foreach (var ce in chunksToEnable.Except(chunksToDisable))
+            foreach (var ce in chunksToEnable)
             {
                 var chunk = UnityClient.Map.Chunks.Values.FirstOrDefault(c => c.GameObject.name.Equals(ce));
                 if(chunk != null)
