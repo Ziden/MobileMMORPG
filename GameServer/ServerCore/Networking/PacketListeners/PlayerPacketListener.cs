@@ -33,6 +33,9 @@ namespace ServerCore.Networking.PacketListeners
                 return;
             }
 
+            // update chunks for that player
+            ChunkProvider.CheckChunks(player);
+
             // subtract the player latency for possibility of lag for a smoother movement
             player.CanMoveAgainTime = now + timeToMove - player.Tcp.Latency;
 

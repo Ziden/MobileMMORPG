@@ -9,9 +9,9 @@ using Storage.Players;
 using ServerCore.Game.Monsters;
 using System.Linq;
 using ServerCore.GameServer.Entities;
-using ServerCore.Game.Entities;
 using static ServerCore.Server;
 using Common.Entity;
+using System.Collections.Generic;
 
 namespace GameTests
 {
@@ -142,7 +142,38 @@ namespace GameTests
             Assert.That(monsterMovePackets.Count > 0,
                 "Player did not recieve updates from monster moving");
         }
+        
+       [Test]
+        public void TestPlayerMovingOnVariousDiferentChunk()
+        {
+            var client = ServerMocker.GetClient();
+            var player = client.FullLoginSequence(_player);
 
+            var chunkPackets = new List<BasePacket>();
+
+            client.RecievedPackets.Clear();
+
+            player.MoveSpeed = int.MaxValue;
+
+            for (int i = 1; i <= 30; i++)
+            {
+                var newPosition = new Position(player.Position.X + 1, player.Position.Y);
+
+                client.SendToServer(new EntityMovePacket
+                {
+                    ClientId = client.ConnectionId,
+                    UID = player.UID,
+                    To = newPosition
+                });
+                
+                chunkPackets = client.RecievedPackets
+                    .Where(p => p.GetType() == typeof(ChunkPacket))
+                    .ToList();
+            }
+
+            Assert.That(chunkPackets.Count == 3,
+                "Player did not recieve updates from chunk map");
+        }
     }
 }
 
