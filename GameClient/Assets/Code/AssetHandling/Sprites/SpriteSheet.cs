@@ -40,6 +40,7 @@ namespace Assets.Code.AssetHandling
         {
             if (animation == SpriteAnimations.NONE)
             {
+                Debug.Log("RESET");
                 if(CurrentAnimation != null)
                     CurrentAnimation.Reset();
 

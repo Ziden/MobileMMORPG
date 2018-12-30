@@ -4,6 +4,7 @@ using ServerCore.GameServer.Players;
 using ServerCore.GameServer.Players.Evs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading;
 
@@ -36,6 +37,9 @@ namespace ServerCore.Networking
 
         public virtual bool Send(BasePacket packet)
         {
+            if (!Listening)
+                return false;
+
             try
             {
                 var packetDeserialized = PacketSerializer.Serialize(packet);
@@ -51,16 +55,20 @@ namespace ServerCore.Networking
             }
             catch (Exception e)
             {
-                Log.Error(e.Message);
-                Log.Error(System.Environment.StackTrace);
-                Listening = false;
-                Disconnect();
+                //Log.Error(e.Message);
+                //Log.Error(System.Environment.StackTrace);
+                if(Listening)
+                {
+                    Listening = false;
+                    DisconnectClient();
+                }
             }
             return Listening;
         }
 
         public static void RecievePacketWorker(object client)
         {
+            Log.Info("LOOPAH");
             ((ConnectedClientTcpHandler)client).Recieve();
         }
 
@@ -72,6 +80,8 @@ namespace ServerCore.Networking
 
             Log.Debug("Starting Listener for client " + ConnectionId);
 
+            var test = Guid.NewGuid().ToString();
+            
             Listening = true;
             while (Listening)
             {
@@ -118,10 +128,11 @@ namespace ServerCore.Networking
                     Listening = false;
                 }
             }
-            Disconnect();
+            Log.Debug("DISCONNECT " + test);
+            DisconnectClient();
         }
 
-        public void Disconnect()
+        public void DisconnectClient()
         {
             Server.Events.Call(new PlayerQuitEvent()
             {

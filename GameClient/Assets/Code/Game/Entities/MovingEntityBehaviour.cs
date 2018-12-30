@@ -63,7 +63,7 @@ public class MovingEntityBehaviour : MonoBehaviour
         if (transform.position == _target && _movingToDirection != Direction.NONE && now >= _shouldArriveAt)
         {
             _movingToDirection = Direction.NONE;
-            if (_lastMovement)
+            if (_lastMovement && Route.Count == 0)
             {
                 SpriteSheets.ForEach(e => e.SetAnimation(SpriteAnimations.NONE));
                 _lastMovement = false;
