@@ -22,18 +22,26 @@ public class PlayerBehaviour : MovingEntityBehaviour
             UID = UnityClient.Player.UID,
             To = movingTo
         });
-        
-        var chunkX = UnityClient.Player.Position.X >> 4;
-        var chunkY = UnityClient.Player.Position.Y >> 4;
 
-        var chunkActivedParents = PositionExtensions.GetSquared3x3Around(new Position(chunkX, chunkY)).ToList();
-        var chunkActivedParentsNames = new List<string>();
-        chunkActivedParents.ForEach(c => chunkActivedParentsNames.Add($"chunk_{c.X}_{c.Y}"));
+        var playerPos = UnityClient.Player.Position;
 
-        foreach (var cp in UnityClient.Map.Chunks.Values)
-            if (chunkActivedParentsNames.Contains(cp.GameObject.name))
-                cp.GameObject.SetActive(true);
-            else
-                cp.GameObject.SetActive(false);
+        var currentChunk = UnityClient.Map.GetChunkByTilePosition(playerPos.X, playerPos.Y);
+        var newChunk = UnityClient.Map.GetChunkByTilePosition(movingTo.X, movingTo.Y);
+
+        if(currentChunk.x != newChunk.x || currentChunk.y != newChunk.y)
+        {
+            var chunkX = UnityClient.Player.Position.X >> 4;
+            var chunkY = UnityClient.Player.Position.Y >> 4;
+
+            var chunkActivedParents = PositionExtensions.GetSquared3x3Around(new Position(chunkX, chunkY)).ToList();
+            var chunkActivedParentsNames = new List<string>();
+            chunkActivedParents.ForEach(c => chunkActivedParentsNames.Add($"chunk_{c.X}_{c.Y}"));
+
+            foreach (var cp in UnityClient.Map.Chunks.Values)
+                if (chunkActivedParentsNames.Contains(cp.GameObject.name))
+                    cp.GameObject.SetActive(true);
+                else
+                    cp.GameObject.SetActive(false);
+        }
     }
 }
