@@ -57,11 +57,16 @@ namespace Assets.Code.Net.PacketListeners
 
         public static void PlayerSetTarget(GameObject target)
         {
+            var movingEntity = target.GetComponent<MovingEntityBehaviour>();
+            if (movingEntity == null)
+            {
+                return; 
+            }
             Selectors.RemoveSelector("targeted");
             var objType = FactoryMethods.GetType(target);
             if (objType == FactoryObjectTypes.MONSTER)
             {
-                UnityClient.Player.Target = target;
+                UnityClient.Player.Target = movingEntity.Entity;
                 Selectors.AddSelector(target, "targeted", Color.red);
                 var path = UnityClient.Map.FindPath(UnityClient.Player.Position, target.GetMapPosition());
                 if (path != null)

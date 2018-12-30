@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Assets\Code\AssetHandling\ArraysPlus.cs" />
     <Compile Include="Assets\Code\AssetHandling\AssetHandler.cs" />
-    <Compile Include="Assets\Code\AssetHandling\SpriteSheet.cs" />
     <Compile Include="Assets\Code\Game\ClientEvents.cs" />
     <Compile Include="Assets\Code\Game\ClientMap\AnimationBehaviour.cs" />
     <Compile Include="Assets\Code\Game\ClientMap\ClientChunk.cs" />

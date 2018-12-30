@@ -1,4 +1,4 @@
-﻿using ServerCore.Game.Entities;
+﻿using Common.Entity;
 using System.Collections.Generic;
 
 namespace MapHandler

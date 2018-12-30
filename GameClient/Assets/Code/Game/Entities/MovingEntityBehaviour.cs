@@ -1,6 +1,8 @@
 ﻿using Assets.Code.AssetHandling;
+using Assets.Code.AssetHandling.Sprites.Animations;
 using Assets.Code.Game;
 using Client.Net;
+using Common.Entity;
 using CommonCode.EntityShared;
 using MapHandler;
 using System;
@@ -37,6 +39,7 @@ public class MovingEntityBehaviour : MonoBehaviour
 
     void Update()
     {
+        OnBeforeUpdate();
         ReadPathfindingNextMovement();
         PerformMovement();
         MoveTick();
@@ -45,7 +48,7 @@ public class MovingEntityBehaviour : MonoBehaviour
     public void StopMovement()
     {
         _movingToDirection = Direction.NONE;
-        SpriteSheets.ForEach(e => e.Moving = false);
+        SpriteSheets.ForEach(e => e.SetAnimation(SpriteAnimations.NONE));
         _goingToPosition = null;
         _target = null;
     }
@@ -60,11 +63,9 @@ public class MovingEntityBehaviour : MonoBehaviour
         if (transform.position == _target && _movingToDirection != Direction.NONE && now >= _shouldArriveAt)
         {
             _movingToDirection = Direction.NONE;
-
-            SpriteSheets.ForEach(e => e.Moving = false);
-
             if (_lastMovement)
             {
+                SpriteSheets.ForEach(e => e.SetAnimation(SpriteAnimations.NONE));
                 _lastMovement = false;
                 _target = null;
                 OnFinishRoute();
@@ -87,14 +88,13 @@ public class MovingEntityBehaviour : MonoBehaviour
             var timeToMoveInSeconds = (float)timeToMoveInMillis / 1000;
 
             var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            _shouldArriveAt = now + timeToMoveInMillis;
 
             OnBeforeMoveTile(_goingToPosition);
 
             SetDestination(_goingToPosition.ToUnityPosition(), timeToMoveInSeconds);
 
-            SpriteSheets.ForEach(e => e.Direction = _movingToDirection);
-            SpriteSheets.ForEach(e => e.Moving = true);
+            SpriteSheets.ForEach(e => e.SetAnimation(SpriteAnimations.MOVING));
+            SpriteSheets.ForEach(e => e.SetDirection(_movingToDirection));         
 
             UnityClient.Map.UpdateEntityPosition(Entity, Entity.Position, _goingToPosition);
 
@@ -102,6 +102,8 @@ public class MovingEntityBehaviour : MonoBehaviour
             Entity.Position.Y = _goingToPosition.Y;
 
             _goingToPosition = null;
+
+            _shouldArriveAt = now + timeToMoveInMillis;
         }
     }
 
@@ -147,4 +149,6 @@ public class MovingEntityBehaviour : MonoBehaviour
     public virtual void OnFinishRoute(){}
 
     public virtual void OnBeforeMoveTile(Position movingTo) { }
+
+    public virtual void OnBeforeUpdate() { }
 }

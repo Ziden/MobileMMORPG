@@ -22,7 +22,7 @@ namespace Assets.Code.Game.PacketListeners
 
                     if (UnityClient.Player.Target != null && UnityClient.Player.Target == entityObj)
                     {
-                        UnityClient.Player.FindPathTo(UnityClient.Player.Target.GetMapPosition());
+                        UnityClient.Player.FindPathTo(movingEntity.Entity.Position);
                     }
                 }
             }

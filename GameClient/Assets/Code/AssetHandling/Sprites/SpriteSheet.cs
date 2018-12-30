@@ -1,17 +1,17 @@
-﻿using MapHandler;
+﻿using Assets.Code.AssetHandling.Sprites.Animations;
+using MapHandler;
 using UnityEngine;
 
 namespace Assets.Code.AssetHandling
 {
     public class SpriteSheet : MonoBehaviour
     {
-        public Direction Direction = Direction.SOUTH;
+        private Direction Direction = Direction.SOUTH;
 
-        private int _frame = 0;
         private float _deltaTime = 0;
         private float _frameSeconds = 0.12f;
 
-        public bool Moving = false;
+        public int RowSize = 3;
 
         public Sprite[] WalkNorth;
         public Sprite[] WalkSouth;
@@ -20,15 +20,50 @@ namespace Assets.Code.AssetHandling
         public Sprite Dead;
         private SpriteRenderer Renderer;
 
-        private bool _animDown = false;
+        private SpriteAnimationHandler Animations;
+
+        private AnimationBase CurrentAnimation;
+
+        private AnimationResult _animResult;
+
+        public void SetDirection(Direction dir)
+        {
+            if (this.Direction != dir)
+            {
+                this.Direction = dir;
+                if (CurrentAnimation != null)
+                    _animResult = CurrentAnimation.Loop(this.Direction);
+            }
+        }
+
+        public void SetAnimation(SpriteAnimations animation)
+        {
+            if (animation == SpriteAnimations.NONE)
+            {
+                if(CurrentAnimation != null)
+                    CurrentAnimation.Reset();
+
+                CurrentAnimation = null;
+                return;
+            }
+
+            var animationToSet = Animations.GetAnimation(animation);
+
+            if(animationToSet != CurrentAnimation)
+            {
+                CurrentAnimation = animationToSet;
+            }
+        }
 
         public void Start()
         {
+            Animations = new SpriteAnimationHandler(this);
             Renderer = transform.GetComponent<SpriteRenderer>();
         }
 
         public void SetSheet(Sprite[] spriteRow, int rowSize = 3)
         {
+            RowSize = rowSize;
             if (rowSize == 3)
             {
                 WalkNorth = new Sprite[] { spriteRow[0], spriteRow[1], spriteRow[2] };
@@ -45,10 +80,9 @@ namespace Assets.Code.AssetHandling
                 WalkLeft = new Sprite[] { spriteRow[2], spriteRow[3] };
                 Dead = spriteRow[1];
             }
-
         }
 
-        private Sprite[] GetSheet(Direction dir)
+        public Sprite[] GetSheet(Direction dir)
         {
             switch (dir)
             {
@@ -64,41 +98,25 @@ namespace Assets.Code.AssetHandling
             return null;
         }
 
-        // Update is called once per frame
         void Update()
         {
-
-            var sprites = GetSheet(Direction);
-
-            if (sprites == null)
-                return;
-
-            if (!Moving)
+            if (CurrentAnimation == null)
             {
-                Renderer.sprite = sprites[1];
+                Renderer.sprite = GetSheet(Direction)[1];
                 return;
             }
-
             _deltaTime += Time.deltaTime;
-
             while (_deltaTime >= _frameSeconds)
             {
                 _deltaTime -= _frameSeconds;
-                if (_animDown)
+                 _animResult = CurrentAnimation.Loop(Direction);
+                if (CurrentAnimation.IsOver)
                 {
-                    _frame--;
+                    CurrentAnimation = null;
                 }
-                else
-                {
-                    _frame++;
-                }
-
-                if (_frame == sprites.Length - 1)
-                    _animDown = true;
-                if (_frame == 0)
-                    _animDown = false;
             }
-            Renderer.sprite = sprites[_frame];
+            if(_animResult != null)
+                Renderer.sprite = _animResult.Sprite;
         }
 
         // SPRITE MAPPING

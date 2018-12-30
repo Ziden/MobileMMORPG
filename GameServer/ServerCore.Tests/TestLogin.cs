@@ -126,11 +126,7 @@ namespace GameTests
             {
                 client.SendToServer(assetPacket);
             }
-
-
-
         }
-
     }
 }
 

@@ -54,7 +54,7 @@ namespace ServerCore.Networking
                 Log.Error(e.Message);
                 Log.Error(System.Environment.StackTrace);
                 Listening = false;
-               
+                Disconnect();
             }
             return Listening;
         }
@@ -118,6 +118,11 @@ namespace ServerCore.Networking
                     Listening = false;
                 }
             }
+            Disconnect();
+        }
+
+        public void Disconnect()
+        {
             Server.Events.Call(new PlayerQuitEvent()
             {
                 Client = this,
@@ -125,12 +130,19 @@ namespace ServerCore.Networking
                 Reason = QuitReason.DISCONNECTED
             });
             Stop();
-
         }
 
         public void Stop()
         {
             Listening = false;
+            try
+            {
+                TcpClient?.GetStream().Flush();
+            }
+            catch (Exception e)
+            {
+                // all good
+            }
             TcpClient?.Close();
         }
 

@@ -1,9 +1,9 @@
 ﻿using Assets.Code.AssetHandling;
 using Assets.Code.Net;
 using Client.Net;
+using Common.Entity;
 using CommonCode.EntityShared;
 using MapHandler;
-using ServerCore.Game.Entities;
 using System.Linq;
 using UnityEngine;
 
