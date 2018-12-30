@@ -1,7 +1,10 @@
 ﻿using Assets.Code.Game;
+using Assets.Code.Game.ClientMap;
 using Common;
 using Common.Networking.Packets;
 using MapHandler;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Client.Net
 {
@@ -15,7 +18,6 @@ namespace Client.Net
 
         public static ConcurrentList<BasePacket> PacketsToProccess = new ConcurrentList<BasePacket>();
 
-        public static WorldMap<Chunk> Map = new WorldMap<Chunk>();
-
+        public static WorldMap<ClientChunk> Map = new WorldMap<ClientChunk>();
     }
 }

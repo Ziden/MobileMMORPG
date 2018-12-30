@@ -2,6 +2,8 @@
 using Client.Net;
 using Common.Networking.Packets;
 using MapHandler;
+using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerBehaviour : MovingEntityBehaviour
 {
@@ -20,5 +22,18 @@ public class PlayerBehaviour : MovingEntityBehaviour
             UID = UnityClient.Player.UID,
             To = movingTo
         });
+        
+        var chunkX = UnityClient.Player.Position.X >> 4;
+        var chunkY = UnityClient.Player.Position.Y >> 4;
+
+        var chunkActivedParents = PositionExtensions.GetSquared3x3Around(new Position(chunkX, chunkY)).ToList();
+        var chunkActivedParentsNames = new List<string>();
+        chunkActivedParents.ForEach(c => chunkActivedParentsNames.Add($"chunk_{c.X}_{c.Y}"));
+
+        foreach (var cp in UnityClient.Map.Chunks.Values)
+            if (chunkActivedParentsNames.Contains(cp.GameObject.name))
+                cp.GameObject.SetActive(true);
+            else
+                cp.GameObject.SetActive(false);
     }
 }
