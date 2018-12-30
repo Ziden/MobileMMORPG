@@ -93,8 +93,8 @@ public class MovingEntityBehaviour : MonoBehaviour
 
             SetDestination(_goingToPosition.ToUnityPosition(), timeToMoveInSeconds);
 
-            SpriteSheets.ForEach(e => e.SetDirection(_movingToDirection));
             SpriteSheets.ForEach(e => e.SetAnimation(SpriteAnimations.MOVING));
+            SpriteSheets.ForEach(e => e.SetDirection(_movingToDirection));         
 
             UnityClient.Map.UpdateEntityPosition(Entity, Entity.Position, _goingToPosition);
 

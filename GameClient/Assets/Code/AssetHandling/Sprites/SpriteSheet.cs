@@ -32,7 +32,7 @@ namespace Assets.Code.AssetHandling
             {
                 this.Direction = dir;
                 if (CurrentAnimation != null)
-                    _animResult = CurrentAnimation.Loop(Direction);
+                    _animResult = CurrentAnimation.Loop(this.Direction);
             }
         }
 
@@ -40,8 +40,8 @@ namespace Assets.Code.AssetHandling
         {
             if (animation == SpriteAnimations.NONE)
             {
-                //if(CurrentAnimation != null)
-                //    CurrentAnimation.Reset();
+                if(CurrentAnimation != null)
+                    CurrentAnimation.Reset();
 
                 CurrentAnimation = null;
                 return;
@@ -100,7 +100,7 @@ namespace Assets.Code.AssetHandling
 
         void Update()
         {
-            if (CurrentAnimation == null || _animResult == null)
+            if (CurrentAnimation == null)
             {
                 Renderer.sprite = GetSheet(Direction)[1];
                 return;
@@ -110,16 +110,13 @@ namespace Assets.Code.AssetHandling
             {
                 _deltaTime -= _frameSeconds;
                  _animResult = CurrentAnimation.Loop(Direction);
-                if(_animResult == null)
-                {
-                    Debug.Log("MEEERDAAA");
-                }
                 if (CurrentAnimation.IsOver)
                 {
                     CurrentAnimation = null;
                 }
             }
-            Renderer.sprite = _animResult.Sprite;
+            if(_animResult != null)
+                Renderer.sprite = _animResult.Sprite;
         }
 
         // SPRITE MAPPING

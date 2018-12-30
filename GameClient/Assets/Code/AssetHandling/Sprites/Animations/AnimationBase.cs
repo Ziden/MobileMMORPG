@@ -17,9 +17,12 @@ namespace Assets.Code.AssetHandling.Sprites.Animations
             OffsetX = 0;
             OffsetY = 0;
             IsOver = false;
+            OnReset();
         }
 
         public virtual AnimationResult Loop(Direction dir) { return null; }
+
+        public virtual void OnReset() { }
 
         public AnimationBase(SpriteSheet sheet)
         {

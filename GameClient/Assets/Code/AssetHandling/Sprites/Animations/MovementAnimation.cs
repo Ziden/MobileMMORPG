@@ -9,6 +9,11 @@ namespace Assets.Code.AssetHandling
 
         public MovementAnimation(SpriteSheet sheet) : base(sheet) { }
 
+        public override void OnReset()
+        {
+            _animDown = false;
+        }
+
         public override AnimationResult Loop(Direction dir)
         {
             var sprites = this.SpriteSheet.GetSheet(dir);
