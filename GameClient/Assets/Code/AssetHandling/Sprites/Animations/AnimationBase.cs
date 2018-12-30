@@ -20,7 +20,7 @@ namespace Assets.Code.AssetHandling.Sprites.Animations
             OnReset();
         }
 
-        public virtual AnimationResult Loop(Direction dir) { return null; }
+        public virtual AnimationResult Loop(Direction dir) => null;
 
         public virtual void OnReset() { }
 
