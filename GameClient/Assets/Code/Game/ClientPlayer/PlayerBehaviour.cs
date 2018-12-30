@@ -30,18 +30,34 @@ public class PlayerBehaviour : MovingEntityBehaviour
 
         if(currentChunk.x != newChunk.x || currentChunk.y != newChunk.y)
         {
-            var chunkX = UnityClient.Player.Position.X >> 4;
-            var chunkY = UnityClient.Player.Position.Y >> 4;
+            var currentChunkX = playerPos.X >> 4;
+            var currentChunkY = playerPos.Y >> 4;
 
-            var chunkActivedParents = PositionExtensions.GetSquared3x3Around(new Position(chunkX, chunkY)).ToList();
-            var chunkActivedParentsNames = new List<string>();
-            chunkActivedParents.ForEach(c => chunkActivedParentsNames.Add($"chunk_{c.X}_{c.Y}"));
+            var newChunkX = movingTo.X >> 4;
+            var newChunkY = movingTo.Y >> 4;
 
-            foreach (var cp in UnityClient.Map.Chunks.Values)
-                if (chunkActivedParentsNames.Contains(cp.GameObject.name))
-                    cp.GameObject.SetActive(true);
-                else
-                    cp.GameObject.SetActive(false);
+            var currentChunkParents = PositionExtensions.GetSquared3x3Around(new Position(currentChunkX, currentChunkY)).ToList();
+            var newChunkParents = PositionExtensions.GetSquared3x3Around(new Position(newChunkX, newChunkY)).ToList();
+            
+            var chunksToDisable = new List<string>();
+            currentChunkParents.ForEach(c => chunksToDisable.Add($"chunk_{c.X}_{c.Y}"));
+
+            var chunksToEnable = new List<string>();
+            newChunkParents.ForEach(c => chunksToEnable.Add($"chunk_{c.X}_{c.Y}"));
+
+            foreach (var cd in chunksToDisable.Except(chunksToEnable))
+            {
+                var chunk = UnityClient.Map.Chunks.Values.FirstOrDefault(c => c.GameObject.name.Equals(cd));
+                if (chunk != null)
+                    chunk.GameObject.SetActive(false);
+            }
+
+            foreach (var ce in chunksToEnable.Except(chunksToDisable))
+            {
+                var chunk = UnityClient.Map.Chunks.Values.FirstOrDefault(c => c.GameObject.name.Equals(ce));
+                if(chunk != null)
+                    chunk.GameObject.SetActive(true);
+            }
         }
     }
 }
