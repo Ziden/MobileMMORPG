@@ -74,14 +74,8 @@ namespace ServerCore.Networking
 
         public void Recieve()
         {
-            var id = Thread.CurrentThread.ManagedThreadId;
-
             DateTime lastPingCheck = DateTime.MinValue;
-
             Log.Debug("Starting Listener for client " + ConnectionId);
-
-            var test = Guid.NewGuid().ToString();
-            
             Listening = true;
             while (Listening)
             {
@@ -128,7 +122,6 @@ namespace ServerCore.Networking
                     Listening = false;
                 }
             }
-            Log.Debug("DISCONNECT " + test);
             DisconnectClient();
         }
 
