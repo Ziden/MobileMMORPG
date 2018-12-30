@@ -152,6 +152,8 @@ namespace GameTests
 
             var chunkPackets = new List<BasePacket>();
 
+            client.RecievedPackets.Clear();
+
             for (int i = 1; i <= 30; i++)
             {
                 var newPosition = new Position(player.Position.X + 1, player.Position.Y);
@@ -170,7 +172,7 @@ namespace GameTests
                     .ToList();
             }
 
-            Assert.That(chunkPackets.Count > 9,
+            Assert.That(chunkPackets.Count == 3,
                 "Player did not recieve updates from chunk map");
         }
     }
