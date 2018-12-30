@@ -6,6 +6,7 @@ using ServerCore.Game.Monsters.Behaviours;
 using ServerCore.Networking.PacketListeners;
 using Common.Scheduler;
 using System;
+using Common.Entity;
 
 namespace ServerCore.Game.Monsters
 {

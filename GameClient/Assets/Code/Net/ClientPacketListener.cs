@@ -26,7 +26,7 @@ namespace Client.Net
                     if (packetRead != null && packetRead is BasePacket)
                     {
                         var packet = (BasePacket)packetRead;
-                       // Debug.Log("Recieved Packet " + packet.GetType().Name);
+                        Debug.Log("Recieved Packet " + packet.GetType().Name);
 
                         if (typeof(PingPacket) == packet.GetType())
                         {

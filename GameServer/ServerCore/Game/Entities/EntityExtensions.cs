@@ -3,6 +3,7 @@ using ServerCore.Game.Entities;
 using ServerCore.Game.GameMap;
 using ServerCore.GameServer.Players;
 using System.Collections.Generic;
+using Common.Entity;
 
 namespace ServerCore.GameServer.Entities
 {

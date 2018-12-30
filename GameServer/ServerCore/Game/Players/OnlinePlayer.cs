@@ -1,4 +1,5 @@
-﻿using CommonCode.EntityShared;
+﻿using Common.Entity;
+using CommonCode.EntityShared;
 using CommonCode.Networking.Packets;
 using MapHandler;
 using ServerCore.Assets;

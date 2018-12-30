@@ -1,5 +1,5 @@
 ﻿
-namespace ServerCore.Game.Entities
+namespace Common.Entity
 {
     public enum EntityType
     {

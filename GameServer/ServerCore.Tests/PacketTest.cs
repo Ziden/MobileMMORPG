@@ -10,6 +10,9 @@ using ServerCore.Tests.TestUtilities;
 using System.Linq;
 using System.Net.Sockets;
 using static ServerCore.Server;
+using System.Collections.Generic;
+using Storage.Login;
+using Storage.Players;
 
 [TestFixture]
 public class PacketTests
@@ -45,7 +48,7 @@ public class PacketTests
 
     [Test]
     // Test to ensure server is recieving the packets and keeping the recieve order
-    public void TestLoginPacketQueue()
+    public void Test2LoginProcesses()
     {
         _client.Send(new LoginPacket()
         {
@@ -58,9 +61,6 @@ public class PacketTests
             Login = "admin2",
             Password = "wololo2"
         });
-
-        var asd = Server.TcpHandler.IsRunning;
-        var asg = Server.Running;
 
         Waiter.WaitUntil(() => Server.PacketsToProccess.Count == 2);
 
@@ -77,5 +77,44 @@ public class PacketTests
         Assert.AreEqual("admin2", loginPacket.Login);
         Assert.AreEqual("wololo2", loginPacket.Password);
     }
+
+
+    [Test]
+    public void TestMultipleClients()
+    {
+        var clients = new List<ConnectedClientTcpHandler>();
+        for (var x = 0 ; x < 5; x++) {
+            var client = new ConnectedClientTcpHandler()
+            {
+                TcpClient = new TcpClient("localhost", 1234),
+                ConnectionId = Guid.NewGuid().ToString()
+            };
+            clients.Add(client);
+        }
+
+        foreach(var client in clients)
+        {
+
+        }
+       
+    }
+
+    private void FullLoginSequence(ConnectedClientTcpHandler client)
+    {
+        var loginpass = Guid.NewGuid().ToString();
+        var player = new StoredPlayer()
+        {
+            UserId = Guid.NewGuid().ToString(),
+            Login = loginpass,
+            Password = loginpass
+        };
+        AccountService.RegisterAccount(loginpass, loginpass, "", player);
+        client.Send(new LoginPacket()
+        {
+            Login = loginpass,
+            Password = loginpass
+        });
+    }
+
 }
 

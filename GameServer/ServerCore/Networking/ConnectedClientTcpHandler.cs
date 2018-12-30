@@ -125,12 +125,18 @@ namespace ServerCore.Networking
                 Reason = QuitReason.DISCONNECTED
             });
             Stop();
-
         }
 
         public void Stop()
         {
             Listening = false;
+            try
+            {
+                TcpClient?.GetStream().Flush();
+            }
+            catch (Exception e) {
+                // all good
+            }
             TcpClient?.Close();
         }
 
