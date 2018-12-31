@@ -2,14 +2,13 @@
 using MapHandler;
 using UnityEngine;
 
-namespace Assets.Code.AssetHandling
+namespace Assets.Code.Game.Entities
 {
     public class SpriteSheet : MonoBehaviour
     {
         private Direction Direction = Direction.SOUTH;
 
         private float _deltaTime = 0;
-        private float _frameSeconds = 0.12f;
 
         public int RowSize = 3;
 
@@ -36,7 +35,7 @@ namespace Assets.Code.AssetHandling
             }
         }
 
-        public void SetAnimation(SpriteAnimations animation)
+        public void SetAnimation(SpriteAnimations animation, float animationTimeInMS = -1)
         {
             if (animation == SpriteAnimations.NONE)
             {
@@ -52,6 +51,11 @@ namespace Assets.Code.AssetHandling
             if(animationToSet != CurrentAnimation)
             {
                 CurrentAnimation = animationToSet;
+                CurrentAnimation.Reset();
+                if(animationTimeInMS > 0)
+                {
+                  //  CurrentAnimation.AnimationTimeInSeconds = animationTimeInMS / 1000;
+                }
             }
         }
 
@@ -106,12 +110,17 @@ namespace Assets.Code.AssetHandling
                 return;
             }
             _deltaTime += Time.deltaTime;
-            while (_deltaTime >= _frameSeconds)
+          
+            while (CurrentAnimation != null && _deltaTime >= CurrentAnimation.AnimationTimeInSeconds)
             {
-                _deltaTime -= _frameSeconds;
+                _deltaTime -= CurrentAnimation.AnimationTimeInSeconds;
                  _animResult = CurrentAnimation.Loop(Direction);
+
+                transform.localPosition = new Vector2(_animResult.OffsetX, _animResult.OffsetY);
+
                 if (CurrentAnimation.IsOver)
                 {
+                    Debug.Log("Animation is Over");
                     CurrentAnimation = null;
                 }
             }

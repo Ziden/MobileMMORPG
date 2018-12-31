@@ -6,28 +6,30 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\sprites\animations\smoke.png" />
-    <None Remove="Assets\sprites\animations_8x.png" />
-    <None Remove="Assets\sprites\bodies.png" />
-    <None Remove="Assets\sprites\chests.png" />
-    <None Remove="Assets\sprites\heads.png" />
-    <None Remove="Assets\sprites\legs.png" />
-    <None Remove="Assets\sprites\monsters_1.png" />
-    <None Remove="Assets\sprites\test.png" />
+    <None Remove="Assets\img\animations\smoke.png" />
+    <None Remove="Assets\img\animations_8x.png" />
+    <None Remove="Assets\img\bodies.png" />
+    <None Remove="Assets\img\chests.png" />
+    <None Remove="Assets\img\heads.png" />
+    <None Remove="Assets\img\legs.png" />
+    <None Remove="Assets\img\monsters_1.png" />
+    <None Remove="Assets\img\test.png" />
+    <None Remove="Assets\img\weapons.png" />
     <None Remove="Assets\test_map.tmx" />
     <None Remove="Assets\tilesets\Set1.png" />
     <None Remove="Assets\world.tmx" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\sprites\animations\smoke.png" />
-    <EmbeddedResource Include="Assets\sprites\characters\bodies.png" />
-    <EmbeddedResource Include="Assets\sprites\characters\chests.png" />
-    <EmbeddedResource Include="Assets\sprites\characters\heads.png" />
-    <EmbeddedResource Include="Assets\sprites\characters\legs.png" />
-    <EmbeddedResource Include="Assets\sprites\characters\monsters_1.png" />
-    <EmbeddedResource Include="Assets\sprites\test.png" />
+    <EmbeddedResource Include="Assets\img\animations\smoke.png" />
+    <EmbeddedResource Include="Assets\img\characters\bodies.png" />
+    <EmbeddedResource Include="Assets\img\characters\chests.png" />
+    <EmbeddedResource Include="Assets\img\characters\heads.png" />
+    <EmbeddedResource Include="Assets\img\characters\legs.png" />
+    <EmbeddedResource Include="Assets\img\characters\monsters_1.png" />
+    <EmbeddedResource Include="Assets\img\test.png" />
     <EmbeddedResource Include="Assets\maps\test_map.tmx" />
+    <EmbeddedResource Include="Assets\img\items\weapons.png" />
     <EmbeddedResource Include="Assets\tilesets\Set1.png" />
     <EmbeddedResource Include="Assets\maps\world.tmx" />
   </ItemGroup>

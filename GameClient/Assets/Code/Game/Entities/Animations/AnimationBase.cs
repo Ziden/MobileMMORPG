@@ -1,4 +1,5 @@
 ﻿
+using Assets.Code.Game.Entities;
 using MapHandler;
 
 namespace Assets.Code.AssetHandling.Sprites.Animations
@@ -10,6 +11,7 @@ namespace Assets.Code.AssetHandling.Sprites.Animations
         public int CurrentFrame = 0;
         public int OffsetX = 0;
         public int OffsetY = 0;
+        public float AnimationTimeInSeconds = 0.1f;
 
         public void Reset()
         {

@@ -18,6 +18,7 @@ namespace CommonCode.Networking.Packets
     {
         TILESET = 1,
         SPRITE = 2,
-        ANIMATION = 3
+        ANIMATION = 3,
+        ITEMS = 4,
     }
 }

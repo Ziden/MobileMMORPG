@@ -1,4 +1,5 @@
-﻿using Assets.Code.Game;
+﻿using Assets.Code.AssetHandling.Sprites.Animations;
+using Assets.Code.Game;
 using Client.Net;
 using Common.Networking.Packets;
 using CommonCode.EntityShared;
@@ -15,16 +16,17 @@ public class PlayerBehaviour : MovingEntityBehaviour
     public override void OnBeforeUpdate()
     {
         NOW_MILLIS = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-        PerformAttack();
+        TryPerformAttack();
     }
 
-    private void PerformAttack()
+    private void TryPerformAttack()
     {
         if (UnityClient.Player.Target != null)
         {
             if (UnityClient.Player.NextAttackAt <= NOW_MILLIS)
             {
-                var distanceToTarget = UnityClient.Player.Position.GetDistance(UnityClient.Player.Target.Position);
+                var targetPosition = UnityClient.Player.Target.Position;
+                var distanceToTarget = UnityClient.Player.Position.GetDistance(targetPosition);
                 if (distanceToTarget <= 1)
                 {
                     UnityClient.TcpClient.Send(new EntityAttackPacket()
@@ -35,7 +37,12 @@ public class PlayerBehaviour : MovingEntityBehaviour
                     var nextAttack = NOW_MILLIS + atkSpeedDelay;
                     UnityClient.Player.NextAttackAt = nextAttack;
 
-                   // UnityClient.Player.Movement.SpriteSheets.ForEach(e => e.PerformAttackAnimation());
+                    SpriteSheets.ForEach(e => e.SetDirection(UnityClient.Player.Position.GetDirection(targetPosition)));
+
+                    UnityClient.Player.Movement.SpriteSheets.ForEach(e => {
+                        e.SetAnimation(SpriteAnimations.ATTACKING, atkSpeedDelay);
+                    });
+
                 }
             }
         }
@@ -50,6 +57,7 @@ public class PlayerBehaviour : MovingEntityBehaviour
 
     public override void OnBeforeMoveTile(Position movingTo)
     {
+        
         // Inform the server i moved
         UnityClient.TcpClient.Send(new EntityMovePacket()
         {

@@ -59,6 +59,12 @@ namespace ServerCore.Networking.PacketListeners
                 AssetType = AssetType.SPRITE
             });
 
+            client.Send(new AssetPacket()
+            {
+                ResquestedImageName = DefaultAssets.SPR_WEAPONS,
+                AssetType = AssetType.ITEMS
+            });
+
             var animations = AssetLoader.LoadedAssets[AssetType.ANIMATION];
 
             foreach (var animationAsset in animations)

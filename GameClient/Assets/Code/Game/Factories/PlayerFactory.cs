@@ -1,4 +1,5 @@
 ﻿using Assets.Code.AssetHandling;
+using Assets.Code.Game.Entities;
 using Assets.Code.Net;
 using Client.Net;
 using Common.Entity;

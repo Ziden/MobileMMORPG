@@ -62,12 +62,6 @@
   <ItemGroup>
     <Compile Include="Assets\Code\AssetHandling\ArraysPlus.cs" />
     <Compile Include="Assets\Code\AssetHandling\AssetHandler.cs" />
-    <Compile Include="Assets\Code\AssetHandling\Sprites\Animations\AnimationBase.cs" />
-    <Compile Include="Assets\Code\AssetHandling\Sprites\Animations\AnimationResult.cs" />
-    <Compile Include="Assets\Code\AssetHandling\Sprites\Animations\AttackAnimation.cs" />
-    <Compile Include="Assets\Code\AssetHandling\Sprites\Animations\MovementAnimation.cs" />
-    <Compile Include="Assets\Code\AssetHandling\Sprites\Animations\SpriteAnimations.cs" />
-    <Compile Include="Assets\Code\AssetHandling\Sprites\SpriteSheet.cs" />
     <Compile Include="Assets\Code\Game\ClientEvents.cs" />
     <Compile Include="Assets\Code\Game\ClientMap\AnimationBehaviour.cs" />
     <Compile Include="Assets\Code\Game\ClientMap\ClientChunk.cs" />
@@ -75,8 +69,14 @@
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerBehaviour.cs" />
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerObjectExtensions.cs" />
     <Compile Include="Assets\Code\Game\ClientPlayer\PlayerWrapper.cs" />
+    <Compile Include="Assets\Code\Game\Entities\Animations\AnimationBase.cs" />
+    <Compile Include="Assets\Code\Game\Entities\Animations\AnimationResult.cs" />
+    <Compile Include="Assets\Code\Game\Entities\Animations\AttackAnimation.cs" />
+    <Compile Include="Assets\Code\Game\Entities\Animations\MovementAnimation.cs" />
+    <Compile Include="Assets\Code\Game\Entities\Animations\SpriteAnimations.cs" />
     <Compile Include="Assets\Code\Game\Entities\MonsterWrapper.cs" />
     <Compile Include="Assets\Code\Game\Entities\MovingEntityBehaviour.cs" />
+    <Compile Include="Assets\Code\Game\Entities\SpriteSheet.cs" />
     <Compile Include="Assets\Code\Game\Factories\AnimationFactory.cs" />
     <Compile Include="Assets\Code\Game\Factories\FactoryMethods.cs" />
     <Compile Include="Assets\Code\Game\Factories\MonsterFactory.cs" />

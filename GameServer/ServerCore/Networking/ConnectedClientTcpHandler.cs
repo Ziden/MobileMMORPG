@@ -4,9 +4,7 @@ using ServerCore.GameServer.Players;
 using ServerCore.GameServer.Players.Evs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Sockets;
-using System.Threading;
 
 namespace ServerCore.Networking
 {
@@ -55,8 +53,6 @@ namespace ServerCore.Networking
             }
             catch (Exception e)
             {
-                //Log.Error(e.Message);
-                //Log.Error(System.Environment.StackTrace);
                 if(Listening)
                 {
                     Listening = false;
@@ -68,7 +64,6 @@ namespace ServerCore.Networking
 
         public static void RecievePacketWorker(object client)
         {
-            Log.Info("LOOPAH");
             ((ConnectedClientTcpHandler)client).Recieve();
         }
 

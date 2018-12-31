@@ -1,4 +1,5 @@
 ﻿
+using Assets.Code.Game.Entities;
 using System.Collections.Generic;
 
 namespace Assets.Code.AssetHandling.Sprites.Animations

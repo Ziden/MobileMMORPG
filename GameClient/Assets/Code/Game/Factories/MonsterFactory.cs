@@ -44,7 +44,7 @@ namespace Assets.Code.Game.Factories
 
                 movingBehaviour.Entity = monsterEntityWrapper;
                 monsterObj.transform.position = opts.Position.ToUnityPosition();
-                UnityClient.Map.UpdateEntityPosition(monsterEntityWrapper, opts.Position, opts.Position);
+                UnityClient.Map.UpdateEntityPosition(monsterEntityWrapper, null, opts.Position);
 
             }
         }

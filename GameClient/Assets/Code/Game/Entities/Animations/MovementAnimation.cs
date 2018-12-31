@@ -1,4 +1,5 @@
 ﻿using Assets.Code.AssetHandling.Sprites.Animations;
+using Assets.Code.Game.Entities;
 using MapHandler;
 
 namespace Assets.Code.AssetHandling
@@ -7,7 +8,9 @@ namespace Assets.Code.AssetHandling
     {
         private bool _animDown = false;
 
-        public MovementAnimation(SpriteSheet sheet) : base(sheet) { }
+        public MovementAnimation(SpriteSheet sheet) : base(sheet) {
+            this.AnimationTimeInSeconds = 0.12f;
+        }
 
         public override void OnReset()
         {

@@ -1,6 +1,7 @@
 ﻿using Assets.Code.AssetHandling;
 using Assets.Code.AssetHandling.Sprites.Animations;
 using Assets.Code.Game;
+using Assets.Code.Game.Entities;
 using Client.Net;
 using Common.Entity;
 using CommonCode.EntityShared;
