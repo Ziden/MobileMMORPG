@@ -25,6 +25,9 @@ namespace ServerCore.GameServer.Players
         [EventMethod]
         public void OnPlayerQuit(PlayerQuitEvent ev)
         {
+            if (!Server.Players.Contains(ev.Player))
+                return;
+
             if (ev.Player != null)
                 Log.Info($"Player {ev.Player.Name} Disconnected", ConsoleColor.Yellow);
             else
