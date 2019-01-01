@@ -7,8 +7,5 @@ namespace ServerCore.GameServer.Players.Evs
     {
         public Entity Entity;
         public Position To;
-
-        public bool IsCancelled = false;
-
     }
 }

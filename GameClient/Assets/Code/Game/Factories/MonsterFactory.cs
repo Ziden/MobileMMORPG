@@ -31,8 +31,8 @@ namespace Assets.Code.Game.Factories
                 spriteRenderer.sprite = spriteSheet.WalkSouth[1];
 
                 // Moving Entity
-                var movingBehaviour = monsterObj.AddComponent<MovingEntityBehaviour>();
-                movingBehaviour.SpriteSheets.Add(spriteSheet);
+                var livingEntityBhv = monsterObj.AddComponent<LivingEntityBehaviour>();
+                livingEntityBhv.SpriteSheets.Add(spriteSheet);
                 var monsterEntityWrapper = new MonsterWrapper()
                 {
                     MonsterObj = monsterObj,
@@ -42,7 +42,9 @@ namespace Assets.Code.Game.Factories
                     Position = opts.Position
                 };
 
-                movingBehaviour.Entity = monsterEntityWrapper;
+                monsterObj.transform.parent = UnityExtensions.GetEntitiesContainer().transform;
+
+                livingEntityBhv.Entity = monsterEntityWrapper;
                 monsterObj.transform.position = opts.Position.ToUnityPosition();
                 UnityClient.Map.UpdateEntityPosition(monsterEntityWrapper, null, opts.Position);
 

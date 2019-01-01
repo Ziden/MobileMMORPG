@@ -15,7 +15,7 @@ public class TestScheduler
         List<int> executedTasks = new List<int>();
 
         var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-        GameScheduler.Schedule(new SchedulerTask(1000)
+        GameScheduler.Schedule(new SchedulerTask(1000, now)
         {
             Task = () =>
             {
@@ -23,7 +23,7 @@ public class TestScheduler
             }
         });
 
-        GameScheduler.Schedule(new SchedulerTask(2000)
+        GameScheduler.Schedule(new SchedulerTask(2000, now)
         {
             Task = () =>
             {
@@ -31,7 +31,7 @@ public class TestScheduler
             }
         });
 
-        GameScheduler.Schedule(new SchedulerTask(3000)
+        GameScheduler.Schedule(new SchedulerTask(3000, now)
         {
             Task = () =>
             {
@@ -39,7 +39,7 @@ public class TestScheduler
             }
         });
 
-        GameScheduler.Schedule(new SchedulerTask(1500)
+        GameScheduler.Schedule(new SchedulerTask(1500, now)
         {
             Task = () =>
             {
@@ -75,7 +75,7 @@ public class TestScheduler
         List<int> executedTasks = new List<int>();
 
         var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-        GameScheduler.Schedule(new SchedulerTask(1000)
+        GameScheduler.Schedule(new SchedulerTask(1000, now)
         {
             Repeat = true,
             Task = () =>

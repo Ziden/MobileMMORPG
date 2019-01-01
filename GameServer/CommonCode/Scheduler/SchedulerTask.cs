@@ -5,10 +5,10 @@ namespace Common.Scheduler
     public class SchedulerTask
     {
 
-        public SchedulerTask(long delay)
+        public SchedulerTask(long delay, long timeNow)
         {
             DelayInMs = delay;
-            RunAt = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond + delay;
+            RunAt = timeNow + delay;
         }
 
         public long DelayInMs;

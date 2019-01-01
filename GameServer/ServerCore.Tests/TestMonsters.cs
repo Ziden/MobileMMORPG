@@ -112,7 +112,7 @@ namespace GameTests
         }
 
         [Test]
-        public void TestPlayerMovingOnDifferentChunk()
+        public void TestMonsterMovingOnDifferentChunk()
         {
             var client = ServerMocker.GetClient();
             var player = client.FullLoginSequence(_player);

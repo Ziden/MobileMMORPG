@@ -9,7 +9,8 @@ namespace MapHandler
         private static double Angle90 = Math.PI / 2;
         private static double Angle180 = Math.PI;
         private static double Angle270 = -Math.PI / 2;
-        private static double Angle360 = 0;
+        private static double Angle360 = -Math.PI;
+        private static double Angle0 = 0;
         private static double[] Angles = new double[] { Angle90, Angle180, Angle270, Angle360 };
 
         public static int GetDistance(this Position position, Position other)
@@ -86,7 +87,7 @@ namespace MapHandler
 
             if (closestAngle==Angle180)
                 return Direction.LEFT;
-            if (closestAngle==Angle360)
+            if (closestAngle==Angle360 || closestAngle == Angle0)
                 return Direction.RIGHT;
             if (closestAngle == Angle90)
                 return Direction.NORTH;

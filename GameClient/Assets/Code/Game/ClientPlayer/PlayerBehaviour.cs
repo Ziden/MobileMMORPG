@@ -1,53 +1,23 @@
-﻿using Assets.Code.AssetHandling.Sprites.Animations;
-using Assets.Code.Game;
+﻿using Assets.Code.Game;
 using Client.Net;
 using Common.Networking.Packets;
-using CommonCode.EntityShared;
-using CommonCode.Networking.Packets;
 using MapHandler;
-using System;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerBehaviour : MovingEntityBehaviour
+public class PlayerBehaviour : LivingEntityBehaviour
 {
-    public static long NOW_MILLIS = 0;
+
+    public override void OnStart()
+    {
+      
+    }
 
     public override void OnBeforeUpdate()
     {
-        NOW_MILLIS = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-        TryPerformAttack();
+
     }
-
-    private void TryPerformAttack()
-    {
-        if (UnityClient.Player.Target != null)
-        {
-            if (UnityClient.Player.NextAttackAt <= NOW_MILLIS)
-            {
-                var targetPosition = UnityClient.Player.Target.Position;
-                var distanceToTarget = UnityClient.Player.Position.GetDistance(targetPosition);
-                if (distanceToTarget <= 1)
-                {
-                    UnityClient.TcpClient.Send(new EntityAttackPacket()
-                    {
-                        EntityUID = UnityClient.Player.Target.UID
-                    });
-                    var atkSpeedDelay = Formulas.GetTimeBetweenAttacks(UnityClient.Player.AtkSpeed);
-                    var nextAttack = NOW_MILLIS + atkSpeedDelay;
-                    UnityClient.Player.NextAttackAt = nextAttack;
-
-                    SpriteSheets.ForEach(e => e.SetDirection(UnityClient.Player.Position.GetDirection(targetPosition)));
-
-                    UnityClient.Player.Movement.SpriteSheets.ForEach(e => {
-                        e.SetAnimation(SpriteAnimations.ATTACKING, atkSpeedDelay);
-                    });
-
-                }
-            }
-        }
-    }
-
+    
     public override void OnFinishRoute()
     {
         // Hide the green square on the ground when i finish moving

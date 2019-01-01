@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Code.Game.Entities
 {
-    public class MonsterWrapper : Entity
+    public class MonsterWrapper : LivingEntity
     {
         public GameObject MonsterObj;
     }

@@ -107,7 +107,7 @@ namespace ServerCore.Networking
                                 continue;
                             }
                         }
-                        // Log.Debug($"Packet {packet.GetType().Name} recieved");
+                         Log.Debug($"Packet {packet.GetType().Name} recieved");
                         // Put the packet to be processed by the main thread
                         Server.PacketsToProccess.Enqueue(packet);
                     }
@@ -178,7 +178,7 @@ namespace ServerCore.Networking
             var now = DateTime.Now;
 
             var clientLatency = (now.Subtract(send)).Milliseconds / 2;
-            var client = ServerTcpHandler.GetClient(packet.ClientId);
+            var client = Server.TcpHandler.GetClient(packet.ClientId);
             client.Latency = clientLatency;
             Log.Debug($"Recieved ping from {client.ConnectionId} latency ={clientLatency}");
         }

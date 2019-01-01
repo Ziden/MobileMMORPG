@@ -9,7 +9,7 @@ namespace ServerCore.Networking
     public class ServerTcpHandler
     {
         // TODO: DONT NEED THIS...
-        public static Dictionary<string, ConnectedClientTcpHandler> ClientsByConnectionId = new Dictionary<string, ConnectedClientTcpHandler>();
+        public Dictionary<string, ConnectedClientTcpHandler> ClientsByConnectionId = new Dictionary<string, ConnectedClientTcpHandler>();
 
         private TcpListener Listener { get; set; }
         public bool IsRunning { get; set; } = false;
@@ -41,7 +41,6 @@ namespace ServerCore.Networking
                     {
                         ConnectionId = Guid.NewGuid().ToString(),
                         TcpClient = clientTask.Result
-
                     };
                     socketClient.Configure();
                    
@@ -52,22 +51,24 @@ namespace ServerCore.Networking
             }
         }
 
-        public static ConnectedClientTcpHandler GetClient(string id)
+        public ConnectedClientTcpHandler GetClient(string id)
         {
             return ClientsByConnectionId[id];
         }
 
-        public static int ConnectedSockets()
+        public int ConnectedSockets()
         {
             return ClientsByConnectionId.Count;
         }
 
         public void Stop()
         {
+            IsRunning = false;
             foreach (var client in ClientsByConnectionId.Values)
             {
                 client.Stop();
             }
+            ClientsByConnectionId.Clear();
         }
     }
 }

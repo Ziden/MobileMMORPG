@@ -90,14 +90,13 @@ namespace ServerCore.Networking.PacketListeners
                 player.AssetsReady = true;
             }
 
-            var client = ServerTcpHandler.GetClient(packet.ClientId);
+            var client = Server.TcpHandler.GetClient(packet.ClientId);
 
             // update chunks for that player
             ChunkProvider.CheckChunks(player);
 
-            var playerPacket = player.ToPacket();
-
             // make the player itself appear
+            var playerPacket = player.ToPacket();
             client.Send(playerPacket);
 
             // to track the entity spawning caches etc
@@ -124,7 +123,7 @@ namespace ServerCore.Networking.PacketListeners
                 var asset = AssetLoader.LoadedAssets.GetAsset(packet.AssetType, packet.ResquestedImageName);
                 var bytes = asset.ImageData;
                 packet.Asset = bytes;
-                ServerTcpHandler.GetClient(packet.ClientId).Send(packet);
+                Server.TcpHandler.GetClient(packet.ClientId).Send(packet);
             }
         }
     }

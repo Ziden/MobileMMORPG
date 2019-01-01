@@ -1,6 +1,7 @@
 ﻿using Assets.Code.Game.ClientPlayer;
 using Assets.Code.Net.PacketListeners;
 using Client.Net;
+using Common.Networking.Packets;
 using MapHandler;
 using System;
 using UnityEngine;
@@ -21,7 +22,15 @@ namespace Assets.Code.Game
             }
             // remove the indicators that we are targeting any monsters
             Selectors.RemoveSelector("targeted");
-            UnityClient.Player.Target = null;
+            if(UnityClient.Player.Target != null)
+            {
+                UnityClient.Player.Target = null;
+                UnityClient.TcpClient.Send(new EntityTargetPacket()
+                {
+                    WhoUuid = UnityClient.Player.UID,
+                    TargetUuid = null // not targetting anyone
+                });
+            }
         }
 
         private void ButtonDown(Vector2 position)

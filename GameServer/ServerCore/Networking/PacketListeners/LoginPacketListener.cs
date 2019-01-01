@@ -12,7 +12,7 @@ namespace ServerCore.PacketListeners
         [EventMethod]
         public void OnLogin(LoginPacket packet)
         {
-            var client = ServerTcpHandler.GetClient(packet.ClientId);
+            var client = Server.TcpHandler.GetClient(packet.ClientId);
             try
             {
                 // Check if already is online

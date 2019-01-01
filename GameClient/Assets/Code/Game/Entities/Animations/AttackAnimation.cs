@@ -13,18 +13,18 @@ namespace Assets.Code.AssetHandling
 
         public override AnimationResult Loop(Direction dir)
         {
-            CurrentFrame++;
-
             float offset = 0;
 
-            var spriteFrame = 0;
+            CurrentFrame++;
+
+            var spriteFrame = 2;
             var sriteDir = dir;
 
             // preparing (going back)
-            if (CurrentFrame < 4)
+            if (CurrentFrame < 5)
             {
                 offset = 0.005f * CurrentFrame;
-                spriteFrame = CurrentFrame > 2 ? 2 : CurrentFrame;
+                spriteFrame = 2;
             }
             // iddle
             else if (CurrentFrame < 6)
@@ -33,15 +33,23 @@ namespace Assets.Code.AssetHandling
                 spriteFrame = 2;
             }
             // going forward
-            else if (CurrentFrame < 8)
+            else if (CurrentFrame < 9) // 6 - 7 - 8
             {
                 if(CurrentFrame==6)
                     offset = -0.00f;
-                else
+                else if(CurrentFrame == 7)
                     offset = -0.02f;
+                 else
+                    offset = -0.04f;
                 spriteFrame = 8 - CurrentFrame;
             }
-            else
+            else if(CurrentFrame < 15)
+            {
+                spriteFrame = 0;
+                offset = -0.02f;
+                if (CurrentFrame == 14)
+                    offset = -0.01f;
+            } else
             {
                 Reset();
                 IsOver = true;
@@ -60,7 +68,7 @@ namespace Assets.Code.AssetHandling
             else if (dir == Direction.NORTH)
                 offsetY = -offset;
 
-                return new AnimationResult()
+            return new AnimationResult()
             {
                 Sprite = this.SpriteSheet.GetSheet(sriteDir)[spriteFrame],
                 OffsetX = offsetX,

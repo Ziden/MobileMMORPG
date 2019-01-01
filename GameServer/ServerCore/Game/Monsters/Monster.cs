@@ -36,8 +36,8 @@ namespace ServerCore.Game.Monsters
             if(MovementBehaviour != null)
             {
                 MovementBehaviour.PerformMovement(this);
-                LastMovement = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-                GameScheduler.Schedule(new SchedulerTask(MovementDelay)
+                LastMovement = GameThread.TIME_MS_NOW;
+                GameScheduler.Schedule(new SchedulerTask(MovementDelay, LastMovement)
                 {
                     Task = () =>
                     {

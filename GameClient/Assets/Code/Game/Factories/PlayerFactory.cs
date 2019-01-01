@@ -71,6 +71,8 @@ namespace Assets.Code.Game.Factories
                 headSpriteRenderer.sprite = headSpriteSheet.WalkSouth[1];
                 headObj.transform.parent = playerObj.transform;
 
+                playerObj.transform.parent = UnityExtensions.GetEntitiesContainer().transform;
+
                 // This gotta be in the end
                 playerObj.transform.position = opts.Position.ToUnityPosition();
 
@@ -85,24 +87,23 @@ namespace Assets.Code.Game.Factories
 
                 if (opts.IsMainPlayer)
                 {
-                    playerWrapper.Movement = playerObj.AddComponent<PlayerBehaviour>();
+                    playerWrapper.Behaviour = playerObj.AddComponent<PlayerBehaviour>();
                     playerWrapper.SessionId = UnityClient.Player.SessionId;
                     UnityClient.Player = playerWrapper;
                 } else
                 {
-                    playerWrapper.Movement = playerObj.AddComponent<MovingEntityBehaviour>();
+                    playerWrapper.Behaviour = playerObj.AddComponent<LivingEntityBehaviour>();
                 }
 
-                playerWrapper.Movement.SpriteSheets.Add(spriteSheet);
-                playerWrapper.Movement.SpriteSheets.Add(headSpriteSheet);
-                playerWrapper.Movement.SpriteSheets.Add(legsSpriteSheet);
-                playerWrapper.Movement.SpriteSheets.Add(chestSpriteSheet);
+                playerWrapper.Behaviour.SpriteSheets.Add(spriteSheet);
+                playerWrapper.Behaviour.SpriteSheets.Add(headSpriteSheet);
+                playerWrapper.Behaviour.SpriteSheets.Add(legsSpriteSheet);
+                playerWrapper.Behaviour.SpriteSheets.Add(chestSpriteSheet);
 
-                playerWrapper.Movement.Entity = playerWrapper;
+                playerWrapper.Behaviour.Entity = playerWrapper;
 
                 UnityClient.Map.UpdateEntityPosition(playerWrapper, null, opts.Position);
-            }
-            
+            }  
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using Assets.Code.AssetHandling;
-using Assets.Code.AssetHandling.Sprites.Animations;
+﻿using Assets.Code.AssetHandling.Sprites.Animations;
 using Assets.Code.Game;
 using Assets.Code.Game.Entities;
 using Client.Net;
@@ -8,16 +7,17 @@ using CommonCode.EntityShared;
 using MapHandler;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class MovingEntityBehaviour : MonoBehaviour
+public class LivingEntityBehaviour : MonoBehaviour
 {
     public Vector2 PositionOffset = new Vector2(0, -8);
 
     // Add a position to the route to make the entity move, or add a route. :)
     public List<Position> Route = new List<Position>();
     public List<SpriteSheet> SpriteSheets = new List<SpriteSheet>();
-    public Entity Entity;
+    public LivingEntity Entity;
 
     private Position _goingToPosition;
     private Direction _movingToDirection = Direction.NONE;
@@ -31,6 +31,7 @@ public class MovingEntityBehaviour : MonoBehaviour
     void Start()
     {
         _target = _startPosition = transform.position;
+        OnStart();
     }
 
     public void ForceUpdate()
@@ -52,6 +53,18 @@ public class MovingEntityBehaviour : MonoBehaviour
         SpriteSheets.ForEach(e => e.SetAnimation(SpriteAnimations.NONE));
         _goingToPosition = null;
         _target = null;
+    }
+
+    public void PerformAttackAnimation(LivingEntity target)
+    {
+        var atkSpeedDelay = Formulas.GetTimeBetweenAttacks(Entity.AtkSpeed);
+        SpriteSheets.ForEach(e => e.SetDirection(UnityClient.Player.Position.GetDirection(target.Position)));
+
+        UnityClient.Player.Behaviour.SpriteSheets.ForEach(e =>
+        {
+            e.SetAnimation(SpriteAnimations.ATTACKING, atkSpeedDelay);
+        });
+
     }
 
     private void MoveTick()
@@ -83,6 +96,30 @@ public class MovingEntityBehaviour : MonoBehaviour
     {
         if (_goingToPosition != null && _movingToDirection == Direction.NONE)
         {
+            // Something happened and its in between me and my goal
+            if(!UnityClient.Map.IsPassable(_goingToPosition.X, _goingToPosition.Y))
+            {
+                // If i still had a decent route, i might try to find another way
+                if (Route.Count > 0)
+                {
+                    var destination = UnityClient.Player.Behaviour.Route.Last();
+                    var path = UnityClient.Map.FindPath(Entity.Position, destination);
+                    if (path != null)
+                    {
+                        Route = path;
+                    }
+                } else 
+                {
+                    // we only stop our animation if we are in the moving animation
+                    var firstSpriteSheet = SpriteSheets[0];
+                    if (firstSpriteSheet.IsAnimationPlayng(SpriteAnimations.MOVING))
+                    {
+                        SpriteSheets.ForEach(s => s.SetAnimation(SpriteAnimations.NONE));
+                    }
+                }
+                return;
+            }
+
             _movingToDirection = Entity.Position.GetDirection(_goingToPosition);
             var timeToMoveInMillis = Formulas.GetTimeToMoveBetweenTwoTiles(Entity.MoveSpeed);
 
@@ -95,7 +132,7 @@ public class MovingEntityBehaviour : MonoBehaviour
             SetDestination(_goingToPosition.ToUnityPosition(), timeToMoveInSeconds);
 
             SpriteSheets.ForEach(e => e.SetAnimation(SpriteAnimations.MOVING));
-            SpriteSheets.ForEach(e => e.SetDirection(_movingToDirection));         
+            SpriteSheets.ForEach(e => e.SetDirection(_movingToDirection));
 
             UnityClient.Map.UpdateEntityPosition(Entity, Entity.Position, _goingToPosition);
 
@@ -124,7 +161,7 @@ public class MovingEntityBehaviour : MonoBehaviour
         {
             var nextStep = Route[0];
 
-            if(nextStep == null)
+            if (nextStep == null)
             {
                 return;
             }
@@ -147,9 +184,11 @@ public class MovingEntityBehaviour : MonoBehaviour
     }
 
     // OVERRIDABLES
-    public virtual void OnFinishRoute(){}
+    public virtual void OnFinishRoute() { }
 
     public virtual void OnBeforeMoveTile(Position movingTo) { }
 
     public virtual void OnBeforeUpdate() { }
+
+    public virtual void OnStart() { }
 }

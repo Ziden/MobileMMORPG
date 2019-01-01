@@ -35,6 +35,13 @@ namespace Assets.Code.Game.Entities
             }
         }
 
+        public bool IsAnimationPlayng(SpriteAnimations anim)
+        {
+            if (CurrentAnimation == null && anim == SpriteAnimations.NONE)
+                return true;
+            return CurrentAnimation == Animations.GetAnimation(anim);
+        }
+
         public void SetAnimation(SpriteAnimations animation, float animationTimeInMS = -1)
         {
             if (animation == SpriteAnimations.NONE)
@@ -50,6 +57,7 @@ namespace Assets.Code.Game.Entities
 
             if(animationToSet != CurrentAnimation)
             {
+                CurrentAnimation?.Reset();
                 CurrentAnimation = animationToSet;
                 CurrentAnimation.Reset();
                 if(animationTimeInMS > 0)
