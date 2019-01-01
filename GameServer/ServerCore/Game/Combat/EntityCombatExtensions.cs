@@ -20,7 +20,6 @@ namespace ServerCore.Game.Combat
             {
                 var timeToFinishCd = attacker.NextAttackAt - now;
                 RescheduleAttack(attacker, defender, timeToFinishCd);
-                Log.Debug("Player attack cooldown");
                 return;
             }
 
@@ -37,8 +36,6 @@ namespace ServerCore.Game.Combat
             });
 
             RescheduleAttack(attacker, defender, attackDelay);
-
-
         }
 
         public static void RescheduleAttack(LivingEntity attacker, LivingEntity defender, long attackDelay)
@@ -62,8 +59,8 @@ namespace ServerCore.Game.Combat
                     TryAttacking(attacker, defender);
                 }
             };
+
             GameScheduler.Schedule(attackTask);
-            Log.Info("SCHEDULED NEW TASK");
             attacker.AttackTaskId = attackTask.UID;
         }
     }

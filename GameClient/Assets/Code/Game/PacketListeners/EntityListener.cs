@@ -15,7 +15,8 @@ namespace Assets.Code.Game.PacketListeners
         {
             var attacker = UnityExtensions.GetEntity(packet.AttackerUID);
             var defender = UnityExtensions.GetEntity(packet.DefenderUID);
-            attacker.PerformAttackAnimation(defender.Entity);
+            var damage = packet.Damage;
+            attacker.PerformAttackAnimation(defender, damage);
         }
 
         [EventMethod]

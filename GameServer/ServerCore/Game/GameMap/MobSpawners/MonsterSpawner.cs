@@ -56,15 +56,9 @@ namespace ServerCore.Game.GameMap
                     // Let players know this monster spawned
                     foreach (var player in monsterInstance.GetPlayersNear())
                     {
-                        player.Tcp.Send(new MonsterSpawnPacket()
-                        {
-                            MonsterUid = monsterInstance.UID,
-                            MonsterName = monsterInstance.Name,
-                            Position = monsterInstance.Position,
-                            SpriteIndex = monsterInstance.GetSpriteAsset().SpriteRowIndex,
-                            MoveSpeed = monsterInstance.MoveSpeed,
-                            SpawnAnimation = true
-                        });
+                        var monsterPacket = monsterInstance.ToPacket();
+                        monsterPacket.SpawnAnimation = true;
+                        player.Tcp.Send(monsterPacket);
                     }
 
                     monsterInstance.MovementTick();

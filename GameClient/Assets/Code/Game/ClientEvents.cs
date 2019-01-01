@@ -23,7 +23,6 @@ namespace Assets.Code.Game
 
         public ClientEvents()
         {
-            Debug.Log("REGISTERING EVENTS");
             eventHandler.RegisterListener(new PlayerListener());
             eventHandler.RegisterListener(new AccountListener());
             eventHandler.RegisterListener(new AssetListener());

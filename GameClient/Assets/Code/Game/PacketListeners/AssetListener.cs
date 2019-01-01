@@ -17,6 +17,8 @@ namespace Assets.Code.Net.PacketListeners
             UPDATED = 3
         }
 
+        public static bool DEBUG_ALWAYS_DOWNLOAD = false;
+
         private static List<AssetPacket> _assetsRequested = new List<AssetPacket>();
 
         public static AssetLoadingState State = AssetLoadingState.UPDATED;
@@ -65,9 +67,8 @@ namespace Assets.Code.Net.PacketListeners
             // If im recieving from the server that i need an asset
             if (packet.Asset == null)
             {
-
                 // if i dont have it
-                if (!File.Exists(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName)))
+                if (!File.Exists(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName)) || DEBUG_ALWAYS_DOWNLOAD)
                 {
                     _assetsRequested.Add(packet);
                 }

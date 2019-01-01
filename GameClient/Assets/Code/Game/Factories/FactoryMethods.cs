@@ -10,5 +10,16 @@ namespace Assets.Code.Game.Factories
             collider.offset = new Vector2(0.08f, 0.08f);
             collider.size = new Vector2(0.2f, 0.2f);
         }
+
+        public static void AddHealthBar(GameObject obj)
+        {
+            var healthbar = ClientPrefabs.Get().HealthbarPrefab;
+            var instance = MonoBehaviour.Instantiate(healthbar, Vector2.zero, Quaternion.identity, obj.transform);
+            var lvingEnt = obj.GetComponent<LivingEntityBehaviour>();
+            var healthbarBehav = instance.GetComponent<HealthBarBehaviour>();
+            lvingEnt.HealthBar = healthbarBehav;
+            instance.transform.localPosition = new Vector2(0.08f, 0.18f);
+            healthbarBehav.SetLife(lvingEnt.Entity.HP, lvingEnt.Entity.MAXHP);
+        }
     }
 }

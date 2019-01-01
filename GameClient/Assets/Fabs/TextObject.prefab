@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 23420551826632114}
   - component: {fileID: 102362823683043728}
   m_Layer: 0
-  m_Name: Sample Textmesh
+  m_Name: TextObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,8 +35,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1293603593108180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.034991827, y: 0.24494262, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 150.75076, y: 153.80089, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -56,7 +56,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: df856cdb9110140419b5d535c1a57636, type: 2}
+  - {fileID: 2100000, guid: 944e0f2f3fa144416ac5be1a8e188dbc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,7 +83,7 @@ TextMesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1293603593108180}
-  m_Text: Hello World
+  m_Text: Text Object
   m_OffsetZ: 0
   m_CharacterSize: 1.5
   m_LineSpacing: 1
@@ -93,7 +93,7 @@ TextMesh:
   m_FontSize: 0
   m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: 1c10051538e484e849e45b324b9b334b, type: 2}
+  m_Font: {fileID: 12800000, guid: bb2dffc07ad704a28aa9186221cc902e, type: 2}
   m_Color:
     serializedVersion: 2
-    rgba: 4294964224
+    rgba: 4294967295

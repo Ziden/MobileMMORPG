@@ -4258,6 +4258,7 @@ GameObject:
   - component: {fileID: 1942177381}
   - component: {fileID: 1942177382}
   - component: {fileID: 1942177383}
+  - component: {fileID: 1942177384}
   m_Layer: 0
   m_Name: SCRIPTS
   m_TagString: Untagged
@@ -4383,6 +4384,20 @@ MonoBehaviour:
   shakeAcceleration: 3
   restrictLogCount: 0
   maxLogCount: 1000
+--- !u!114 &1942177384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1942177374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b946ccb40963d949b196b11195dbc1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextPrefab: {fileID: 1293603593108180, guid: 92d60a2e17d9a4bb8bd3801b14fc2926, type: 2}
+  HealthbarPrefab: {fileID: 1687160586224304, guid: 38982a4fd1ee7884783989c35bca0dd1,
+    type: 2}
 --- !u!1 &1950500816
 GameObject:
   m_ObjectHideFlags: 0

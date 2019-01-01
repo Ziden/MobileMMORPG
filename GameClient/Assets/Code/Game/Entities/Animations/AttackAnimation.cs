@@ -7,6 +7,8 @@ namespace Assets.Code.AssetHandling
     public class AttackAnimation : AnimationBase
     {
 
+        public static readonly int HIT_FRAME = 8;
+
         public AttackAnimation(SpriteSheet sheet) : base(sheet) {
             this.AnimationTimeInSeconds = 0.06f;
         }
@@ -60,13 +62,13 @@ namespace Assets.Code.AssetHandling
             var offsetY = 0f;
 
             if (dir == Direction.LEFT)
-                offsetX = -offset;
-            else if (dir == Direction.RIGHT)
                 offsetX = offset;
+            else if (dir == Direction.RIGHT)
+                offsetX = -offset;
             else if (dir == Direction.SOUTH)
-                offsetY = offset;
-            else if (dir == Direction.NORTH)
                 offsetY = -offset;
+            else if (dir == Direction.NORTH)
+                offsetY = offset;
 
             return new AnimationResult()
             {

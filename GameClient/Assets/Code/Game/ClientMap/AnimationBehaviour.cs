@@ -20,12 +20,6 @@ public class AnimationBehaviour : MonoBehaviour
         if (FrameArray == null)
             return;
 
-        if(_frame == FrameArray.Length)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-
         _deltaTime += Time.deltaTime;
 
         while (_deltaTime >= _frameSeconds)
@@ -33,6 +27,13 @@ public class AnimationBehaviour : MonoBehaviour
             _deltaTime -= _frameSeconds;
             _frame++;
         }
+
+        if (_frame == FrameArray.Length)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
         _renderer.sprite = FrameArray[_frame];
     }
 }

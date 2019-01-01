@@ -8,7 +8,8 @@ namespace Common.Entity
     {
         public string Name;
         public int HP = 10;
-        public int Atk = 100;
+        public int MAXHP = 10;
+        public int Atk = 3;
         public int Def = 1;
         public int AtkSpeed = 5;
 

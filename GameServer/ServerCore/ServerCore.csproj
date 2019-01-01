@@ -5,7 +5,13 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>1</WarningLevel>
+    <OutputPath>C:\Users\gabri\Documents\MMO\GameServer\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
+    <None Remove="Assets\img\animations\blood.png" />
     <None Remove="Assets\img\animations\smoke.png" />
     <None Remove="Assets\img\animations_8x.png" />
     <None Remove="Assets\img\bodies.png" />
@@ -21,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Assets\img\animations\blood.png" />
     <EmbeddedResource Include="Assets\img\animations\smoke.png" />
     <EmbeddedResource Include="Assets\img\characters\bodies.png" />
     <EmbeddedResource Include="Assets\img\characters\chests.png" />

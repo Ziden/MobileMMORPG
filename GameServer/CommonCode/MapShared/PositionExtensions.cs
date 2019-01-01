@@ -11,7 +11,7 @@ namespace MapHandler
         private static double Angle270 = -Math.PI / 2;
         private static double Angle360 = -Math.PI;
         private static double Angle0 = 0;
-        private static double[] Angles = new double[] { Angle90, Angle180, Angle270, Angle360 };
+        private static double[] Angles = new double[] { Angle90, Angle180, Angle270, Angle360, Angle0 };
 
         public static int GetDistance(this Position position, Position other)
         {
@@ -80,7 +80,7 @@ namespace MapHandler
 
         public static Direction GetDirection(this Position from, Position to)
         {
-            var angle = to.GetAngleRadiansTo(from);
+            var angle = from.GetAngleRadiansTo(to);
 
             var closestAngle = Angles
                 .Aggregate((x, y) => Math.Abs(x - angle) < Math.Abs(y - angle) ? x : y);

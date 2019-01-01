@@ -8,6 +8,7 @@
 
         // Animations
         public static string ANM_SMOKE = "smoke.png";
+        public static string ANM_BLOOD = "blood.png";
 
         // Sprites
         public static string SPR_BODIES = "bodies.png";

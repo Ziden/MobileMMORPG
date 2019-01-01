@@ -1,6 +1,8 @@
-﻿using Assets.Code.AssetHandling.Sprites.Animations;
+﻿using Assets.Code.AssetHandling;
+using Assets.Code.AssetHandling.Sprites.Animations;
 using Assets.Code.Game;
 using Assets.Code.Game.Entities;
+using Assets.Code.Game.Factories;
 using Client.Net;
 using Common.Entity;
 using CommonCode.EntityShared;
@@ -18,6 +20,7 @@ public class LivingEntityBehaviour : MonoBehaviour
     public List<Position> Route = new List<Position>();
     public List<SpriteSheet> SpriteSheets = new List<SpriteSheet>();
     public LivingEntity Entity;
+    public HealthBarBehaviour HealthBar;
 
     private Position _goingToPosition;
     private Direction _movingToDirection = Direction.NONE;
@@ -55,16 +58,39 @@ public class LivingEntityBehaviour : MonoBehaviour
         _target = null;
     }
 
-    public void PerformAttackAnimation(LivingEntity target)
+    public void PerformAttackAnimation(LivingEntityBehaviour target, int damage)
     {
         var atkSpeedDelay = Formulas.GetTimeBetweenAttacks(Entity.AtkSpeed);
-        SpriteSheets.ForEach(e => e.SetDirection(UnityClient.Player.Position.GetDirection(target.Position)));
+        SpriteSheets.ForEach(e => e.SetDirection(UnityClient.Player.Position.GetDirection(target.Entity.Position)));
 
+     
         UnityClient.Player.Behaviour.SpriteSheets.ForEach(e =>
         {
             e.SetAnimation(SpriteAnimations.ATTACKING, atkSpeedDelay);
         });
 
+        // Make a animation callback to display the hit in a cool moment
+        UnityClient.Player.Behaviour.SpriteSheets[0].SetAnimationFrameCallback(AttackAnimation.HIT_FRAME, () => {
+
+            AnimationFactory.BuildAndInstantiate(new AnimationOpts()
+            {
+                AnimationImageName = DefaultAssets.ANM_BLOOD,
+                MapPosition = target.Entity.Position
+            });
+
+            var unityPosition = target.Entity.Position.ToUnityPosition();
+            TextFactory.BuildAndInstantiate<DamageText>(new TextOptions()
+            {
+                UnityX = unityPosition.x + 8,
+                UnityY = unityPosition.y + 18,
+                Text = damage.ToString(),
+                TextColor = Color.red,
+                Size = 7
+            });
+
+            target.Entity.HP -= damage;
+            target.HealthBar.SetLife(target.Entity.HP, target.Entity.MAXHP);
+        });
     }
 
     private void MoveTick()

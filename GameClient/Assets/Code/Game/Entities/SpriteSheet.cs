@@ -1,5 +1,9 @@
 ﻿using Assets.Code.AssetHandling.Sprites.Animations;
+using Assets.Code.Game.Entities.Animations;
 using MapHandler;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Code.Game.Entities
@@ -25,6 +29,8 @@ namespace Assets.Code.Game.Entities
 
         private AnimationResult _animResult;
 
+        private List<AnimationCallback> PendingCallbacks = new List<AnimationCallback>();
+
         public void SetDirection(Direction dir)
         {
             if (this.Direction != dir)
@@ -42,11 +48,20 @@ namespace Assets.Code.Game.Entities
             return CurrentAnimation == Animations.GetAnimation(anim);
         }
 
+        public void SetAnimationFrameCallback(int frame, Action action)
+        {
+            CurrentAnimation?.Callbacks.Add(new AnimationCallback()
+            {
+                Callback = action,
+                PlayOnFrame = frame
+            });
+        }
+
         public void SetAnimation(SpriteAnimations animation, float animationTimeInMS = -1)
         {
             if (animation == SpriteAnimations.NONE)
             {
-                if(CurrentAnimation != null)
+                if (CurrentAnimation != null)
                     CurrentAnimation.Reset();
 
                 CurrentAnimation = null;
@@ -55,14 +70,26 @@ namespace Assets.Code.Game.Entities
 
             var animationToSet = Animations.GetAnimation(animation);
 
-            if(animationToSet != CurrentAnimation)
+            if (animationToSet != CurrentAnimation)
             {
+
+                // if my animation had callbacks i will still wanna run them 
+                if (CurrentAnimation?.Callbacks.Count > 0)
+                {
+                    foreach (var animCallback in CurrentAnimation.Callbacks)
+                    {
+                        var framesUntilCallback = animCallback.PlayOnFrame - CurrentAnimation.CurrentFrame;
+                        animCallback.PlayOnFrame = framesUntilCallback;
+                        PendingCallbacks.Add(animCallback);
+                    }
+                }
+
                 CurrentAnimation?.Reset();
                 CurrentAnimation = animationToSet;
                 CurrentAnimation.Reset();
-                if(animationTimeInMS > 0)
+                if (animationTimeInMS > 0)
                 {
-                  //  CurrentAnimation.AnimationTimeInSeconds = animationTimeInMS / 1000;
+                    //  CurrentAnimation.AnimationTimeInSeconds = animationTimeInMS / 1000;
                 }
             }
         }
@@ -78,18 +105,18 @@ namespace Assets.Code.Game.Entities
             RowSize = rowSize;
             if (rowSize == 3)
             {
-                WalkNorth = new Sprite[] { spriteRow[0], spriteRow[1], spriteRow[2] };
-                WalkRight = new Sprite[] { spriteRow[9], spriteRow[10], spriteRow[11] };
-                WalkSouth = new Sprite[] { spriteRow[6], spriteRow[7], spriteRow[8] };
-                WalkLeft = new Sprite[] { spriteRow[3], spriteRow[4], spriteRow[5] };
+                WalkSouth = new Sprite[] { spriteRow[0], spriteRow[1], spriteRow[2] };
+                WalkLeft = new Sprite[] { spriteRow[9], spriteRow[10], spriteRow[11] };
+                WalkNorth = new Sprite[] { spriteRow[6], spriteRow[7], spriteRow[8] };
+                WalkRight = new Sprite[] { spriteRow[3], spriteRow[4], spriteRow[5] };
                 Dead = spriteRow[12];
             }
             else if (rowSize == 2)
             {
-                WalkNorth = new Sprite[] { spriteRow[0], spriteRow[1] };
-                WalkRight = new Sprite[] { spriteRow[6], spriteRow[7] };
-                WalkSouth = new Sprite[] { spriteRow[4], spriteRow[5] };
-                WalkLeft = new Sprite[] { spriteRow[2], spriteRow[3] };
+                WalkSouth = new Sprite[] { spriteRow[0], spriteRow[1] };
+                WalkLeft = new Sprite[] { spriteRow[6], spriteRow[7] };
+                WalkNorth = new Sprite[] { spriteRow[4], spriteRow[5] };
+                WalkRight = new Sprite[] { spriteRow[2], spriteRow[3] };
                 Dead = spriteRow[1];
             }
         }
@@ -112,17 +139,40 @@ namespace Assets.Code.Game.Entities
 
         void Update()
         {
+            // Pending callbacks (cause of animation switches)
+            var pendingCb = PendingCallbacks
+                .Where(c => c.PlayOnFrame == 0)
+                .Select(c => c)
+                .FirstOrDefault();
+            if (pendingCb != null)
+            {
+                pendingCb.Callback();
+                PendingCallbacks.Remove(pendingCb);
+            }
+            PendingCallbacks.ForEach(pendingCallback => pendingCallback.PlayOnFrame -= 1);
+
             if (CurrentAnimation == null)
             {
                 Renderer.sprite = GetSheet(Direction)[1];
                 return;
             }
             _deltaTime += Time.deltaTime;
-          
+
             while (CurrentAnimation != null && _deltaTime >= CurrentAnimation.AnimationTimeInSeconds)
             {
                 _deltaTime -= CurrentAnimation.AnimationTimeInSeconds;
-                 _animResult = CurrentAnimation.Loop(Direction);
+                _animResult = CurrentAnimation.Loop(Direction);
+
+                // Animation callbacks to be frame-specific
+                var cb = CurrentAnimation.Callbacks
+                    .Where(c => c.PlayOnFrame == CurrentAnimation.CurrentFrame)
+                    .Select(c => c)
+                    .FirstOrDefault();
+                if (cb != null)
+                {
+                    cb.Callback();
+                    CurrentAnimation.Callbacks.Remove(cb);
+                }
 
                 transform.localPosition = new Vector2(_animResult.OffsetX, _animResult.OffsetY);
 
@@ -131,8 +181,13 @@ namespace Assets.Code.Game.Entities
                     Debug.Log("Animation is Over");
                     CurrentAnimation = null;
                 }
+
+                if (PendingCallbacks.Count > 0)
+                {
+
+                }
             }
-            if(_animResult != null)
+            if (_animResult != null)
                 Renderer.sprite = _animResult.Sprite;
         }
 

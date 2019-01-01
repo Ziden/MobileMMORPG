@@ -43,15 +43,7 @@ namespace ServerCore.Networking
                             foreach(var entity in chunk.EntitiesInChunk[EntityType.MONSTER])
                             {
                                 var monsterInstance = (Monster)entity;
-                                client.Send(new MonsterSpawnPacket()
-                                {
-                                    MonsterUid = monsterInstance.UID,
-                                    MonsterName = monsterInstance.Name,
-                                    Position = monsterInstance.Position,
-                                    SpriteIndex = monsterInstance.GetSpriteAsset().SpriteRowIndex,
-                                    MoveSpeed = monsterInstance.MoveSpeed,
-                                    SpawnAnimation = false
-                                });
+                                client.Send(monsterInstance.ToPacket());
                             }
                         }
                     }
