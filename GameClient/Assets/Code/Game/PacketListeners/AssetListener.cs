@@ -61,6 +61,7 @@ namespace Assets.Code.Net.PacketListeners
             // If im recieving from the server that i need an asset
             if (packet.Asset == null)
             {
+                Debug.Log($"Sprite: { Path.Combine(Application.persistentDataPath, packet.ResquestedImageName) }");
 
                 // if i dont have it
                 if (!File.Exists(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName)))
