@@ -23,10 +23,16 @@ public class TestPosition
     public void TestPositionDirections()
     {
         var direction = new Position(0, 0).GetDirection(new Position(10, 11));
-        Assert.That(direction == Direction.NORTH);
+        Assert.AreEqual(direction, Direction.NORTH);
 
         direction = new Position(0, 0).GetDirection(new Position(10, 9));
-        Assert.That(direction == Direction.RIGHT);
+        Assert.AreEqual(direction, Direction.RIGHT);
+
+        direction = new Position(0, 0).GetDirection(new Position(-1, 0));
+        Assert.AreEqual(direction, Direction.LEFT);
+
+        direction = new Position(0, 0).GetDirection(new Position(0, -1));
+        Assert.AreEqual(direction, Direction.SOUTH);
     }
 }
 

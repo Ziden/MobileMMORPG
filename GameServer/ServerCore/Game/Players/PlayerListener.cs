@@ -35,6 +35,12 @@ namespace ServerCore.GameServer.Players
 
             if (ev.Player != null) // will be null if havent downloaded assets, need to fix this
             {
+                ev.Player.Target = null;
+                foreach(var targetingPlayer in ev.Player.BeingTargetedBy)
+                {
+                    targetingPlayer.Target = null;
+                }
+                ev.Player.BeingTargetedBy.Clear();
                 Server.Map.UpdateEntityPosition(ev.Player, ev.Player.Position, null);
                 Server.Players.Remove(ev.Player);
             }
@@ -60,6 +66,7 @@ namespace ServerCore.GameServer.Players
            
             foreach (var nearPlayer in nearPlayers)
             {
+                Log.Debug("WOLOLO");
                 nearPlayer.Tcp.Send(packet);
                 var otherPlayerPacket = nearPlayer.ToPacket();
                 player.Tcp.Send(otherPlayerPacket);

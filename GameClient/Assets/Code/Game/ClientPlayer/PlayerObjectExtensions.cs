@@ -21,7 +21,7 @@ namespace Assets.Code.Game.ClientPlayer
             var path =UnityClient.Map.FindPath(player.Position, position);
             if (path != null)
             {
-                player.Movement.Route = path;
+                player.Behaviour.Route = path;
             }
             return path != null;
         }

@@ -3,7 +3,7 @@
 namespace Common.Networking.Packets
 {
     [Serializable]
-    public class TargetPacket : BasePacket
+    public class EntityTargetPacket : BasePacket
     {
         public string WhoUuid;
         public string TargetUuid;

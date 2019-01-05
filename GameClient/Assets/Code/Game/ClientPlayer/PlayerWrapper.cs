@@ -10,9 +10,7 @@ namespace Assets.Code.Game
         public string SessionId;
 
         public GameObject PlayerObject;
-        public MovingEntityBehaviour Movement;
+        public LivingEntityBehaviour Behaviour;
 
-        public Entity Target;
-        public long NextAttackAt;
     }
 }

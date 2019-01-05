@@ -4,9 +4,7 @@ using ServerCore.GameServer.Players;
 using ServerCore.GameServer.Players.Evs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Sockets;
-using System.Threading;
 
 namespace ServerCore.Networking
 {
@@ -55,8 +53,6 @@ namespace ServerCore.Networking
             }
             catch (Exception e)
             {
-                //Log.Error(e.Message);
-                //Log.Error(System.Environment.StackTrace);
                 if(Listening)
                 {
                     Listening = false;
@@ -68,7 +64,6 @@ namespace ServerCore.Networking
 
         public static void RecievePacketWorker(object client)
         {
-            Log.Info("LOOPAH");
             ((ConnectedClientTcpHandler)client).Recieve();
         }
 
@@ -112,7 +107,7 @@ namespace ServerCore.Networking
                                 continue;
                             }
                         }
-                        // Log.Debug($"Packet {packet.GetType().Name} recieved");
+                         Log.Debug($"Packet {packet.GetType().Name} recieved");
                         // Put the packet to be processed by the main thread
                         Server.PacketsToProccess.Enqueue(packet);
                     }
@@ -183,7 +178,7 @@ namespace ServerCore.Networking
             var now = DateTime.Now;
 
             var clientLatency = (now.Subtract(send)).Milliseconds / 2;
-            var client = ServerTcpHandler.GetClient(packet.ClientId);
+            var client = Server.TcpHandler.GetClient(packet.ClientId);
             client.Latency = clientLatency;
             Log.Debug($"Recieved ping from {client.ConnectionId} latency ={clientLatency}");
         }

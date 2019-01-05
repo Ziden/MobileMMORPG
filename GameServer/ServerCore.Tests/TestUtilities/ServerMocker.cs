@@ -3,6 +3,7 @@ using Moq;
 using ServerCore.Networking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 
@@ -43,5 +44,6 @@ namespace ServerCore.Tests.TestUtilities
             packet.ClientId = this.ConnectionId;
             Server.Events.Call(packet);
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using Assets.Code.Game.ClientPlayer;
 using Assets.Code.Game.Factories;
 using Client.Net;
+using Common.Entity;
 using Common.Networking.Packets;
 using CommonCode.EventBus;
 using CommonCode.Networking.Packets;
@@ -18,12 +19,12 @@ namespace Assets.Code.Net.PacketListeners
         public void OnPlayerSync(SyncPacket packet)
         {
             Position destination = null;
-            if (UnityClient.Player.Movement.Route.Count > 0)
+            if (UnityClient.Player.Behaviour.Route.Count > 0)
             {
-                destination = UnityClient.Player.Movement.Route.Last();
+                destination = UnityClient.Player.Behaviour.Route.Last();
             }
             UnityClient.Player.PlayerObject.GetComponent<PlayerBehaviour>().StopMovement();
-            UnityClient.Player.Movement.Route.Clear();
+            UnityClient.Player.Behaviour.Route.Clear();
             UnityClient.Player.TeleportToTile(packet.Position.X, packet.Position.Y);
 
             // recalculating route to destination
@@ -32,7 +33,7 @@ namespace Assets.Code.Net.PacketListeners
                 var path = UnityClient.Map.FindPath(UnityClient.Player.Position, destination);
                 if (path != null)
                 {
-                    UnityClient.Player.Movement.Route = path;
+                    UnityClient.Player.Behaviour.Route = path;
                 }
             }
         }
@@ -57,21 +58,27 @@ namespace Assets.Code.Net.PacketListeners
 
         public static void PlayerSetTarget(GameObject target)
         {
-            var movingEntity = target.GetComponent<MovingEntityBehaviour>();
-            if (movingEntity == null)
+            var livingEntityBhv = target.GetComponent<LivingEntityBehaviour>();
+            if (livingEntityBhv == null)
             {
                 return; 
             }
             Selectors.RemoveSelector("targeted");
-            var objType = FactoryMethods.GetType(target);
-            if (objType == FactoryObjectTypes.MONSTER)
+            var targetEntity = livingEntityBhv.Entity;
+            var entityType = targetEntity.EntityType;
+            if (entityType == EntityType.MONSTER)
             {
-                UnityClient.Player.Target = movingEntity.Entity;
+                UnityClient.Player.Target = targetEntity;
+                UnityClient.TcpClient.Send(new EntityTargetPacket()
+                {
+                    WhoUuid = UnityClient.Player.UID,
+                    TargetUuid = UnityClient.Player.Target.UID
+                });
                 Selectors.AddSelector(target, "targeted", Color.red);
                 var path = UnityClient.Map.FindPath(UnityClient.Player.Position, target.GetMapPosition());
                 if (path != null)
                 {
-                    UnityClient.Player.Movement.Route = path;
+                    UnityClient.Player.Behaviour.Route = path;
                     Selectors.HideSelector();
                 }
             } 

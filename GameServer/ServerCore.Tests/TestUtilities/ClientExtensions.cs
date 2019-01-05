@@ -15,7 +15,7 @@ namespace ServerCore.Tests.TestUtilities
         public static void Login(this MockedClient client, string user, string pass)
         {
             // "Connect"
-            ServerTcpHandler.ClientsByConnectionId.Add(client.ConnectionId, client);
+            Server.TcpHandler.ClientsByConnectionId.Add(client.ConnectionId, client);
             client.SendToServer(new LoginPacket()
             {
                 Login =user,
@@ -25,7 +25,7 @@ namespace ServerCore.Tests.TestUtilities
 
         public static void Logout(this MockedClient client)
         {
-            ServerTcpHandler.ClientsByConnectionId.Remove(client.ConnectionId);
+            Server.TcpHandler.ClientsByConnectionId.Remove(client.ConnectionId);
             Server.Events.Call(new PlayerQuitEvent() { Player = client.OnlinePlayer });
         }
 

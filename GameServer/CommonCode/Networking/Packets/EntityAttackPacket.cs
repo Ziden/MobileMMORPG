@@ -6,7 +6,9 @@ namespace CommonCode.Networking.Packets
     [Serializable]
     public class EntityAttackPacket : BasePacket
     {
-        public string EntityUID;
+        public string AttackerUID;
+        public string DefenderUID;
+        public int Damage;
     }
 
 }

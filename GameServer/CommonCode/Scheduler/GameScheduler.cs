@@ -13,10 +13,10 @@ namespace Common.Scheduler
             if (Tasks.Count == 0)
                 return;
             var task = Tasks[0];
-            var delay = timeNow - task.RunAt + 1;
-            if (delay >= 0)
+            var taskWasDelayedBy = timeNow - task.RunAt + 1;
+            if (taskWasDelayedBy >= 0)
             {
-                task.Task.Invoke();
+              
                 if(!task.Repeat)
                 {
                     TaskByIds.Remove(task.UID);
@@ -28,15 +28,19 @@ namespace Common.Scheduler
                     task.RunAt = timeNow + task.DelayInMs;
                     Schedule(task);
                 }
+                task.Task.Invoke();
                 RunTasks(timeNow);
-            }
+            } 
         }
 
         public static void CancelTask(Guid id)
         {
-            var task = TaskByIds[id];
-            Tasks.Remove(task);
-            TaskByIds.Remove(id);
+            if(TaskByIds.ContainsKey(id))
+            {
+                var task = TaskByIds[id];
+                Tasks.Remove(task);
+                TaskByIds.Remove(id);
+            } 
         }
 
         public static void Schedule(SchedulerTask newTask)

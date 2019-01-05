@@ -1,7 +1,9 @@
 ﻿using Assets.Code.Game.ClientPlayer;
 using Client.Net;
+using Common.Entity;
 using Common.Networking.Packets;
 using CommonCode.EventBus;
+using CommonCode.Networking.Packets;
 using UnityEngine;
 
 namespace Assets.Code.Game.PacketListeners
@@ -9,20 +11,29 @@ namespace Assets.Code.Game.PacketListeners
     public class EntityListener : IEventListener
     {
         [EventMethod]
+        public void OnEntityAttack(EntityAttackPacket packet)
+        {
+            var attacker = UnityExtensions.GetEntity(packet.AttackerUID);
+            var defender = UnityExtensions.GetEntity(packet.DefenderUID);
+            var damage = packet.Damage;
+            attacker.PerformAttackAnimation(defender, damage);
+        }
+
+        [EventMethod]
         public void OnEntityMove(EntityMovePacket packet)
         {
             var entityObj = GameObject.Find(packet.UID);
             if (entityObj != null)
             {
-                var movingEntity = entityObj.GetComponent<MovingEntityBehaviour>();
-                if (movingEntity != null)
+                var livingEntityBhv = entityObj.GetComponent<LivingEntityBehaviour>();
+                if (livingEntityBhv != null)
                 {
-                    movingEntity.Route.Add(packet.To);
-                    movingEntity.ForceUpdate(); // to make sure its moved rightn away
+                    livingEntityBhv.Route.Add(packet.To);
+                    livingEntityBhv.ForceUpdate(); // to make sure its moved right away
 
-                    if (UnityClient.Player.Target != null && UnityClient.Player.Target == movingEntity.Entity)
+                    if (UnityClient.Player.Target != null && UnityClient.Player.Target == livingEntityBhv.Entity)
                     {
-                        UnityClient.Player.FindPathTo(movingEntity.Entity.Position);
+                        UnityClient.Player.FindPathTo(livingEntityBhv.Entity.Position);
                     }
                 }
             }

@@ -13,15 +13,12 @@ namespace Assets.Code.Net.PacketListeners
     public class MapListener : IEventListener
     {
         [EventMethod]
-        public void OnMonsterSpawn(MonsterSpawnPacket packet)
+        public void OnMonsterSpawn(MonsterPacket packet)
         {
             MonsterFactory.BuildAndInstantiate(new MonsterFactoryOpts()
             {
-                MonsterName = packet.MonsterName,
-                MonsterUid = packet.MonsterUid,
                 Position = packet.Position,
-                SpriteIndex = packet.SpriteIndex,
-                MoveSpeed = packet.MoveSpeed
+                Packet = packet
             });
 
             if(packet.SpawnAnimation)

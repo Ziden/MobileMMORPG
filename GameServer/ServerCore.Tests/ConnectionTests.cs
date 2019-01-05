@@ -1,19 +1,21 @@
 using NUnit.Framework;
 using System.Threading;
 using System;
-using ServerCore;
 using ServerCore.Networking;
 using System.Net.Sockets;
 
 [TestFixture]
 public class ConnectionTests
 {
+
+
     [Test]
     public void TestSimpleConnections()
     {
         // Starting the Server
-        var server = new ServerTcpHandler();
-        server.StartListening(8888);
+        var ServerTcpHandler = new ServerTcpHandler();
+
+        ServerTcpHandler.StartListening(8888);
 
         int numberOfClients = 3;
 

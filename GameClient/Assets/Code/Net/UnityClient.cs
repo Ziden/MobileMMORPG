@@ -19,5 +19,6 @@ namespace Client.Net
         public static ConcurrentList<BasePacket> PacketsToProccess = new ConcurrentList<BasePacket>();
 
         public static WorldMap<ClientChunk> Map = new WorldMap<ClientChunk>();
+
     }
 }

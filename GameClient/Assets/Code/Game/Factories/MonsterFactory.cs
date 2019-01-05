@@ -3,6 +3,7 @@ using Assets.Code.Game.Entities;
 using Assets.Code.Net;
 using Client.Net;
 using Common.Entity;
+using Common.Networking.Packets;
 using CommonCode.EntityShared;
 using MapHandler;
 using System.Linq;
@@ -14,38 +15,45 @@ namespace Assets.Code.Game.Factories
     {
         public static void BuildAndInstantiate(MonsterFactoryOpts opts)
         {
-            var monsterObj = GameObject.Find(opts.MonsterUid);
+            var monsterObj = GameObject.Find(opts.Packet.MonsterUid);
             if (monsterObj == null)
             {
-                monsterObj = new GameObject(opts.MonsterUid);
+                monsterObj = new GameObject(opts.Packet.MonsterUid);
                 monsterObj.transform.localScale = new Vector3(100, 100);
 
-                FactoryMethods.AddCollider(monsterObj);
 
                 var spriteRenderer = monsterObj.AddComponent<SpriteRenderer>();
                 var spriteSheet = monsterObj.AddComponent<SpriteSheet>();
                 spriteRenderer.sortingOrder = 2;
                 var bodySprite = AssetHandler.LoadedAssets[DefaultAssets.SPR_MONTERS_1];
-                var spriteRow = bodySprite.SliceRow(opts.SpriteIndex).ToArray();
+                var spriteRow = bodySprite.SliceRow(opts.Packet.SpriteIndex).ToArray();
                 spriteSheet.SetSheet(spriteRow, rowSize:2);
                 spriteRenderer.sprite = spriteSheet.WalkSouth[1];
 
                 // Moving Entity
-                var movingBehaviour = monsterObj.AddComponent<MovingEntityBehaviour>();
-                movingBehaviour.SpriteSheets.Add(spriteSheet);
+                var livingEntityBhv = monsterObj.AddComponent<LivingEntityBehaviour>();
+                livingEntityBhv.SpriteSheets.Add(spriteSheet);
                 var monsterEntityWrapper = new MonsterWrapper()
                 {
                     MonsterObj = monsterObj,
                     EntityType = EntityType.MONSTER,
-                    MoveSpeed = opts.MoveSpeed,
-                    UID = opts.MonsterUid,
-                    Position = opts.Position
+                    MoveSpeed = opts.Packet.MoveSpeed,
+                    UID = opts.Packet.MonsterUid,
+                    Position = opts.Position,
+                    Atk = opts.Packet.Atk,
+                    Def = opts.Packet.Def,
+                    HP = opts.Packet.HP,
+                    MAXHP = opts.Packet.MAXHP
                 };
 
-                movingBehaviour.Entity = monsterEntityWrapper;
-                monsterObj.transform.position = opts.Position.ToUnityPosition();
-                UnityClient.Map.UpdateEntityPosition(monsterEntityWrapper, opts.Position, opts.Position);
+                monsterObj.transform.parent = UnityExtensions.GetEntitiesContainer().transform;
 
+                livingEntityBhv.Entity = monsterEntityWrapper;
+                monsterObj.transform.position = opts.Position.ToUnityPosition();
+                UnityClient.Map.UpdateEntityPosition(monsterEntityWrapper, null, opts.Position);
+
+                FactoryMethods.AddCollider(monsterObj);
+                FactoryMethods.AddHealthBar(monsterObj);
             }
         }
     }
@@ -53,9 +61,6 @@ namespace Assets.Code.Game.Factories
 
 public class MonsterFactoryOpts
 {
-    public string MonsterUid;
+    public MonsterPacket Packet;
     public Position Position;
-    public string MonsterName;
-    public int SpriteIndex;
-    public int MoveSpeed;
 }

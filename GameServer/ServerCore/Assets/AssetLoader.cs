@@ -32,7 +32,6 @@ namespace ServerCore.Game.GameMap
 
     public class AssetLoader
     {
-
         public static LoadedAssets LoadedAssets = new LoadedAssets();
 
         private static void LoadAssetType(AssetType type, string assetFolderName)
@@ -60,6 +59,7 @@ namespace ServerCore.Game.GameMap
 
         public static void LoadServerAssets()
         {
+            LoadAssetType(AssetType.ITEMS, "items");
             LoadAssetType(AssetType.ANIMATION, "animations");
             LoadAssetType(AssetType.SPRITE, "characters");
             LoadAssetType(AssetType.TILESET, "tilesets");

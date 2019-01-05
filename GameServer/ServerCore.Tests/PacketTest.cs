@@ -24,7 +24,7 @@ public class PacketTests
     [SetUp]
     public void Prepare()
     {
-        _server = new Server(new ServerStartConfig() { Port = 1234 });
+        _server = new Server(new ServerStartConfig() { Port = 1212 });
         _server.StartListeningForPackets();
 
         Redis redis = new Redis();
@@ -34,7 +34,7 @@ public class PacketTests
 
         _client = new ConnectedClientTcpHandler()
         {
-            TcpClient = new TcpClient("localhost", 1234),
+            TcpClient = new TcpClient("localhost", 1212),
             ConnectionId = Guid.NewGuid().ToString()
         };
     }
@@ -50,6 +50,9 @@ public class PacketTests
     // Test to ensure server is recieving the packets and keeping the recieve order
     public void Test2LoginProcesses()
     {
+
+        var tcpH = Server.TcpHandler;
+
         _client.Send(new LoginPacket()
         {
             Login = "admin",
@@ -96,7 +99,6 @@ public class PacketTests
         {
 
         }
-       
     }
 
     private void FullLoginSequence(ConnectedClientTcpHandler client)

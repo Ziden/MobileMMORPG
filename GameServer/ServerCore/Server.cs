@@ -38,6 +38,7 @@ namespace ServerCore
             Events?.Clear();
             Events = new ServerEvents();
             CommandHandler = new CommandHandler();
+            TcpHandler = new ServerTcpHandler();
             AssetLoader.LoadServerAssets();
             Map = AssetLoader.LoadMapFromFile(config.MapName);
             if (!config.DisableSpawners)
@@ -51,7 +52,6 @@ namespace ServerCore
 
         public void StartListeningForPackets()
         {
-            TcpHandler = new ServerTcpHandler();
             TcpHandler.StartListening(PORT);
             Running = true;
         }
@@ -73,6 +73,10 @@ namespace ServerCore
             TcpHandler?.Stop();
             Running = false;
             Server.Map.Chunks = new Dictionary<string, ServerChunk>();
+            foreach(var player in Players.ToList())
+            {
+                player.Tcp.Stop();
+            }
             Players.Clear();
             PacketsToProccess.Clear();
     }
