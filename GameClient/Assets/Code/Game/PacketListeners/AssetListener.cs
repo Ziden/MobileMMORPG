@@ -17,6 +17,7 @@ namespace Assets.Code.Net.PacketListeners
             UPDATED = 3
         }
 
+        // Will force assets to be re-downloaded everytime
         public static bool DEBUG_ALWAYS_DOWNLOAD = false;
 
         private static List<AssetPacket> _assetsRequested = new List<AssetPacket>();

@@ -4,9 +4,6 @@ using MapHandler;
 using ServerCore.Game.Entities;
 using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Players;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ServerCore.Networking
 {

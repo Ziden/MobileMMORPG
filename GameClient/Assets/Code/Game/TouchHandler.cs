@@ -21,7 +21,7 @@ namespace Assets.Code.Game
                 Selectors.MoveMovementSelectorTo(tile);
             }
             // remove the indicators that we are targeting any monsters
-            Selectors.RemoveSelector("targeted");
+            Selectors.RemoveSelector(SelectorType.TARGET);
             if(UnityClient.Player.Target != null)
             {
                 UnityClient.Player.Target = null;

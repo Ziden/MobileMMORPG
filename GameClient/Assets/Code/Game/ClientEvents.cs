@@ -3,7 +3,6 @@ using Assets.Code.Net.PacketListeners;
 using Client.Net.PacketListeners;
 using Common;
 using Common.Networking.Packets;
-using UnityEngine;
 
 namespace Assets.Code.Game
 {

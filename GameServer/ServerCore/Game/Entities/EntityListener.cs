@@ -6,8 +6,6 @@ using ServerCore.GameServer.Players.Evs;
 using Common.Entity;
 using ServerCore.Game.Combat;
 using CommonCode.Networking.Packets;
-using Storage.Players;
-using MapHandler;
 
 namespace ServerCore.Game.Entities
 {
@@ -16,15 +14,56 @@ namespace ServerCore.Game.Entities
         [EventMethod]
         public void OnEntityTarget(EntityTargetEvent ev)
         {
-            Log.Info("SET TARGET");
             ev.Entity.Target = ev.TargetedEntity;
             ev.TargetedEntity.BeingTargetedBy.Add(ev.Entity);
             ev.Entity.TryAttacking(ev.TargetedEntity);
         }
 
         [EventMethod]
+        public void OnEntityDeath(EntityDeathEvent ev)
+        {
+            foreach(var player in ev.Entity.GetPlayersNear())
+            {
+                player.Tcp.Send(new EntityDeathPacket()
+                {
+                    EntityUID = ev.Entity.UID
+                });
+            }
+
+            Server.Map.UpdateEntityPosition(ev.Entity, from:ev.Entity.Position, to:null);
+
+            if (ev.Entity.EntityType == EntityType.MONSTER)
+            {
+                Server.Map.Monsters.Remove(ev.Entity.UID);
+                var monster = (Monster)ev.Entity;
+                monster.OriginSpawner.CreateSpawnTask();
+            } 
+        }
+
+        [EventMethod]
+        public void OnEntityDamage(EntityDamageEvent ev)
+        {
+            ev.Entity.HP -= ev.Damage;
+            if(ev.Entity.HP <= 0)
+            {
+                Server.Events.Call(new EntityDeathEvent()
+                {
+                    Entity = ev.Entity
+                });
+            }
+        }
+
+        [EventMethod]
         public void OnEntityAttack(EntityAttackEvent ev)
         {
+            var damage = ev.Attacker.Atk - ev.Defender.Def;
+
+            Server.Events.Call(new EntityDamageEvent() {
+                Damage = damage,
+                Entity = ev.Defender,
+                DamageCause = DamageCause.ATTACK
+            });
+
             foreach (var player in ev.Defender.GetPlayersNear())
             {
                 Log.Debug("Entity Attack PLAYER found");
@@ -32,12 +71,9 @@ namespace ServerCore.Game.Entities
                 {
                     AttackerUID = ev.Attacker.UID,
                     DefenderUID = ev.Defender.UID,
-                    Damage = ev.Damage
+                    Damage = damage
                 });
             }
-
-            ev.Defender.HP -= ev.Damage;
-            // entity die code
         }
 
         [EventMethod]
@@ -45,7 +81,7 @@ namespace ServerCore.Game.Entities
         {
             ev.Entity.Position = ev.Position;
 
-            Server.Map.UpdateEntityPosition(ev.Entity, null, ev.Entity.Position);
+            Server.Map.UpdateEntityPosition(ev.Entity, from:null, to:ev.Entity.Position);
 
             // Track in monsters list if its a monster
             if(ev.Entity.EntityType == EntityType.MONSTER)

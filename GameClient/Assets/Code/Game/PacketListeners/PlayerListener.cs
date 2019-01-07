@@ -63,7 +63,7 @@ namespace Assets.Code.Net.PacketListeners
             {
                 return; 
             }
-            Selectors.RemoveSelector("targeted");
+            Selectors.RemoveSelector(SelectorType.TARGET);
             var targetEntity = livingEntityBhv.Entity;
             var entityType = targetEntity.EntityType;
             if (entityType == EntityType.MONSTER)
@@ -74,7 +74,7 @@ namespace Assets.Code.Net.PacketListeners
                     WhoUuid = UnityClient.Player.UID,
                     TargetUuid = UnityClient.Player.Target.UID
                 });
-                Selectors.AddSelector(target, "targeted", Color.red);
+                Selectors.AddSelector(target, SelectorType.TARGET, Color.red);
                 var path = UnityClient.Map.FindPath(UnityClient.Player.Position, target.GetMapPosition());
                 if (path != null)
                 {

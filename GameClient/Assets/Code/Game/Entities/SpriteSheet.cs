@@ -91,6 +91,11 @@ namespace Assets.Code.Game.Entities
                 {
                     //  CurrentAnimation.AnimationTimeInSeconds = animationTimeInMS / 1000;
                 }
+
+                if (animation == SpriteAnimations.DEAD)
+                {
+                    CurrentAnimation.Loop(Direction);
+                }
             }
         }
 
@@ -117,7 +122,7 @@ namespace Assets.Code.Game.Entities
                 WalkLeft = new Sprite[] { spriteRow[6], spriteRow[7] };
                 WalkNorth = new Sprite[] { spriteRow[4], spriteRow[5] };
                 WalkRight = new Sprite[] { spriteRow[2], spriteRow[3] };
-                Dead = spriteRow[1];
+                Dead = spriteRow[8];
             }
         }
 
@@ -139,6 +144,12 @@ namespace Assets.Code.Game.Entities
 
         void Update()
         {
+            if(CurrentAnimation == Animations.GetAnimation(SpriteAnimations.DEAD))
+            {
+                Renderer.sprite = Dead;
+                return;
+            }
+
             // Pending callbacks (cause of animation switches)
             var pendingCb = PendingCallbacks
                 .Where(c => c.PlayOnFrame == 0)
@@ -164,14 +175,14 @@ namespace Assets.Code.Game.Entities
                 _animResult = CurrentAnimation.Loop(Direction);
 
                 // Animation callbacks to be frame-specific
-                var cb = CurrentAnimation.Callbacks
+                var cb = CurrentAnimation.Callbacks?
                     .Where(c => c.PlayOnFrame == CurrentAnimation.CurrentFrame)
                     .Select(c => c)
                     .FirstOrDefault();
                 if (cb != null)
                 {
                     cb.Callback();
-                    CurrentAnimation.Callbacks.Remove(cb);
+                    CurrentAnimation.Callbacks?.Remove(cb);
                 }
 
                 transform.localPosition = new Vector2(_animResult.OffsetX, _animResult.OffsetY);
@@ -182,10 +193,6 @@ namespace Assets.Code.Game.Entities
                     CurrentAnimation = null;
                 }
 
-                if (PendingCallbacks.Count > 0)
-                {
-
-                }
             }
             if (_animResult != null)
                 Renderer.sprite = _animResult.Sprite;

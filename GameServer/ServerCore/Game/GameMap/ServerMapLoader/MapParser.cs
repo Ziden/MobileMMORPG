@@ -22,6 +22,7 @@ namespace ServerCore.Game.GameMap
         // SPAWNER PROPS
         public static string SPAWNER_PROPERTY_MONSTER = "monster";
         public static string SPAWNER_PROPERTY_QTD = "qtd";
+        public static string SPAWNER_PROPERTY_TIMER = "time";
 
 
         /*   
@@ -97,6 +98,14 @@ namespace ServerCore.Game.GameMap
                 var xQtd = xProperties.Descendants("property")
                     .FirstOrDefault(el => el.Attribute("name")?.Value == SPAWNER_PROPERTY_QTD);
 
+                var xTime = xProperties.Descendants("property")
+                  .FirstOrDefault(el => el.Attribute("name")?.Value == SPAWNER_PROPERTY_TIMER);
+
+                if(xTime != null)
+                {
+                    spawner.SpawnTimerSeconds = Int32.Parse(xTime.Attribute("value").Value);
+                }
+
                 var monsterType = xMonster.Attribute("value").Value.FirstCharToUpper();
                 var monsterQtd = Int32.Parse(xQtd.Attribute("value").Value);
 
@@ -104,7 +113,7 @@ namespace ServerCore.Game.GameMap
 
                 if (monsterClass == null)
                 {
-                    throw new InvalidDataException($"Monster {monsterType} in spawner {spawnerName}");
+                    throw new InvalidDataException($"Invalid Monster {monsterType} in spawner {spawnerName}");
                 }
 
                 spawner.SpawnerMobs.Add(new SpawnerMob()
@@ -112,6 +121,7 @@ namespace ServerCore.Game.GameMap
                     Amount = monsterQtd,
                     MonsterClassType = monsterClass
                 });
+
                 map.Spawners.Add(spawner);
             }
         }

@@ -91146,6 +91146,7 @@
    <properties>
     <property name="monster" value="skeleton"/>
     <property name="qtd" value="1"/>
+    <property name="time" value="1"/>
    </properties>
   </object>
  </objectgroup>

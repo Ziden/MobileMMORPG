@@ -8,6 +8,5 @@ namespace ServerCore.GameServer.Players.Evs
     {
         public LivingEntity Attacker;
         public LivingEntity Defender;
-        public int Damage;
     }
 }

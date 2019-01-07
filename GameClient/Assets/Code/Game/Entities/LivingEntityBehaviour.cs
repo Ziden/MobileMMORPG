@@ -22,6 +22,7 @@ public class LivingEntityBehaviour : MonoBehaviour
     public LivingEntity Entity;
     public HealthBarBehaviour HealthBar;
 
+    public bool Dead = false;
     private Position _goingToPosition;
     private Direction _movingToDirection = Direction.NONE;
     private float _timeForLerp;
@@ -61,10 +62,9 @@ public class LivingEntityBehaviour : MonoBehaviour
     public void PerformAttackAnimation(LivingEntityBehaviour target, int damage)
     {
         var atkSpeedDelay = Formulas.GetTimeBetweenAttacks(Entity.AtkSpeed);
-        SpriteSheets.ForEach(e => e.SetDirection(UnityClient.Player.Position.GetDirection(target.Entity.Position)));
+        SpriteSheets.ForEach(e => e.SetDirection(Entity.Position.GetDirection(target.Entity.Position)));
 
-     
-        UnityClient.Player.Behaviour.SpriteSheets.ForEach(e =>
+        SpriteSheets.ForEach(e =>
         {
             e.SetAnimation(SpriteAnimations.ATTACKING, atkSpeedDelay);
         });
@@ -89,8 +89,31 @@ public class LivingEntityBehaviour : MonoBehaviour
             });
 
             target.Entity.HP -= damage;
-            target.HealthBar.SetLife(target.Entity.HP, target.Entity.MAXHP);
+            if(target.Entity.HP <= 0)
+            {
+                target.Die();
+            } else
+            {
+                target.HealthBar.SetLife(target.Entity.HP, target.Entity.MAXHP);
+            }
         });
+    }
+
+    public void Die()
+    {
+        Dead = true;
+        UnityClient.Map.UpdateEntityPosition(Entity, Entity.Position, null);
+        Destroy(this.GetComponent<BoxCollider2D>()); // so its not clickable
+        Destroy(HealthBar.gameObject);
+        SpriteSheets.ForEach(spriteSheet =>
+        {
+            spriteSheet.SetAnimation(SpriteAnimations.DEAD);
+        });
+        if(UnityClient.Player.Target?.UID == this.Entity.UID)
+        {
+            UnityClient.Player.Behaviour.StopMovement();
+            Selectors.RemoveSelector(SelectorType.TARGET);
+        }
     }
 
     private void MoveTick()

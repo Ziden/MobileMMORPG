@@ -15,6 +15,10 @@ namespace ServerCore.Game.Combat
                 Log.Info("Entity tryed to attack other entity being too far away");
                 return;
             }
+            if(defender.HP <= 0)
+            {
+                return;
+            }
             var now = GameThread.TIME_MS_NOW;
             if(now < attacker.NextAttackAt)
             {
@@ -26,11 +30,8 @@ namespace ServerCore.Game.Combat
             var attackDelay = Formulas.GetTimeBetweenAttacks(attacker.AtkSpeed);
             attacker.NextAttackAt = now + attackDelay;
 
-            var damage = 2; // testing
-
             Server.Events.Call(new EntityAttackEvent()
             {
-                Damage = damage,
                 Attacker = attacker,
                 Defender = defender
             });

@@ -73,6 +73,7 @@
     <Compile Include="Assets\Code\Game\Entities\Animations\AnimationCallback.cs" />
     <Compile Include="Assets\Code\Game\Entities\Animations\AnimationResult.cs" />
     <Compile Include="Assets\Code\Game\Entities\Animations\AttackAnimation.cs" />
+    <Compile Include="Assets\Code\Game\Entities\Animations\DeadAnimation.cs" />
     <Compile Include="Assets\Code\Game\Entities\Animations\MovementAnimation.cs" />
     <Compile Include="Assets\Code\Game\Entities\Animations\SpriteAnimations.cs" />
     <Compile Include="Assets\Code\Game\Entities\LivingEntityBehaviour.cs" />

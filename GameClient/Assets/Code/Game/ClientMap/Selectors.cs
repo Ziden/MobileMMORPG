@@ -6,6 +6,13 @@ using UnityEngine;
 
 namespace Assets.Code.Game
 {
+
+    public enum SelectorType
+    {
+        MOVEMENT = 1,
+        TARGET = 2
+    }
+
     public class Selectors
     {
         private static Dictionary<string, GameObject> _selectors = new Dictionary<string, GameObject>();
@@ -17,9 +24,10 @@ namespace Assets.Code.Game
             _movementSelectorRenderer.sortingOrder = -1;
         }
 
-        public static void AddSelector(GameObject obj, string selectorName, Color color)
+        public static void AddSelector(GameObject obj, SelectorType selectorType, Color color)
         {
-            if(obj.transform.Find(selectorName) !=null)
+            var selectorName = "selector_" + selectorType;
+            if (obj.transform.Find(selectorName) !=null)
             {
                 return;
             }
@@ -43,8 +51,9 @@ namespace Assets.Code.Game
             _selectors.Add(selectorName, selector);
         }
 
-        public static void RemoveSelector(string selectorName)
+        public static void RemoveSelector(SelectorType selector)
         {
+            var selectorName = "selector_" + selector;
             if (_selectors.ContainsKey(selectorName))
             {
                 GameObject.Destroy(_selectors[selectorName]);

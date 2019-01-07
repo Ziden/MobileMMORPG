@@ -9,7 +9,8 @@ namespace Assets.Code.AssetHandling.Sprites.Animations
     {
         NONE = 0,
         MOVING = 1,
-        ATTACKING = 2
+        ATTACKING = 2,
+        DEAD = 3
     }
 
     public class SpriteAnimationHandler
@@ -21,6 +22,7 @@ namespace Assets.Code.AssetHandling.Sprites.Animations
         {
             Animations.Add(SpriteAnimations.MOVING, new MovementAnimation(sheet));
             Animations.Add(SpriteAnimations.ATTACKING, new AttackAnimation(sheet));
+            Animations.Add(SpriteAnimations.DEAD, new DeadAnimation(sheet));
         }
 
         public AnimationBase GetAnimation(SpriteAnimations animation)

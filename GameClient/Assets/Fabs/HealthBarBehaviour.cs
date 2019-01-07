@@ -9,7 +9,6 @@ public class HealthBarBehaviour : MonoBehaviour {
     public int _cachedHp = 0;
     public int _cachedMax = 0;
 
-
 	// Use this for initialization
 	void Start () {
         _greenBar = transform.Find("Greenbar").transform;

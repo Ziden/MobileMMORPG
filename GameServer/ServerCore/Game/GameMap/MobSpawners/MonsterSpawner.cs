@@ -5,14 +5,16 @@ using ServerCore.Game.Monsters;
 using ServerCore.GameServer.Players.Evs;
 using System;
 using System.Collections.Generic;
-using Common.Entity;
 using ServerCore.GameServer.Entities;
+using Common.Scheduler;
 
 namespace ServerCore.Game.GameMap
 {
     public class MonsterSpawner : MapRegion
     {
         public List<SpawnerMob> SpawnerMobs = new List<SpawnerMob>();
+
+        public int SpawnTimerSeconds;
 
         public Position FindSpawnPosition()
         {
@@ -30,6 +32,18 @@ namespace ServerCore.Game.GameMap
                 return new Position(randomX, randomY);
             }
             return null;
+        }
+
+        public void CreateSpawnTask()
+        {
+            var schedulerTask = new SchedulerTask(SpawnTimerSeconds/1000, GameThread.TIME_MS_NOW)
+            {
+                Task = () =>
+                {
+                    SpawnTick();
+                }
+            };
+            GameScheduler.Schedule(schedulerTask);
         }
 
         public void SpawnTick()
