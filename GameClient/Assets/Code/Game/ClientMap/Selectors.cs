@@ -34,7 +34,7 @@ namespace Assets.Code.Game
             var renderer = selector.AddComponent<SpriteRenderer>();
             // Selector Image
             var tileset = AssetHandler.LoadedAssets[DefaultAssets.TLE_SET1];
-            renderer.sprite = tileset[3, 1];
+            renderer.sprite = tileset.Sprite[3, 1];
             renderer.color = color;
             renderer.sortingOrder = 1;
             selector.transform.localScale = obj.transform.localScale;
@@ -60,7 +60,7 @@ namespace Assets.Code.Game
                 _movementSelectorRenderer = _moveSelector.AddComponent<SpriteRenderer>();
                 // Selector Image
                 var tileset = AssetHandler.LoadedAssets[DefaultAssets.TLE_SET1];
-                _movementSelectorRenderer.sprite = tileset[3,1];
+                _movementSelectorRenderer.sprite = tileset.Sprite[3,1];
                 _movementSelectorRenderer.color = Color.green;
                 _movementSelectorRenderer.sortingOrder = 1;
                 _moveSelector.transform.localScale = new Vector2(100, 100);

@@ -70,8 +70,8 @@ namespace Assets.Code.Net.PacketListeners
                 }
                 else
                 {
-                    var spriteMap = AssetHandler.LoadNewSprite(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName));
-                    AssetHandler.LoadedAssets.Add(packet.ResquestedImageName, spriteMap);
+                    var asset = AssetHandler.LoadNewSprite(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName));
+                    AssetHandler.LoadedAssets.Add(packet.ResquestedImageName, asset);
                     UnityClient.TcpClient.Send(new AssetsReadyPacket()
                     {
                         UserId = UnityClient.Player.UID
@@ -82,8 +82,8 @@ namespace Assets.Code.Net.PacketListeners
             {
                 Debug.Log("Saving asset " + packet.ResquestedImageName + " SIZE " + packet.Asset.Length);
                 File.WriteAllBytes(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName), packet.Asset);
-                var spriteMap = AssetHandler.LoadNewSprite(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName));
-                AssetHandler.LoadedAssets.Add(packet.ResquestedImageName, spriteMap);
+                var asset = AssetHandler.LoadNewSprite(Path.Combine(Application.persistentDataPath, packet.ResquestedImageName));
+                AssetHandler.LoadedAssets.Add(packet.ResquestedImageName, asset);
                 AssetsRecieved++;
                 if (AssetsRecieved == NumberOfAssetsToRecieve && AssetsRecieved > 0)
                 {

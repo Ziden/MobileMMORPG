@@ -1,5 +1,5 @@
-﻿using Common;
-using System;
+﻿using Assets.Code.AssetHandling;
+using Common;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -10,10 +10,12 @@ namespace Assets.Code.Net
     {
         public static ConcurrentList<string> WaitingForAssets = new ConcurrentList<string>();
 
-        public static Dictionary<string, Sprite[,]> LoadedAssets = new Dictionary<string, Sprite[,]>();
+        public static Dictionary<string, AssetSprite> LoadedAssets = new Dictionary<string, AssetSprite>();
 
-        public static Sprite[,] LoadNewSprite(string FilePath, float PixelsPerUnit = 1f)
+        public static AssetSprite LoadNewSprite(string FilePath, float PixelsPerUnit = 1f)
         {
+            float[,] matrix;
+
             Texture2D SpriteTexture = LoadTexture(FilePath);
             SpriteTexture.filterMode = FilterMode.Point;
             SpriteTexture.wrapMode = TextureWrapMode.Repeat;
@@ -21,15 +23,19 @@ namespace Assets.Code.Net
             var spritesX = SpriteTexture.width / 16;
             var spritesY = SpriteTexture.height / 16;
             var spriteMap = new Sprite[spritesX, spritesY];
+
+            matrix = new float[spritesX, spritesY];
+
             for (var x = 0; x < spritesX; x++)
             {
-                for(var y = 0; y < spritesY; y++)
+                for (var y = 0; y < spritesY; y++)
                 {
                     var sprite = Sprite.Create(SpriteTexture, new Rect(x * 16, y * 16, 16, 16), new Vector2(0, 0));
                     spriteMap[x, spritesY - y - 1] = sprite;
+                    matrix[x, spritesY - y - 1] = float.Parse($"{x}.{spritesY - y - 1}");
                 }
             }
-            return spriteMap;
+            return new AssetSprite { Matrix = matrix, Sprite = spriteMap };
         }
 
         public static Texture2D LoadTexture(string FilePath)
@@ -41,10 +47,10 @@ namespace Assets.Code.Net
             {
                 FileData = File.ReadAllBytes(FilePath);
                 Tex2D = new Texture2D(16, 16);
-                if (Tex2D.LoadImage(FileData))  
-                    return Tex2D;              
+                if (Tex2D.LoadImage(FileData))
+                    return Tex2D;
             }
-            return null;      
+            return null;
         }
     }
 }

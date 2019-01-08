@@ -22,7 +22,7 @@ namespace Assets.Code.Game.Factories
             spriteRenderer.sortingOrder = 10;
             var animationBehaviour = animationObj.AddComponent<AnimationBehaviour>();
             var animationSprite = AssetHandler.LoadedAssets[opts.AnimationImageName];
-            var spriteRow = animationSprite.SliceRow(0).ToArray();
+            var spriteRow = animationSprite.Sprite.SliceRow(0).ToArray();
             animationBehaviour.FrameArray = spriteRow;
             animationObj.transform.position = opts.MapPosition.ToUnityPosition();
         }

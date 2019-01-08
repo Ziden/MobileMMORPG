@@ -26,7 +26,7 @@ namespace Assets.Code.Game.Factories
                 var spriteSheet = monsterObj.AddComponent<SpriteSheet>();
                 spriteRenderer.sortingOrder = 2;
                 var bodySprite = AssetHandler.LoadedAssets[DefaultAssets.SPR_MONTERS_1];
-                var spriteRow = bodySprite.SliceRow(opts.SpriteIndex).ToArray();
+                var spriteRow = bodySprite.Sprite.SliceRow(opts.SpriteIndex).ToArray();
                 spriteSheet.SetSheet(spriteRow, rowSize:2);
                 spriteRenderer.sprite = spriteSheet.WalkSouth[1];
 
