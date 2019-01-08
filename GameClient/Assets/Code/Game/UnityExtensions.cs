@@ -1,4 +1,5 @@
 ﻿using Client.Net;
+using CommonCode;
 using MapHandler;
 using UnityEngine;
 
@@ -10,12 +11,12 @@ namespace Assets.Code.Game
 
         public static Position GetMapPosition(this GameObject obj)
         {
-            return new Position((int)obj.transform.position.x / 16, -(int)obj.transform.position.y / 16);
+            return new Position((int)obj.transform.position.x / GameCfg.TILE_SIZE_PIXELS, -(int)obj.transform.position.y / GameCfg.TILE_SIZE_PIXELS);
         }
 
         public static Vector2 ToUnityPosition(this Position p)
         {
-            return new Vector2(p.X * 16, -p.Y * 16);
+            return new Vector2(p.X * GameCfg.TILE_SIZE_PIXELS, -p.Y * GameCfg.TILE_SIZE_PIXELS);
         }
 
         public static GameObject GetEntitiesContainer()

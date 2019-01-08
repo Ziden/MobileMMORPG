@@ -2,6 +2,7 @@
 using Assets.Code.Net.PacketListeners;
 using Client.Net;
 using Common.Networking.Packets;
+using CommonCode;
 using MapHandler;
 using System;
 using UnityEngine;
@@ -37,8 +38,8 @@ namespace Assets.Code.Game
         {
             var realPosition = Camera.main.ScreenToWorldPoint(position);
 
-            var realX = (int)Math.Floor(realPosition.x / 16);
-            var realY = (int)Math.Floor(realPosition.y / 16);
+            var realX = (int)Math.Floor(realPosition.x / GameCfg.TILE_SIZE_PIXELS);
+            var realY = (int)Math.Floor(realPosition.y / GameCfg.TILE_SIZE_PIXELS);
 
             var clickedObject = SelectedObjectByMouse();
             if(clickedObject != null)

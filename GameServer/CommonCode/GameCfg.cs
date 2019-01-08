@@ -6,6 +6,6 @@ namespace CommonCode
 {
     public static class GameCfg
     {
-        public static int TILE_SIZE_PIXELS = 16;
+        public static int TILE_SIZE_PIXELS = 32;
     } 
 }
