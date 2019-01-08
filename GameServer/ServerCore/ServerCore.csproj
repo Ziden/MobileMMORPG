@@ -7,7 +7,6 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>1</WarningLevel>
-    <OutputPath>C:\Users\gabri\Documents\MMO\GameServer\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
