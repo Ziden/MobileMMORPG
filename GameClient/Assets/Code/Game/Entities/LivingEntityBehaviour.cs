@@ -23,6 +23,7 @@ public class LivingEntityBehaviour : MonoBehaviour
     public HealthBarBehaviour HealthBar;
 
     public bool Dead = false;
+    public bool WilLDie = false;
     private Position _goingToPosition;
     private Direction _movingToDirection = Direction.NONE;
     private float _timeForLerp;
@@ -70,7 +71,8 @@ public class LivingEntityBehaviour : MonoBehaviour
         });
 
         // Make a animation callback to display the hit in a cool moment
-        UnityClient.Player.Behaviour.SpriteSheets[0].SetAnimationFrameCallback(AttackAnimation.HIT_FRAME, () => {
+        UnityClient.Player.Behaviour.SpriteSheets[0].SetAnimationFrameCallback(AttackAnimation.HIT_FRAME, () =>
+        {
 
             AnimationFactory.BuildAndInstantiate(new AnimationOpts()
             {
@@ -89,10 +91,11 @@ public class LivingEntityBehaviour : MonoBehaviour
             });
 
             target.Entity.HP -= damage;
-            if(target.Entity.HP <= 0)
+            if (target.Entity.HP <= 0 || WilLDie)
             {
                 target.Die();
-            } else
+            }
+            else
             {
                 target.HealthBar.SetLife(target.Entity.HP, target.Entity.MAXHP);
             }
@@ -109,7 +112,7 @@ public class LivingEntityBehaviour : MonoBehaviour
         {
             spriteSheet.SetAnimation(SpriteAnimations.DEAD);
         });
-        if(UnityClient.Player.Target?.UID == this.Entity.UID)
+        if (UnityClient.Player.Target?.UID == this.Entity.UID)
         {
             UnityClient.Player.Behaviour.StopMovement();
             Selectors.RemoveSelector(SelectorType.TARGET);
@@ -146,7 +149,7 @@ public class LivingEntityBehaviour : MonoBehaviour
         if (_goingToPosition != null && _movingToDirection == Direction.NONE)
         {
             // Something happened and its in between me and my goal
-            if(!UnityClient.Map.IsPassable(_goingToPosition.X, _goingToPosition.Y))
+            if (!UnityClient.Map.IsPassable(_goingToPosition.X, _goingToPosition.Y))
             {
                 // If i still had a decent route, i might try to find another way
                 if (Route.Count > 0)
@@ -157,7 +160,8 @@ public class LivingEntityBehaviour : MonoBehaviour
                     {
                         Route = path;
                     }
-                } else 
+                }
+                else
                 {
                     // we only stop our animation if we are in the moving animation
                     var firstSpriteSheet = SpriteSheets[0];

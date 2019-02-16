@@ -24,7 +24,7 @@ namespace Assets.Code.Game.PacketListeners
             var entity = UnityExtensions.GetEntity(packet.EntityUID);
             if(!entity.Dead)
             {
-                entity.Die();
+                entity.WilLDie = true;
             }
         }
 
