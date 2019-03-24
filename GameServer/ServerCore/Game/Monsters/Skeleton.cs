@@ -1,10 +1,8 @@
 ﻿using CommonCode.EntityShared;
 using ServerCore.Assets;
-using ServerCore.Game.Entities;
 using ServerCore.Game.Monsters.Behaviours;
+using ServerCore.Game.Monsters.Behaviours.AggroBehaviours;
 using ServerCore.Game.Monsters.Behaviours.MoveBehaviours;
-using ServerCore.Networking.PacketListeners;
-using System;
 
 namespace ServerCore.Game.Monsters
 {
@@ -14,6 +12,7 @@ namespace ServerCore.Game.Monsters
         {
             this.Name = "Skeleton";
             this.MovementBehaviour = BehaviourPool.Get<LeftRightWalk>();
+            this.AggroBehaviuor = BehaviourPool.Get<TargetBack>();
         }
 
         private static SpriteAsset _sprite = new SpriteAsset()

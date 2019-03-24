@@ -182,7 +182,7 @@ namespace Assets.Code.Game.Entities
                 if (cb != null)
                 {
                     cb.Callback();
-                    CurrentAnimation.Callbacks?.Remove(cb);
+                    CurrentAnimation?.Callbacks?.Remove(cb);
                 }
 
                 transform.localPosition = new Vector2(_animResult.OffsetX, _animResult.OffsetY);

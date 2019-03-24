@@ -71,8 +71,10 @@ public class LivingEntityBehaviour : MonoBehaviour
         });
 
         // Make a animation callback to display the hit in a cool moment
-        UnityClient.Player.Behaviour.SpriteSheets[0].SetAnimationFrameCallback(AttackAnimation.HIT_FRAME, () =>
+        SpriteSheets[0].SetAnimationFrameCallback(AttackAnimation.HIT_FRAME, () =>
         {
+            Debug.Log("TARGET: " + target.name);
+            Debug.Log("ATKER:" + this.name);
 
             AnimationFactory.BuildAndInstantiate(new AnimationOpts()
             {
@@ -97,26 +99,35 @@ public class LivingEntityBehaviour : MonoBehaviour
             }
             else
             {
-                target.HealthBar.SetLife(target.Entity.HP, target.Entity.MAXHP);
+                target.HealthBar?.SetLife(target.Entity.HP, target.Entity.MAXHP);
             }
         });
     }
 
     public void Die()
     {
-        Dead = true;
-        UnityClient.Map.UpdateEntityPosition(Entity, Entity.Position, null);
-        Destroy(this.GetComponent<BoxCollider2D>()); // so its not clickable
-        Destroy(HealthBar.gameObject);
-        SpriteSheets.ForEach(spriteSheet =>
+        // PLAYER DIES
+        if (UnityClient.Player.UID == this.Entity.UID)
         {
-            spriteSheet.SetAnimation(SpriteAnimations.DEAD);
-        });
-        if (UnityClient.Player.Target?.UID == this.Entity.UID)
-        {
-            UnityClient.Player.Behaviour.StopMovement();
-            Selectors.RemoveSelector(SelectorType.TARGET);
+
         }
+        else // other entity dies
+        {
+            Dead = true;
+            UnityClient.Map.UpdateEntityPosition(Entity, Entity.Position, null);
+            Destroy(this.GetComponent<BoxCollider2D>()); // so its not clickable
+            Destroy(HealthBar.gameObject);
+            SpriteSheets.ForEach(spriteSheet =>
+            {
+                spriteSheet.SetAnimation(SpriteAnimations.DEAD);
+            });
+            if (UnityClient.Player.Target?.UID == this.Entity.UID)
+            {
+                UnityClient.Player.Behaviour.StopMovement();
+                Selectors.RemoveSelector(SelectorType.TARGET);
+            }
+        }
+
     }
 
     private void MoveTick()

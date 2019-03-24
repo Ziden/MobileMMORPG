@@ -42,7 +42,7 @@ namespace Assets.Code.Net.PacketListeners
         public void OnPlayerAppears(PlayerPacket packet)
         {
             // instantiate the player if needed
-            PlayerFactory.BuildAndInstantiate(new PlayerFactoryOptions()
+            var player = PlayerFactory.BuildAndInstantiate(new PlayerFactoryOptions()
             {
                 HeadSpriteIndex = packet.HeadSpriteIndex,
                 BodySpriteIndex = packet.BodySpriteIndex,
@@ -53,6 +53,11 @@ namespace Assets.Code.Net.PacketListeners
                 Position = new Position(packet.X, packet.Y),
                 IsMainPlayer = packet.UserId == UnityClient.Player.UID
             });
+            player.Entity.Atk = packet.Atk;
+            player.Entity.Def = packet.Def;
+            player.Entity.HP = packet.HP;
+            player.Entity.MAXHP = packet.MAXHP;
+            player.Entity.AtkSpeed = packet.AtkSpeed;
             TouchHandler.GameTouchEnabled = true;
         }
 

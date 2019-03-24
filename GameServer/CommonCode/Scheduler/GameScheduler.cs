@@ -33,6 +33,15 @@ namespace Common.Scheduler
             } 
         }
 
+        public static SchedulerTask GetTask(Guid id)
+        {
+            if (TaskByIds.ContainsKey(id))
+            {
+                return TaskByIds[id];
+            }
+            return null;
+        }
+
         public static void CancelTask(Guid id)
         {
             if(TaskByIds.ContainsKey(id))
@@ -43,7 +52,7 @@ namespace Common.Scheduler
             } 
         }
 
-        public static void Schedule(SchedulerTask newTask)
+        public static Guid Schedule(SchedulerTask newTask)
         {
             for(var i = 0; i < Tasks.Count; i++)
             {
@@ -53,12 +62,13 @@ namespace Common.Scheduler
                 {
                     Tasks.Insert(i, newTask);
                     TaskByIds.Add(newTask.UID, newTask);
-                    return;
+                    return newTask.UID;
                 }
             }
             // If its after all tasks
             Tasks.Insert(Tasks.Count, newTask);
             TaskByIds.Add(newTask.UID, newTask);
+            return newTask.UID;
         }
     }
 }

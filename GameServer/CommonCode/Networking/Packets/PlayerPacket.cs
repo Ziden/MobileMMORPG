@@ -15,5 +15,10 @@ namespace CommonCode.Networking.Packets
         public int HeadSpriteIndex;
         public int LegSpriteIndex;
         public int ChestSpriteIndex;
+        public int Atk;
+        public int Def;
+        public int AtkSpeed;
+        public int HP;
+        public int MAXHP;
     }
 }

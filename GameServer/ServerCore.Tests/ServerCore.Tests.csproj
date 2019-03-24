@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ServerCore\ServerCore.csproj" />
+    <ProjectReference Include="..\Storage\Storage.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using System.Threading;
 using System;
 using ServerCore;
 using Common.Networking.Packets;
@@ -7,7 +6,6 @@ using ServerCore.Networking;
 using Storage;
 using Storage.TestDataBuilder;
 using ServerCore.Tests.TestUtilities;
-using System.Linq;
 using System.Net.Sockets;
 using static ServerCore.Server;
 using System.Collections.Generic;
@@ -17,7 +15,6 @@ using Storage.Players;
 [TestFixture]
 public class PacketTests
 {
-
     private ConnectedClientTcpHandler _client;
     private Server _server;
 
@@ -50,7 +47,6 @@ public class PacketTests
     // Test to ensure server is recieving the packets and keeping the recieve order
     public void Test2LoginProcesses()
     {
-
         var tcpH = Server.TcpHandler;
 
         _client.Send(new LoginPacket()
@@ -80,7 +76,6 @@ public class PacketTests
         Assert.AreEqual("admin2", loginPacket.Login);
         Assert.AreEqual("wololo2", loginPacket.Password);
     }
-
 
     [Test]
     public void TestMultipleClients()

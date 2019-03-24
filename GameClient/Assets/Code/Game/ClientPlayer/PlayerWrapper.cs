@@ -12,5 +12,6 @@ namespace Assets.Code.Game
         public GameObject PlayerObject;
         public LivingEntityBehaviour Behaviour;
 
+        public override void Die() { }
     }
 }

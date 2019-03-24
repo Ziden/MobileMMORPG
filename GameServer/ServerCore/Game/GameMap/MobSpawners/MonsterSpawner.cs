@@ -75,6 +75,7 @@ namespace ServerCore.Game.GameMap
                         player.Tcp.Send(monsterPacket);
                     }
 
+                    // Start movement tasks
                     monsterInstance.MovementTick();
                 }
             }

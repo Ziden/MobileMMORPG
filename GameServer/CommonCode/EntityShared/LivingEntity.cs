@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Common.Entity
 {
-    public class LivingEntity : Entity
+    public abstract class LivingEntity : Entity
     {
         public string Name;
         public int HP = 10;
@@ -20,5 +20,17 @@ namespace Common.Entity
         public List<LivingEntity> BeingTargetedBy = new List<LivingEntity>();
 
         public Guid AttackTaskId;
+
+        public abstract void Die();
+
+        public virtual void SetTarget(LivingEntity entity) {
+            this.Target = entity;
+            entity.BeTargeted(this);
+        }
+
+        public virtual void BeTargeted(LivingEntity targetter)
+        {
+            targetter.BeingTargetedBy.Add(this);
+        }
     }
 }

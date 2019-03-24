@@ -14,9 +14,9 @@ namespace ServerCore.Game.Monsters
     {
         public long LastMovement = 0;
         public long MovementDelay = 2000; // in millis
-        public IMonsterMovement MovementBehaviour;
-
         public MonsterSpawner OriginSpawner;
+        public abstract SpriteAsset GetSprite();
+        public Guid MovementTaskId = Guid.Empty;
 
         public Monster()
         {
@@ -24,7 +24,9 @@ namespace ServerCore.Game.Monsters
             EntityType = EntityType.MONSTER;
         }
 
-        public abstract SpriteAsset GetSprite();
+        // Behaviours
+        public IMonsterAggro AggroBehaviuor;
+        public IMonsterMovement MovementBehaviour;
 
         public SpriteAsset GetSpriteAsset()
         {
@@ -45,7 +47,6 @@ namespace ServerCore.Game.Monsters
                 AtkSpeed = this.AtkSpeed,
                 HP = this.HP,
                 MAXHP = this.MAXHP
-                
             };
         }
 
@@ -65,18 +66,36 @@ namespace ServerCore.Game.Monsters
 
         public void MovementTick()
         {
-            if(MovementBehaviour != null)
+            if (MovementTaskId == Guid.Empty)
+                GameScheduler.CancelTask(MovementTaskId);
+
+            MovementBehaviour?.PerformMovement(this);
+            LastMovement = GameThread.TIME_MS_NOW;
+            this.MovementTaskId = GameScheduler.Schedule(new SchedulerTask(MovementDelay, LastMovement)
             {
-                MovementBehaviour.PerformMovement(this);
-                LastMovement = GameThread.TIME_MS_NOW;
-                GameScheduler.Schedule(new SchedulerTask(MovementDelay, LastMovement)
+                Task = () =>
                 {
-                    Task = () =>
-                    {
+                    MovementTaskId = Guid.Empty;
+                    if(HP > 0)
                         MovementTick();
-                    }
-                });
-            }
+                }
+            });
+        }
+
+        public override void BeTargeted(LivingEntity entity)
+        {
+            base.BeTargeted(entity);
+            this.AggroBehaviuor.OnBeingTargeted(this, entity);
+        }
+
+        public override void Die()
+        {
+            Log.Debug(this.Name + " Died");
+            Server.Map.UpdateEntityPosition(this, from: this.Position, to: null);
+            Server.Map.Monsters.Remove(this.UID);
+            this.OriginSpawner?.CreateSpawnTask();
+            GameScheduler.CancelTask(MovementTaskId);
+            GameScheduler.CancelTask(AttackTaskId);
         }
     }
 }

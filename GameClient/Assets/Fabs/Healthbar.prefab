@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4501287700053942}
   - component: {fileID: 212887753067887124}
-  - component: {fileID: 114911164412213998}
   m_Layer: 0
   m_Name: Healthbar
   m_TagString: Untagged
@@ -80,7 +79,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1687160586224304}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 153.74164, y: 145.82704, z: 0}
+  m_LocalPosition: {x: -78.01014, y: 112.60891, z: 0}
   m_LocalScale: {x: 0.2332, y: 0.077999994, z: 0}
   m_Children:
   - {fileID: 4840344774982402}
@@ -101,17 +100,6 @@ Transform:
   m_Father: {fileID: 4501287700053942}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114911164412213998
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1687160586224304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cce47d166910c44889818382d68cbca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212147356680310286
 SpriteRenderer:
   m_ObjectHideFlags: 1

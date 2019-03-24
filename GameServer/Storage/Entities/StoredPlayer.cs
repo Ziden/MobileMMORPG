@@ -38,5 +38,21 @@
 
         [RedisField("sid")]
         public string SessionId { get; set; }
+
+        [RedisField("hp")]
+        public int HP { get; set; }
+
+        [RedisField("mhp")]
+        public int MaxHp { get; set; }
+
+        [RedisField("atk")]
+        public int Atk { get; set; }
+
+        [RedisField("def")]
+        public int Def { get; set; }
+
+        [RedisField("atkspeed")]
+        public int AtkSpeed { get; set; }
+
     }
 }

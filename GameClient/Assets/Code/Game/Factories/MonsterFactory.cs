@@ -21,14 +21,17 @@ namespace Assets.Code.Game.Factories
                 monsterObj = new GameObject(opts.Packet.MonsterUid);
                 monsterObj.transform.localScale = new Vector3(100, 100);
 
+                var spriteObj = new GameObject("Sprites_"+opts.Packet.MonsterUid);
+                spriteObj.transform.localScale = new Vector3(100, 100);
 
-                var spriteRenderer = monsterObj.AddComponent<SpriteRenderer>();
-                var spriteSheet = monsterObj.AddComponent<SpriteSheet>();
+                var spriteRenderer = spriteObj.AddComponent<SpriteRenderer>();
+                var spriteSheet = spriteObj.AddComponent<SpriteSheet>();
                 spriteRenderer.sortingOrder = 2;
                 var bodySprite = AssetHandler.LoadedAssets[DefaultAssets.SPR_MONTERS_1];
                 var spriteRow = bodySprite.SliceRow(opts.Packet.SpriteIndex).ToArray();
                 spriteSheet.SetSheet(spriteRow, rowSize:2);
                 spriteRenderer.sprite = spriteSheet.WalkSouth[1];
+                spriteObj.transform.parent = monsterObj.transform;
 
                 // Moving Entity
                 var livingEntityBhv = monsterObj.AddComponent<LivingEntityBehaviour>();

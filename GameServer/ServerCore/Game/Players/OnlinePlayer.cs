@@ -69,6 +69,12 @@ namespace ServerCore.GameServer.Players
             this.LegSprite.SpriteRowIndex = player.LegsSpriteIndex;
             this.ChestSprite.SpriteRowIndex = player.ChestSpriteIndex;
             this.HeadSprite.SpriteRowIndex = player.ChestSpriteIndex;
+
+            this.Atk = player.Atk;
+            this.Def = player.Def;
+            this.AtkSpeed = player.AtkSpeed;
+            this.HP = player.HP;
+            this.MAXHP = player.MaxHp;
         }
 
         public PlayerPacket ToPacket()
@@ -84,9 +90,21 @@ namespace ServerCore.GameServer.Players
                 BodySpriteIndex = BodySprite.SpriteRowIndex,
                 HeadSpriteIndex = HeadSprite.SpriteRowIndex,
                 LegSpriteIndex = LegSprite.SpriteRowIndex,
-                ChestSpriteIndex = ChestSprite.SpriteRowIndex
+                ChestSpriteIndex = ChestSprite.SpriteRowIndex,
+
+                Atk = this.Atk,
+                Def = this.Def,
+                AtkSpeed = this.AtkSpeed,
+                HP = this.HP,
+                MAXHP = this.MAXHP
             };
             return packet;
+        }
+
+        
+        public override void Die()
+        {
+            // TODO
         }
     }
 }

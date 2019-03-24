@@ -14,9 +14,9 @@ namespace Assets.Code.Game.Factories
         public static void AddHealthBar(GameObject obj)
         {
             var healthbar = ClientPrefabs.Get().HealthbarPrefab;
-            var instance = MonoBehaviour.Instantiate(healthbar, Vector2.zero, Quaternion.identity, obj.transform);
+            var instance = MonoBehaviour.Instantiate(healthbar, obj.transform.position, Quaternion.identity, obj.transform);
             var lvingEnt = obj.GetComponent<LivingEntityBehaviour>();
-            var healthbarBehav = instance.GetComponent<HealthBarBehaviour>();
+            var healthbarBehav = instance.AddComponent<HealthBarBehaviour>();
             lvingEnt.HealthBar = healthbarBehav;
             instance.transform.localPosition = new Vector2(0.08f, 0.18f);
             healthbarBehav.SetLife(lvingEnt.Entity.HP, lvingEnt.Entity.MAXHP);

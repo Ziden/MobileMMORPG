@@ -16,7 +16,7 @@ namespace ServerCore.GameServer.Entities
             return Server.Map.GetChunkByChunkPosition(chunkX, chunkY);
         }
 
-        public static List<OnlinePlayer> GetPlayersNear(this Entity player)
+        public static List<OnlinePlayer> GetPlayersNear(this Entity player, bool includeSelf = false)
         {
             List<OnlinePlayer> near = new List<OnlinePlayer>();
             var chunk = player.GetChunk();
@@ -26,9 +26,10 @@ namespace ServerCore.GameServer.Entities
                 var chunkThere = Server.Map.GetChunkByChunkPosition(position.X, position.Y);
                 if(chunkThere != null)
                 {
+                    var teste = chunkThere.EntitiesInChunk[EntityType.PLAYER];
                     foreach (var playerInChunk in chunkThere.EntitiesInChunk[EntityType.PLAYER])
                     {
-                        if(playerInChunk.UID != player.UID)
+                        if(includeSelf || (playerInChunk.UID != player.UID))
                             near.Add((OnlinePlayer)playerInChunk);
                     }
                 }

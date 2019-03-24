@@ -27,7 +27,7 @@ namespace ServerCore.Game.Monsters.Behaviours.MoveBehaviours
                     Entity = monster,
                     To = newPosition
                 };
-                //Server.Events.Call(monsterMoveEvent);
+                Server.Events.Call(monsterMoveEvent);
             }
         }
     }

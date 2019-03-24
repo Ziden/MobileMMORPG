@@ -12,7 +12,7 @@ namespace Assets.Code.Game.Factories
 {
     public class PlayerFactory
     {
-        public static void BuildAndInstantiate(PlayerFactoryOptions opts)
+        public static LivingEntityBehaviour BuildAndInstantiate(PlayerFactoryOptions opts)
         {
             var playerObj = GameObject.Find(opts.UserId);
             if (playerObj == null)
@@ -22,7 +22,7 @@ namespace Assets.Code.Game.Factories
                 playerObj.transform.localScale = new Vector3(100, 100);
                 playerObj.tag = "Player";
                 FactoryMethods.AddCollider(playerObj);
-         
+
                 // Body
                 var bodyObj = new GameObject("body");
                 bodyObj.transform.localScale = new Vector3(100, 100);
@@ -90,7 +90,8 @@ namespace Assets.Code.Game.Factories
                     playerWrapper.Behaviour = playerObj.AddComponent<PlayerBehaviour>();
                     playerWrapper.SessionId = UnityClient.Player.SessionId;
                     UnityClient.Player = playerWrapper;
-                } else
+                }
+                else
                 {
                     playerWrapper.Behaviour = playerObj.AddComponent<LivingEntityBehaviour>();
                 }
@@ -103,7 +104,14 @@ namespace Assets.Code.Game.Factories
                 playerWrapper.Behaviour.Entity = playerWrapper;
 
                 UnityClient.Map.UpdateEntityPosition(playerWrapper, null, opts.Position);
-            }  
+
+                FactoryMethods.AddCollider(playerObj);
+                FactoryMethods.AddHealthBar(playerObj);
+                return playerWrapper.Behaviour;
+            } else
+            {
+                return playerObj.GetComponent<LivingEntityBehaviour>();
+            }
         }
     }
 

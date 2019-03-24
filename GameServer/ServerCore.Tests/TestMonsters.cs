@@ -12,6 +12,11 @@ using ServerCore.GameServer.Entities;
 using static ServerCore.Server;
 using Common.Entity;
 using System.Collections.Generic;
+using ServerCore.GameServer.Players.Evs;
+using CommonCode.Networking.Packets;
+using System.Threading;
+using ServerCore.Game.Combat;
+using Common.Scheduler;
 
 namespace GameTests
 {
@@ -29,15 +34,8 @@ namespace GameTests
             TestDb.Create();
             _server = new Server(new ServerStartConfig() { Port = 123 });
             _server.StartGameThread();
-            _player = new StoredPlayer()
-            {
-                UserId = "wololo",
-                Login = "login",
-                Password = "password",
-                MoveSpeed = 1,
-                X = 0,
-                Y = 0
-            };
+            _player = TestDb.TEST_PLAYER;
+            _player.Login = "wololo";
         }
 
         [TearDown]
@@ -85,15 +83,19 @@ namespace GameTests
 
             var skeleton = new Skeleton()
             {
-                Position = new Position(33, 0)
+                Position = new Position(45, 0)
             };
+
+            Server.Events.Call(new EntitySpawnEvent()
+            {
+                Entity = skeleton,
+                Position = skeleton.Position
+            });
 
             var monsterChunk = Server.Map.GetChunkByChunkPosition(2,0);
             var playerChunki = Server.Map.GetChunkByChunkPosition(0, 0);
 
             var chunks = Server.Map.Chunks;
-
-            monsterChunk.EntitiesInChunk[EntityType.MONSTER].Add(skeleton);
 
             client.RecievedPackets.Clear();
 
@@ -142,8 +144,102 @@ namespace GameTests
             Assert.That(monsterMovePackets.Count > 0,
                 "Player did not recieve updates from monster moving");
         }
-        
-       [Test]
+
+        [Test]
+        public void TestMonsterDieCleansMonsterData()
+        {
+            var client = ServerMocker.GetClient();
+            var player = client.FullLoginSequence(_player);
+
+            var skeleton = new Skeleton()
+            {
+                Position = new Position(0, 1)
+            };
+            Server.Events.Call(new EntitySpawnEvent()
+            {
+                Entity = skeleton,
+                Position = skeleton.Position
+            });
+            skeleton.MovementBehaviour = null;
+            skeleton.MovementTick();
+            
+            var skeletonMoveTask = GameScheduler.GetTask(skeleton.MovementTaskId);
+
+            Assert.That(skeletonMoveTask != null,
+                "Monster movement task should be created upon spawning");
+
+            player.Atk = 5;
+            player.AtkSpeed = 99999999;
+            skeleton.Def = 0;
+
+            player.TryAttacking(skeleton, singleHit:true);
+
+            Assert.That(skeleton.HP == skeleton.MAXHP - 5, 
+                "5 atk on 0 def should deal 5 damage");
+
+            player.Atk = 5000;
+
+            player.TryAttacking(skeleton, singleHit:true);
+
+            var moveTask = GameScheduler.GetTask(skeleton.MovementTaskId);
+            var attackTask = GameScheduler.GetTask(skeleton.AttackTaskId);
+
+            Assert.That(skeleton.HP < 0,
+                "Skeleton should have < 0 hp as he took 5k damage");
+
+            Assert.That(!Server.Map.Monsters.ContainsKey(skeleton.UID),
+                "Server should not contain the skeleton as its dead.");
+
+            Assert.That(moveTask == null,
+                "Skeleton is dead and his move task should have been cancelled");
+
+            Assert.That(attackTask == null,
+             "Skeleton is dead and his move task should have been cancelled");
+
+        }
+
+        [Test]
+        public void TestMonsterAttackingPlayer()
+        {
+            var client = ServerMocker.GetClient();
+            var player = client.FullLoginSequence(_player);
+
+            var skeleton = new Skeleton()
+            {
+                Position = new Position(0, 1)
+            };
+            Server.Events.Call(new EntitySpawnEvent()
+            {
+                Entity = skeleton,
+                Position = skeleton.Position
+            });
+
+            var playerHpBefore = player.HP;
+
+            client.RecievedPackets.Clear();
+
+            Thread.Sleep(100); 
+
+            Server.Events.Call(new EntityTargetEvent()
+            {
+                Entity = skeleton,
+                TargetedEntity = player
+            });
+
+            var playerHpAfter = player.HP;
+
+            var recievedDamagePackets = client.RecievedPackets
+                .Where(p => p.GetType() == typeof(EntityAttackPacket))
+                .Any();
+
+            Assert.That(playerHpAfter < playerHpBefore,
+                "Player should have taken a hit from monster");
+
+           Assert.True(recievedDamagePackets,
+                "Client did not recieved the skeleton attack packet");
+        }
+
+        [Test]
         public void TestPlayerMovingOnVariousDiferentChunk()
         {
             var client = ServerMocker.GetClient();
