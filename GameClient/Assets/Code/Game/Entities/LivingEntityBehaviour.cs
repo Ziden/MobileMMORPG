@@ -186,7 +186,7 @@ public class LivingEntityBehaviour : MonoBehaviour
             _movingToDirection = Entity.Position.GetDirection(_goingToPosition);
             var timeToMoveInMillis = Formulas.GetTimeToMoveBetweenTwoTiles(Entity.MoveSpeed);
 
-            var timeToMoveInSeconds = (float)timeToMoveInMillis / GameCamera.GAME_OBJECTS_SCALE;
+            var timeToMoveInSeconds = (float)timeToMoveInMillis / 1000;
 
             var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
