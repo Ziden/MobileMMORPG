@@ -19,10 +19,10 @@ namespace Assets.Code.Game.Factories
             if (monsterObj == null)
             {
                 monsterObj = new GameObject(opts.Packet.MonsterUid);
-                monsterObj.transform.localScale = new Vector3(100, 100);
+                monsterObj.transform.localScale = new Vector3(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
 
                 var spriteObj = new GameObject("Sprites_"+opts.Packet.MonsterUid);
-                spriteObj.transform.localScale = new Vector3(100, 100);
+                spriteObj.transform.localScale = new Vector3(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
 
                 var spriteRenderer = spriteObj.AddComponent<SpriteRenderer>();
                 var spriteSheet = spriteObj.AddComponent<SpriteSheet>();

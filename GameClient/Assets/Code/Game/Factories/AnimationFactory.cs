@@ -16,7 +16,7 @@ namespace Assets.Code.Game.Factories
                 animationName = animationName + ".png";
             }
             var animationObj = new GameObject("animation");
-            animationObj.transform.localScale = new Vector3(100, 100);
+            animationObj.transform.localScale = new Vector3(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
 
             var spriteRenderer = animationObj.AddComponent<SpriteRenderer>();
             spriteRenderer.sortingOrder = 10;

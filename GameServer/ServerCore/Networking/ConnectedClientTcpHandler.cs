@@ -25,7 +25,6 @@ namespace ServerCore.Networking
 
         public ConnectedClientTcpHandler()
         {
-
         }
 
         public void Configure()

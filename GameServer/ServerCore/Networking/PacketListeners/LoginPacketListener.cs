@@ -46,7 +46,7 @@ namespace ServerCore.PacketListeners
                     Client = client
                 });
 
-                AssetListener.DownloadAssets(client);
+                AssetPacketListener.DownloadAssets(client);
             }
             catch (AccountError e)
             {

@@ -109,7 +109,7 @@ public class LivingEntityBehaviour : MonoBehaviour
         // PLAYER DIES
         if (UnityClient.Player.UID == this.Entity.UID)
         {
-
+            // TODO
         }
         else // other entity dies
         {
@@ -127,7 +127,6 @@ public class LivingEntityBehaviour : MonoBehaviour
                 Selectors.RemoveSelector(SelectorType.TARGET);
             }
         }
-
     }
 
     private void MoveTick()
@@ -187,7 +186,7 @@ public class LivingEntityBehaviour : MonoBehaviour
             _movingToDirection = Entity.Position.GetDirection(_goingToPosition);
             var timeToMoveInMillis = Formulas.GetTimeToMoveBetweenTwoTiles(Entity.MoveSpeed);
 
-            var timeToMoveInSeconds = (float)timeToMoveInMillis / 1000;
+            var timeToMoveInSeconds = (float)timeToMoveInMillis / GameCamera.GAME_OBJECTS_SCALE;
 
             var now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 

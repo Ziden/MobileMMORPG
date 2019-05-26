@@ -89,7 +89,7 @@ namespace Assets.Code.Game.Entities
                 CurrentAnimation.Reset();
                 if (animationTimeInMS > 0)
                 {
-                    //  CurrentAnimation.AnimationTimeInSeconds = animationTimeInMS / 1000;
+                    //  CurrentAnimation.AnimationTimeInSeconds = animationTimeInMS / GameCamera.GAME_OBJECTS_SCALE0;
                 }
 
                 if (animation == SpriteAnimations.DEAD)

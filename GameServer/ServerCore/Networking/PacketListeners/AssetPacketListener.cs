@@ -9,7 +9,7 @@ using System.IO;
 
 namespace ServerCore.Networking.PacketListeners
 {
-    public class AssetListener : IEventListener
+    public class AssetPacketListener : IEventListener
     {
         // This looks horrible, seriously
         // i gotta refactor this piece of shizza

@@ -45,7 +45,7 @@ namespace ServerCore
 
             // PACKET LISTENERS
             _packetListener.RegisterListener(new LoginPacketListener());
-            _packetListener.RegisterListener(new AssetListener());
+            _packetListener.RegisterListener(new AssetPacketListener());
             _packetListener.RegisterListener(new PlayerPacketListener());
         }
     }

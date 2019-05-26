@@ -17,6 +17,7 @@ namespace Assets.Code.Net
             SpriteTexture.filterMode = FilterMode.Point;
             SpriteTexture.wrapMode = TextureWrapMode.Repeat;
             SpriteTexture.anisoLevel = 0;
+            SpriteTexture.Apply();
             var spritesX = SpriteTexture.width / 16;
             var spritesY = SpriteTexture.height / 16;
             var spriteMap = new Sprite[spritesX, spritesY];
@@ -39,9 +40,11 @@ namespace Assets.Code.Net
             if (File.Exists(FilePath))
             {
                 FileData = File.ReadAllBytes(FilePath);
-                Tex2D = new Texture2D(16, 16);
-                if (Tex2D.LoadImage(FileData))  
-                    return Tex2D;              
+                Tex2D = new Texture2D(16, 16, TextureFormat.ARGB32, false);
+                if (Tex2D.LoadImage(FileData))
+                {
+                    return Tex2D;
+                }                
             }
             return null;      
         }

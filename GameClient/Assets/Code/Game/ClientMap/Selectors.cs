@@ -72,7 +72,7 @@ namespace Assets.Code.Game
                 _movementSelectorRenderer.sprite = tileset[3,1];
                 _movementSelectorRenderer.color = Color.green;
                 _movementSelectorRenderer.sortingOrder = 1;
-                _moveSelector.transform.localScale = new Vector2(100, 100);
+                _moveSelector.transform.localScale = new Vector2(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
                 _moveSelector.transform.position = pos.ToUnityPosition();
             } else
             {

@@ -14,7 +14,7 @@ namespace Assets.Code.Game.Factories
                 return;
             var gameObj = new GameObject("Tile_"+opts.Position.X + "_" + opts.Position.Y);
 
-            gameObj.transform.localScale = new Vector3(100, 100);
+            gameObj.transform.localScale = new Vector3(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
             gameObj.tag = "Tile";
             var spriteRenderer = gameObj.AddComponent<SpriteRenderer>();
 

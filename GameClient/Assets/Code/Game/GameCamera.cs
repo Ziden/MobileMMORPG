@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Client.Net;
-using System;
 
 public class GameCamera : MonoBehaviour
 {
     public float dampTime = 0.15f;
     private Vector3 velocity = Vector3.zero;
+
+    public static int GAME_OBJECTS_SCALE = 100;
+
+    private void Start()
+    {
+        Camera.main.orthographicSize = Screen.height / 6;
+    }
 
     void Update()
     {

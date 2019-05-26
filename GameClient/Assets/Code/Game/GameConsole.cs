@@ -42,7 +42,7 @@ namespace Consolation
         /// <summary>
         /// Number of logs to keep before removing old ones.
         /// </summary>
-        public int maxLogCount = 1000;
+        public int maxLogCount = 10;
 
         #endregion
 
@@ -66,7 +66,7 @@ namespace Consolation
         readonly ConcurrentQueue<Log> queuedLogs = new ConcurrentQueue<Log>();
 
         Vector2 scrollPosition;
-        readonly Rect titleBarRect = new Rect(0, 0, 10000, 20);
+        readonly Rect titleBarRect = new Rect(0, 0, 100, 20);
         Rect windowRect = new Rect(margin, margin, Screen.width - (margin * 2), Screen.height - (margin * 2));
 
         readonly Dictionary<LogType, bool> logTypeFilters = new Dictionary<LogType, bool>

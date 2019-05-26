@@ -14,10 +14,7 @@ namespace ServerCore.Game.Entities
         [EventMethod]
         public void OnEntityTarget(EntityTargetEvent ev)
         {
-            // Set targets
             ev.Entity.SetTarget(ev.TargetedEntity);
-
-            // Try attacking the target
             ev.Entity.TryAttacking(ev.TargetedEntity);
         }
 

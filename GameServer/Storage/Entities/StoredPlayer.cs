@@ -12,6 +12,12 @@
         [RedisField("y")]
         public int Y { get; set; }
 
+        [RedisField("x")]
+        public int SpawnX { get; set; }
+
+        [RedisField("y")]
+        public int SpawnY { get; set; }
+
         [RedisField("s")]
         public int MoveSpeed { get; set; }
 

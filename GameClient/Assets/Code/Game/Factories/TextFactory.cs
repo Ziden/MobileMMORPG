@@ -13,7 +13,7 @@ namespace Assets.Code.Game.Factories
             if(opts.TextColor != null)
                 textMesh.color = opts.TextColor;
             textGameObject.transform.localScale = new Vector2(opts.Size, opts.Size);
-            textGameObject.GetComponent<MeshRenderer>().sortingOrder = 1000;
+            textGameObject.GetComponent<MeshRenderer>().sortingOrder = 100;
             textMesh.text = opts.Text;
             var textBehaviour = textGameObject.AddComponent<BehaviourType>();
         }

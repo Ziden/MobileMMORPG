@@ -19,13 +19,13 @@ namespace Assets.Code.Game.Factories
             {
                 // Player Obj
                 playerObj = new GameObject(opts.UserId);
-                playerObj.transform.localScale = new Vector3(100, 100);
+                playerObj.transform.localScale = new Vector3(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
                 playerObj.tag = "Player";
                 FactoryMethods.AddCollider(playerObj);
 
                 // Body
                 var bodyObj = new GameObject("body");
-                bodyObj.transform.localScale = new Vector3(100, 100);
+                bodyObj.transform.localScale = new Vector3(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
                 var spriteRenderer = bodyObj.AddComponent<SpriteRenderer>();
                 var spriteSheet = bodyObj.AddComponent<SpriteSheet>();
                 spriteRenderer.sortingOrder = 2;
@@ -37,7 +37,7 @@ namespace Assets.Code.Game.Factories
 
                 // LEGS
                 var legsObj = new GameObject("legs");
-                legsObj.transform.localScale = new Vector3(100, 100);
+                legsObj.transform.localScale = new Vector3(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
                 var legsSpriteRenderer = legsObj.AddComponent<SpriteRenderer>();
                 var legsSpriteSheet = legsObj.AddComponent<SpriteSheet>();
                 legsSpriteRenderer.sortingOrder = 3;
@@ -49,7 +49,7 @@ namespace Assets.Code.Game.Factories
 
                 // Chest
                 var chestObj = new GameObject("chest");
-                chestObj.transform.localScale = new Vector3(100, 100);
+                chestObj.transform.localScale = new Vector3(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
                 var chestSpriteRenderer = chestObj.AddComponent<SpriteRenderer>();
                 var chestSpriteSheet = chestObj.AddComponent<SpriteSheet>();
                 chestSpriteRenderer.sortingOrder = 4;
@@ -61,7 +61,7 @@ namespace Assets.Code.Game.Factories
 
                 // Head
                 var headObj = new GameObject("head");
-                headObj.transform.localScale = new Vector3(100, 100);
+                headObj.transform.localScale = new Vector3(GameCamera.GAME_OBJECTS_SCALE, GameCamera.GAME_OBJECTS_SCALE);
                 var headSpriteRenderer = headObj.AddComponent<SpriteRenderer>();
                 var headSpriteSheet = headObj.AddComponent<SpriteSheet>();
                 headSpriteRenderer.sortingOrder = 5;
